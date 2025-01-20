@@ -1,17 +1,28 @@
 <template>
   <section id="left">
     <div id="left-inner">
-      <h1>Seymour</h1>
-      <h2>A hosted RSS feed reader</h2>
+      <h1>Almost there!</h1>
+      <h2>Just need an invite code</h2>
       <p>
-        <a href="/sso/login"><Button label="Sign up with Github" /></a>
+        <TextInput id="code" label="Invite code" v-model="code" />
+        <Button @click="submit" label="Register" :disabled="disabled" />
       </p>
     </div>
   </section>
 </template>
 
 <script setup>
+import { ref, computed } from "vue";
+
 import Button from "@/components/StyledButton.vue"
+import TextInput from "@/components/TextInput.vue"
+
+const code = ref("")
+const disabled = computed(() => {
+  return code.value.length < 14
+})
+
+async function submit() { }
 </script>
 
 <style scoped>
@@ -40,7 +51,16 @@ h1 {
   padding-right: 10rem;
 }
 
-#left Button {
+#left p {
   margin-top: 3rem;
+}
+
+Button {
+  width: 100%;
+  margin-top: 16px;
+}
+
+#code {
+  width: 100%;
 }
 </style>

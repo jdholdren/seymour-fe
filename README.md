@@ -35,6 +35,6 @@ npm run lint
 ```
 
 # TODO:
-- [ ] Sign in with github
-- [ ] Get talking with /viewer
-# rss-fe
+- [ ] Register with invite code
+- [x] Sign in with github
+- [x] Get talking with /viewer

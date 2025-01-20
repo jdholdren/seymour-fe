@@ -18,6 +18,14 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/WelcomeView.vue'),
     },
+    {
+      path: '/register',
+      name: 'register',
+      // route level code-splitting
+      // this generates a separate chunk (Welcome.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/RegisterView.vue'),
+    },
   ],
 })
 
@@ -27,11 +35,15 @@ router.beforeEach(async (to) => {
     await getViewer()
   }
 
+  if (!viewer.value.user_id && viewer.value.remote_id && to.name != "register") {
+    return { name: "register" }
+  }
+
   // If they're not logged in, send them to "welcome".
   //
   // Also make sure they're not already navigating to "welcome",
   // otherwise it's an infinite redirect.
-  if (to.name !== "welcome" && !viewer.value.user_id) {
+  if (!viewer.value.user_id && to.name !== "welcome" && to.name !== "register") {
     return { name: "welcome" }
   }
 })
