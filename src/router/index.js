@@ -35,16 +35,23 @@ router.beforeEach(async (to) => {
     await getViewer()
   }
 
-  if (!viewer.value.user_id && viewer.value.remote_id && to.name != "register") {
-    return { name: "register" }
-  }
+  console.log(viewer.value)
 
-  // If they're not logged in, send them to "welcome".
-  //
-  // Also make sure they're not already navigating to "welcome",
-  // otherwise it's an infinite redirect.
-  if (!viewer.value.user_id && to.name !== "welcome" && to.name !== "register") {
-    return { name: "welcome" }
+  if (!viewer.value.user_id) {
+    let name = to.name
+    // If they have a remote id, they want to be going to "register
+    if (viewer.value.remote_id) {
+      name = "register"
+    } else { // Otherwise go to the landing
+      name = "welcome"
+    }
+
+    // If they are not already headed to the right spot, send them
+    if (to.name !== name) {
+      return { name }
+    }
+  } else if (to.name === "welcome" || to.name === "register") { // Send them to dashboard if they're in signup
+    return { name: "dashboard" }
   }
 })
 

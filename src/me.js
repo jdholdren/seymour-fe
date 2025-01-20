@@ -1,5 +1,5 @@
 import { ref, watch } from 'vue'
-import useApiFetch from './api/useApiFetch'
+import useApiFetch from '@/api/useApiFetch'
 
 const loaded = ref(false)
 const viewer = ref(undefined)
@@ -12,8 +12,8 @@ watch(viewer, () => {
 
 // Fetches the current viewer and sets it on the ref
 async function getViewer() {
-  const { data, apiFetch } = useApiFetch("GET", "/api/viewer")
-  await apiFetch()
+  const { data, call } = useApiFetch("GET", "/api/viewer")
+  await call()
   viewer.value = data.value
 }
 

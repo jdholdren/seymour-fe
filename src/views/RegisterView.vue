@@ -6,6 +6,7 @@
       <p>
         <TextInput id="code" label="Invite code" v-model="code" />
         <Button @click="submit" label="Register" :disabled="disabled" />
+        <span class="error">{{ error }}</span>
       </p>
     </div>
   </section>
@@ -13,16 +14,34 @@
 
 <script setup>
 import { ref, computed } from "vue";
+import useApiFetch from '@/api/useApiFetch'
 
 import Button from "@/components/StyledButton.vue"
 import TextInput from "@/components/TextInput.vue"
+import router from "@/router";
 
 const code = ref("")
-const disabled = computed(() => {
-  return code.value.length < 14
-})
+const error = ref("")
 
-async function submit() { }
+const disabled = computed(() => { return code.value.length < 14 })
+
+const { statusCode, call: submitCode } = useApiFetch("POST", "/api/users/")
+async function submit() {
+  await submitCode({
+    invite_code: code.value
+  })
+  if (statusCode === 409) {
+    router.push("/")
+    return
+  }
+  if (statusCode != 202) {
+    error.value = "Invalid invite code"
+    return
+  }
+
+  // Redirect to the dashboard
+  router.push("/")
+}
 </script>
 
 <style scoped>
@@ -62,5 +81,9 @@ Button {
 
 #code {
   width: 100%;
+}
+
+.error {
+  color: #f00;
 }
 </style>

@@ -1,13 +1,13 @@
 import { ref } from 'vue'
 
-export default function (method, url, body = null) {
+export default function (method, url) {
   const data = ref(null)
   const error = ref(null)
   const fetching = ref(false)
   const statusCode = ref(undefined)
 
   // Does the actual execution of the request:
-  async function apiFetch() {
+  async function call(body = null) {
     fetching.value = true
 
     // Format the headers and options based on method and body presence
@@ -38,5 +38,5 @@ export default function (method, url, body = null) {
     fetching.value = false
   }
 
-  return { data, error, fetching, statusCode, apiFetch }
+  return { data, error, fetching, statusCode, call }
 }
