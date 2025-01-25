@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import DashboardView from '../views/DashboardView.vue'
 import { getViewer, loaded, viewer } from '@/me'
 
 const router = createRouter({
@@ -8,7 +7,13 @@ const router = createRouter({
     {
       path: '/',
       name: 'dashboard',
-      component: DashboardView,
+      component: () => import('../views/dashboard/DashboardView.vue'),
+      children: [
+        {
+          path: '/',
+          component: () => import("../views/dashboard/FeedsView.vue"),
+        }
+      ],
     },
     {
       path: '/welcome',

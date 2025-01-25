@@ -3,11 +3,16 @@
     <div id="left-inner">
       <h1>Almost there!</h1>
       <h2>Just need an invite code</h2>
-      <p>
-        <TextInput id="code" label="Invite code" v-model="code" />
-        <Button @click="submit" label="Register" :disabled="disabled" />
-        <span class="error">{{ error }}</span>
-      </p>
+      <Transition>
+        <div v-if="fetching">
+          <VueSpinner />
+        </div>
+        <div v-else>
+          <TextInput id="code" label="Invite code" v-model="code" />
+          <Button @click="submit" label="Register" :disabled="disabled" />
+          <span class="error">{{ error }}</span>
+        </div>
+      </Transition>
     </div>
   </section>
 </template>
@@ -20,24 +25,39 @@ import Button from "@/components/StyledButton.vue"
 import TextInput from "@/components/TextInput.vue"
 import router from "@/router";
 
+import { VueSpinner } from 'vue3-spinners';
+import { getViewer } from "@/me";
+
 const code = ref("")
 const error = ref("")
 
 const disabled = computed(() => { return code.value.length < 14 })
 
-const { statusCode, call: submitCode } = useApiFetch("POST", "/api/users/")
+const { fetching, statusCode, call: submitCode } = useApiFetch("POST", "/api/users/")
 async function submit() {
+  // Reset for the next request
+  error.value = ""
+
   await submitCode({
     invite_code: code.value
   })
-  if (statusCode === 409) {
+
+  const scode = statusCode.value
+  if (scode === 409) {
+    // Go back through the loop
     router.push("/")
     return
   }
-  if (statusCode != 202) {
+  if (scode === 400) {
     error.value = "Invalid invite code"
     return
   }
+  if (scode >= 500) {
+    error.value = "Temporary server error"
+    return
+  }
+
+  await getViewer()
 
   // Redirect to the dashboard
   router.push("/")
