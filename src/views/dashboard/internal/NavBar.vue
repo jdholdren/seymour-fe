@@ -1,17 +1,17 @@
 <template>
   <ul>
-    <li><v-icon class="icon" name="bi-grid-1x2-fill" />Your Subscriptions</li>
-    <li><v-icon class="icon" name="bi-grid-1x2-fill" />New Subscription</li>
-    <li><v-icon class="icon" name="bi-grid-1x2-fill" />Account Settings</li>
-    <li @click="logout"><v-icon class="icon" name="bi-grid-1x2-fill" />Log Out</li>
+    <RouterLink :to="{ 'name': 'read' }">
+      <li><v-icon class="icon" name="bi-grid-1x2-fill" />Read</li>
+    </RouterLink>
+    <RouterLink :to="{ name: 'manage-feeds' }">
+      <li><v-icon class="icon" name="bi-grid-1x2-fill" />Manage Feeds</li>
+    </RouterLink>
+    <RouterLink :to="{ name: 'account' }">
+      <li><v-icon class="icon" name="bi-grid-1x2-fill" />Account Settings</li>
+    </RouterLink>
+    <a href="/sso/logout"><li><v-icon class="icon" name="bi-grid-1x2-fill" />Log Out</li></a>
   </ul>
 </template>
-
-<script setup>
-function logout() {
-  window.location.replace("/sso/logout")
-}
-</script >
 
 <style scoped>
 ul {
@@ -24,13 +24,12 @@ ul {
 li {
   padding: 8px 24px 8px 24px;
   border: 1px solid rgba(0, 0, 0, 0);
+
+  color: var(--color-text);
 }
 
 li:hover {
-  border: 1px solid var(--c-green);
-  border-radius: 24px;
-
-  cursor: pointer;
+  color: var(--color-text-hover);
 }
 
 .icon {

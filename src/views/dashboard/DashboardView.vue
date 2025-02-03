@@ -5,13 +5,18 @@
       <NavBar />
     </div>
     <div id="content">
+      <PageHeader :title="route.meta.title" />
       <router-view />
     </div>
   </div>
 </template>
 
 <script setup>
-import NavBar from './internal/NavBar.vue';
+import PageHeader from '@/components/PageHeader.vue'
+import NavBar from './internal/NavBar.vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 </script>
 
 <style scoped>
@@ -26,7 +31,7 @@ import NavBar from './internal/NavBar.vue';
   margin-right: 32px;
 
   padding: 16px;
-  background-color: rgba(1, 1, 1, 0.3);
+  background-color: var(--c-green);
 }
 
 #logo {
@@ -40,4 +45,16 @@ import NavBar from './internal/NavBar.vue';
 #content {
   width: 1024px;
 }
+
+@media (prefers-color-scheme: dark) {
+    #sidebar {
+      background-color: var(--color-background-soft);
+    }
+
+    #logo {
+      color: var(--c-green);
+    }
+}
+
+
 </style>

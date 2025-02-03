@@ -6,12 +6,38 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'dashboard',
       component: () => import('../views/dashboard/DashboardView.vue'),
       children: [
         {
           path: '/',
-          component: () => import("../views/dashboard/FeedsView.vue"),
+          name: 'read',
+          component: () => import("../views/dashboard/AllFeedsView.vue"),
+          meta: {
+            title: "Read"
+          },
+        },
+        {
+          path: '/feeds',
+          name: "manage-feeds",
+          component: () => import("../views/dashboard/YourFeedsView.vue"),
+          meta: {
+            title: "Manage Feeds"
+          },
+        },
+        {
+          path: '/new-feed',
+          component: () => import("../views/dashboard/NewFeedView.vue"),
+          meta: {
+            title: "Add a new feed"
+          },
+        },
+        {
+          path: '/account',
+          name: "account",
+          component: () => import("../views/dashboard/AccountView.vue"),
+          meta: {
+            title: "Your Account"
+          },
         }
       ],
     },

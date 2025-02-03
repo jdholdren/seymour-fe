@@ -37,4 +37,8 @@ button.disabled {
   background-color: rgba(0, 0, 0, 0.2);
   cursor: initial;
 }
+
+button.success {
+  background-color: var(--c-green);
+}
 </style>

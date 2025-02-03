@@ -27,12 +27,14 @@ export default function (method, url) {
     statusCode.value = code
 
     // If there's a body to parse...
-    const respBody = await response.json()
-    // ...set it to the appropriate output ref
-    if (response.ok) {
-      data.value = respBody
-    } else {
-      error.value = respBody
+    if (code !== 204) {
+      const respBody = await response.json()
+      // ...set it to the appropriate output ref
+      if (response.ok) {
+        data.value = respBody
+      } else {
+        error.value = respBody
+      }
     }
 
     fetching.value = false

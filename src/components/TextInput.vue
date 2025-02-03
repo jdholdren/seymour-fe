@@ -1,14 +1,21 @@
 <template>
-  <input type="text" v-model="model" :placeholder="label" />
+  <label :for="name">{{ label }}</label>
+  <input :id="name" type="text" v-model="model" />
 </template>
 
 <script setup>
 const model = defineModel()
-defineProps(["label"])
+defineProps(["label", "name"])
 </script>
 
 <style scoped>
+label {
+  display: block;
+  font-weight: 800;
+}
+
 input {
+  display: block;
   padding: 16px;
 
   border-radius: 4px;
