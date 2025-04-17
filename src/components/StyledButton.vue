@@ -8,7 +8,7 @@ defineProps(["label", "disabled"])
 
 <style scoped>
 button {
-  font-size: 1.0rem;
+  font-size: 1.3rem;
   padding: 8px 24px 8px 24px;
 
   border-radius: 32px;

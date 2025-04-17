@@ -23,7 +23,7 @@ export default defineConfig({
         secure: false,
       },
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:4444',
         secure: false,
       },
     },

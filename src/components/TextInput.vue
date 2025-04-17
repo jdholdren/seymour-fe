@@ -11,20 +11,22 @@ defineProps(["label", "name"])
 <style scoped>
 label {
   display: block;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 input {
   display: block;
   padding: 16px;
+  margin-top: 0.75rem;
 
   border-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.5);
 
   font-size: 1rem;
 }
 
-input:active {
-  border: 1px solid rgba(0, 0, 0, 0.5);
+input:focus {
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  outline: none;
 }
 </style>

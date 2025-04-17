@@ -44,21 +44,14 @@ const router = createRouter({
     {
       path: '/welcome',
       name: 'welcome',
-      // route level code-splitting
-      // this generates a separate chunk (Welcome.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/WelcomeView.vue'),
-    },
-    {
-      path: '/register',
-      name: 'register',
-      // route level code-splitting
-      // this generates a separate chunk (Welcome.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/RegisterView.vue'),
     },
   ],
 })
+
+const unauthenticatedRoutes = [
+  "welcome",
+]
 
 router.beforeEach(async (to) => {
   // Ensure that viewer has loaded:
@@ -68,21 +61,8 @@ router.beforeEach(async (to) => {
 
   console.log(viewer.value)
 
-  if (!viewer.value.user_id) {
-    let name = to.name
-    // If they have a remote id, they want to be going to "register
-    if (viewer.value.remote_id) {
-      name = "register"
-    } else { // Otherwise go to the landing
-      name = "welcome"
-    }
-
-    // If they are not already headed to the right spot, send them
-    if (to.name !== name) {
-      return { name }
-    }
-  } else if (to.name === "welcome" || to.name === "register") { // Send them to dashboard if they're in signup
-    return { name: "dashboard" }
+  if (!viewer.value.user_id && !unauthenticatedRoutes.includes(to.name)) {
+    return { name: "welcome" }
   }
 })
 
