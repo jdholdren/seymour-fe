@@ -7,12 +7,6 @@
       </span>
     </p>
     <p>
-      <label for="name">Name</label>
-      <span id="name" class="account-value tooltip">{{ viewer.name }}
-        <span class="tooltiptext">Editable in a future release</span>
-      </span>
-    </p>
-    <p>
       <label for="since">Active Since</label>
       <span id="since" class="account-value">{{ since }}</span>
     </p>
@@ -24,7 +18,7 @@ import { computed } from 'vue'
 import { getViewer, loaded, viewer } from '@/me'
 
 async function getDetails() {
-  if (!loaded) return
+  if (loaded) return
 
   await getViewer()
 }

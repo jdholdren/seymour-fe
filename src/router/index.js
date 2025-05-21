@@ -9,23 +9,24 @@ const router = createRouter({
       component: () => import('../views/dashboard/DashboardView.vue'),
       children: [
         {
-          path: '/',
+          path: '/read',
           name: 'read',
-          component: () => import("../views/dashboard/AllFeedsView.vue"),
+          component: () => import("../views/dashboard/ReadView.vue"),
           meta: {
             title: "Read"
           },
         },
         {
-          path: '/feeds',
-          name: "manage-feeds",
-          component: () => import("../views/dashboard/YourFeedsView.vue"),
+          path: '/subscriptions',
+          name: "subscriptions",
+          component: () => import("../views/dashboard/SubscriptionsView.vue"),
           meta: {
-            title: "Manage Feeds"
+            title: "Subscriptions"
           },
         },
         {
-          path: '/new-feed',
+          path: '/subscriptions/new',
+          name: "new-subscription",
           component: () => import("../views/dashboard/NewFeedView.vue"),
           meta: {
             title: "Add a new feed"
@@ -59,10 +60,13 @@ router.beforeEach(async (to) => {
     await getViewer()
   }
 
-  console.log(viewer.value)
+  console.log(to)
 
   if (!viewer.value.user_id && !unauthenticatedRoutes.includes(to.name)) {
     return { name: "welcome" }
+  }
+  if (!to.name) {
+    return { name: "read" }
   }
 })
 
