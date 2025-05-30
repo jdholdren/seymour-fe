@@ -1,10 +1,12 @@
 <template>
   <SiteHeader />
-  <div :style="{ marginLeft: 'var(--size-gutter)' }">
-    <PageHeader :title="route.meta.title" />
-  </div>
   <div id="main">
-    <NavBar />
+    <div id="page-header">
+      <PageHeader :title="route.meta.title" />
+    </div>
+    <div id="nav">
+      <NavBar />
+    </div>
     <div id="content">
       <router-view />
     </div>
@@ -22,22 +24,27 @@ const route = useRoute()
 
 <style scoped>
 #main {
-  display: flex;
-  flex-direction: row;
-
+  display: grid;
+  grid-template-columns: min-content 1fr 1fr;
   margin-left: var(--size-gutter);
+  margin-right: var(--size-gutter);
+  grid-auto-rows: auto;
+  grid-column-gap: 64px;
 }
 
-#sidebar {
-  width: 300px;
-  min-height: 100vh;
-  margin-right: 32px;
+#page-header {
+  grid-row: 1 / 1;
+  grid-column: 2 / 4;
+}
 
-  padding: 16px;
+#nav {
+  grid-row: 2 / 3;
+  grid-column: 1 / 2;
 }
 
 #content {
-  padding-left: 64px;
+  grid-row: 2 / 3;
+  grid-column: 2 / 4;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -26,6 +26,7 @@ import { RouterLink } from 'vue-router';
 <style scoped>
 ul {
   margin: 0px;
+  padding: 0px;
   padding-right: 32px;
   text-decoration: none;
   list-style: none;
@@ -35,8 +36,6 @@ ul {
 li {
   color: var(--color-text);
 }
-
-li:hover {}
 
 li.selected {
   text-decoration: underline;
