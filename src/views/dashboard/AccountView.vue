@@ -1,15 +1,12 @@
 <template>
   <section>
-    <p>
-      <label for="email">Email</label>
-      <span id="email" class="account-value tooltip">{{ viewer.email }}
-        <span class="tooltiptext">Cannot be changed</span>
-      </span>
-    </p>
-    <p>
-      <label for="since">Active Since</label>
-      <span id="since" class="account-value">{{ since }}</span>
-    </p>
+    <div class="account-grid">
+      <div class="label"><label for="email">Email</label></div>
+      <div class="value"><span id="email" class="account-value">{{ viewer.email }}</span></div>
+
+      <div class="label"><label for="since">Active Since</label></div>
+      <div class="value"><span id="since" class="account-value">{{ since }}</span></div>
+    </div>
   </section>
 </template>
 
@@ -49,8 +46,9 @@ label {
   font-weight: 800;
 }
 
-.account-value {
-  display: block;
-  width: fit-content;
+.account-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
 }
 </style>

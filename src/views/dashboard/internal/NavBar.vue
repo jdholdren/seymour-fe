@@ -1,18 +1,19 @@
 <template>
   <ul>
     <RouterLink :to="{ 'name': 'read' }">
-      <li :class="{ selected: $route.name === 'read' }"><v-icon class="icon" name="bi-grid-1x2-fill" />Read</li>
+      <li :class="{ selected: $route.name === 'read' }">Your Feed</li>
+    </RouterLink>
+    <RouterLink>
+      <li :class="{ selected: $route.name === 'read' }">AI Curation</li>
     </RouterLink>
     <RouterLink :to="{ name: 'subscriptions' }">
-      <li :class="{ selected: $route.name === 'subscriptions' }"><v-icon class="icon"
-          name="bi-grid-1x2-fill" />Subscriptions</li>
+      <li :class="{ selected: $route.name === 'subscriptions' }">Subscriptions</li>
     </RouterLink>
     <RouterLink :to="{ name: 'account' }">
-      <li :class="{ selected: $route.name === 'account' }"><v-icon class="icon" name="bi-grid-1x2-fill" />Account
-        Settings</li>
+      <li :class="{ selected: $route.name === 'account' }">Account</li>
     </RouterLink>
     <a href="/sso/logout">
-      <li><v-icon class="icon" name="bi-grid-1x2-fill" />Log Out</li>
+      <li>Log Out↗</li>
     </a>
   </ul>
 </template>
@@ -20,34 +21,24 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 
-
 </script>
 
 <style scoped>
 ul {
-  padding: 0;
-
+  margin: 0px;
+  padding-right: 32px;
   text-decoration: none;
   list-style: none;
+  border-right: 2px solid var(--color-text);
 }
 
 li {
-  padding: 8px 24px 8px 24px;
-  border: 1px solid rgba(0, 0, 0, 0);
-
   color: var(--color-text);
 }
 
-li:hover {
-  color: var(--color-text-hover);
-}
+li:hover {}
 
 li.selected {
-  background-color: var(--color-background);
-  border-radius: 4px;
-}
-
-.icon {
-  margin-right: 0.5rem;
+  text-decoration: underline;
 }
 </style>

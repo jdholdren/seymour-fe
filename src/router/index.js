@@ -9,11 +9,11 @@ const router = createRouter({
       component: () => import('../views/dashboard/DashboardView.vue'),
       children: [
         {
-          path: '/read',
+          path: '/your-feed',
           name: 'read',
           component: () => import("../views/dashboard/ReadView.vue"),
           meta: {
-            title: "Read"
+            title: "/your-feed"
           },
         },
         {
@@ -21,7 +21,7 @@ const router = createRouter({
           name: "subscriptions",
           component: () => import("../views/dashboard/SubscriptionsView.vue"),
           meta: {
-            title: "Subscriptions"
+            title: "/subscriptions"
           },
         },
         {
@@ -37,7 +37,7 @@ const router = createRouter({
           name: "account",
           component: () => import("../views/dashboard/AccountView.vue"),
           meta: {
-            title: "Your Account"
+            title: "/account"
           },
         }
       ],

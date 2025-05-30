@@ -27,7 +27,7 @@
     --color-text: var(--c-text-dark-2);
     --color-text-hover: var(--c-text-light-1);
 
-    --size-gutter: 640px;
+    --size-gutter: 320px;
 }
 
 /* @media (prefers-color-scheme: dark) {
