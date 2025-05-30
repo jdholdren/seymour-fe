@@ -26,7 +26,8 @@
     --color-heading: var(--c-text-dark-1);
     --color-text: var(--c-text-dark-2);
     --color-text-hover: var(--c-text-light-1);
-    --section-gap: 160px;
+
+    --size-gutter: 640px;
 }
 
 /* @media (prefers-color-scheme: dark) {

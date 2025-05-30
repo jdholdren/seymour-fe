@@ -3,6 +3,8 @@
 #app {
     margin: 0 auto;
     font-weight: normal;
+
+    font-size: 1.3rem;
 }
 
 a {
@@ -22,28 +24,20 @@ a {
     #app {}
 }
 
-.tooltip {
-    position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted var(--color-text);
+h1 {
+    font-size: 6rem;
+    line-height: 5rem;
+    font-weight: bold;
 }
 
-.tooltip .tooltiptext {
-    visibility: hidden;
-    width: 200px;
-
-    margin-left: 16px;
-    color: var(--color-text-hover);
-    background-color: var(--color-background-mute);
-    padding: 8px;
-    position: absolute;
-    z-index: 1;
-
-    opacity: 0;
-    transition: opacity 0.3s;
+h2 {
+    font-size: 3rem;
+    line-height: 5rem;
+    font-weight: bold;
 }
 
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
+h3 {
+    font-size: 2rem;
+    line-height: 5rem;
+    font-weight: bold;
 }

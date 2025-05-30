@@ -45,7 +45,7 @@ const router = createRouter({
     {
       path: '/welcome',
       name: 'welcome',
-      component: () => import('../views/WelcomeView.vue'),
+      component: () => import('../views/welcome/WelcomeView.vue'),
     },
   ],
 })
