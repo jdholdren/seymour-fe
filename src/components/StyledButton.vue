@@ -9,14 +9,12 @@ defineProps(["label", "disabled"])
 <style scoped>
 button {
   font-size: 1.3rem;
-  padding: 8px 24px 8px 24px;
 
-  border-radius: 32px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 0;
+  text-decoration: underline;
 
-  background-color: rgba(0, 0, 0, 0.3);
-  color: rgba(255, 255, 255, 1);
-  /** TODO: Transitions **/
+  background-color: rgba(0, 0, 0, 0.0);
+  color: var(--color-text);
 }
 
 button .label {
