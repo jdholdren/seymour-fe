@@ -1,10 +1,10 @@
 <template>
   <label :for="name">{{ label }}</label>
-  <input :id="name" type="text" v-model="model" />
+  <input :id="name" type="text" v-model="url" />
 </template>
 
 <script setup>
-const model = defineModel()
+const url = defineModel()
 defineProps(["label", "name"])
 </script>
 
@@ -16,17 +16,19 @@ label {
 
 input {
   display: block;
-  padding: 16px;
   margin-top: 0.75rem;
 
-  border-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
-
+  outline: none;
+  border: 0px;
+  border-bottom: 1px solid var(--color-text);
   font-size: 1rem;
+
+  background-color: rgb(0, 0, 0, 0.0);
+  min-width: 320px;
 }
 
 input:focus {
-  border: 1px solid rgba(0, 0, 0, 0.8);
   outline: none;
+  border-bottom: 2px solid var(--color-text);
 }
 </style>

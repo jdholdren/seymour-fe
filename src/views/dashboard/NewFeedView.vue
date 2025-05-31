@@ -10,7 +10,6 @@
 <script setup>
 import { ref } from 'vue';
 import useApiFetch from '@/api/useApiFetch';
-import { viewer } from '@/me';
 
 import StyledButton from '@/components/StyledButton.vue';
 import TextInput from '@/components/TextInput.vue';
@@ -18,11 +17,11 @@ import { VueSpinner } from 'vue3-spinners';
 
 const url = ref("")
 
-const { fetching, statusCode, error, call: submit } = useApiFetch("POST", `/api/users/${viewer.value.user_id}/subscriptions`)
+const { fetching, call: submit } = useApiFetch("POST", `/api/subscriptions`)
 async function onSubmit() {
   if (!url.value) return
 
-  await submit({ url: url.value })
+  await submit({ feed_url: url.value })
 }
 </script>
 

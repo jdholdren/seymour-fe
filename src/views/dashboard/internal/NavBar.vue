@@ -3,9 +3,6 @@
     <RouterLink :to="{ 'name': 'read' }">
       <li :class="{ selected: $route.name === 'read' }">Your Feed</li>
     </RouterLink>
-    <RouterLink>
-      <li :class="{ selected: $route.name === 'read' }">AI Curation</li>
-    </RouterLink>
     <RouterLink :to="{ name: 'subscriptions' }">
       <li :class="{ selected: $route.name === 'subscriptions' }">Subscriptions</li>
     </RouterLink>

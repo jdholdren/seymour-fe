@@ -29,7 +29,7 @@ const router = createRouter({
           name: "new-subscription",
           component: () => import("../views/dashboard/NewFeedView.vue"),
           meta: {
-            title: "Add a new feed"
+            title: "/subscriptions/new"
           },
         },
         {

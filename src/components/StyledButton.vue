@@ -32,11 +32,6 @@ button:active {
 
 button.disabled {
   color: rgba(0, 0, 0, 0.3);
-  background-color: rgba(0, 0, 0, 0.2);
   cursor: initial;
-}
-
-button.success {
-  background-color: var(--c-green);
 }
 </style>
