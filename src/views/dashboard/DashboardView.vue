@@ -1,9 +1,6 @@
 <template>
   <SiteHeader />
   <div id="main">
-    <div id="page-header">
-      <PageHeader :title="route.meta.title" />
-    </div>
     <div id="nav">
       <NavBar />
     </div>
@@ -14,12 +11,8 @@
 </template>
 
 <script setup>
-import PageHeader from '@/components/PageHeader.vue'
 import SiteHeader from '@/components/SiteHeader.vue'
 import NavBar from './internal/NavBar.vue'
-import { useRoute } from 'vue-router'
-
-const route = useRoute()
 </script>
 
 <style scoped>
@@ -30,6 +23,7 @@ const route = useRoute()
   margin-right: var(--size-gutter);
   grid-auto-rows: auto;
   grid-column-gap: 64px;
+  max-width: 1000px;
 }
 
 #page-header {

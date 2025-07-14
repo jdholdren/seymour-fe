@@ -30,6 +30,10 @@ ul {
   border-right: 2px solid var(--color-text);
 }
 
+a {
+  text-decoration: none;
+}
+
 li {
   color: var(--color-text);
 }

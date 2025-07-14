@@ -22,6 +22,8 @@ async function onSubmit() {
   if (!url.value) return
 
   await submit({ feed_url: url.value })
+
+  // TODO: Handler errors
 }
 </script>
 
