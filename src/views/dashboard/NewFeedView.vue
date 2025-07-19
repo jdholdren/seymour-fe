@@ -10,6 +10,7 @@
 <script setup>
 import { ref } from 'vue';
 import useApiFetch from '@/api/useApiFetch';
+import { useRouter } from 'vue-router'
 
 import StyledButton from '@/components/StyledButton.vue';
 import TextInput from '@/components/TextInput.vue';
@@ -23,7 +24,8 @@ async function onSubmit() {
 
   await submit({ feed_url: url.value })
 
-  // TODO: Handler errors
+  const router = useRouter()
+  router.push({ name: 'subscriptions' })
 }
 </script>
 

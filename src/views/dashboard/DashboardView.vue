@@ -5,6 +5,9 @@
       <NavBar />
     </div>
     <div id="content">
+      <div id="page-header">
+        <PageHeader :title="route.meta.title" />
+      </div>
       <router-view />
     </div>
   </div>
@@ -12,7 +15,11 @@
 
 <script setup>
 import SiteHeader from '@/components/SiteHeader.vue'
+import PageHeader from '@/components/PageHeader.vue'
 import NavBar from './internal/NavBar.vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 </script>
 
 <style scoped>
@@ -32,6 +39,7 @@ import NavBar from './internal/NavBar.vue'
 }
 
 #nav {
+  padding-top: 16px;
   grid-row: 2 / 3;
   grid-column: 1 / 2;
 }
