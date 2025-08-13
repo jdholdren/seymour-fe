@@ -21,7 +21,7 @@ const router = createRouter({
           name: "subscriptions",
           component: () => import("../views/dashboard/SubscriptionsView.vue"),
           meta: {
-            title: "Subscriptions"
+            title: "Manage Subscriptions"
           },
         },
         {

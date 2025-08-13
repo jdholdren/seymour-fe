@@ -8,13 +8,17 @@ defineProps(["label", "disabled"])
 
 <style scoped>
 button {
-  font-size: 1.3rem;
+  width: 100%;
+  padding: 12px;
+  padding-left: 24px;
+  padding-right: 24px;
 
-  border: 0;
-  text-decoration: underline;
+  border-radius: 32px;
+  border: 1px solid var(--color-background-mute);
 
-  background-color: rgba(0, 0, 0, 0.0);
-  color: var(--color-text);
+  font-size: 1.1rem;
+
+  background-color: var(--color-background-mute);
 }
 
 button .label {

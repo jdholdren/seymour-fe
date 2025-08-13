@@ -1,25 +1,30 @@
 <template>
-  <div class='item'>
-    <hr />
-    <h3>{{ subscription.feed_name }}</h3>
-    <h4>{{ subscription.feed_description }}</h4>
-  </div>
+  <ListItem>
+    <div class='item'>
+      <div class='subscription-title'>{{ subscription.feed_name }}</div>
+      <div class='subscription-description'>{{ subscription.feed_description }}</div>
+      <div class='last-synced'>{{ subscription.last_synced }}</div>
+    </div>
+  </ListItem>
 </template>
 
 <script setup>
+import ListItem from '@/components/ListItem.vue'
+
 defineProps(['subscription'])
 </script>
 
 <style scoped>
 .item {
-  margin-bottom: 1rem;
+  font-size: 1rem;
 }
 
-hr {
-  margin-bottom: 1rem;
+.subscription-title {
+  font-size: 1.7rem;
+  font-weight: 900;
 }
 
-h3 {
-  line-height: 2rem;
+.subscription-description {
+  font-size: 1.5rem;
 }
 </style>

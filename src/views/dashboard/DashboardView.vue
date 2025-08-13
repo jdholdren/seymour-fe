@@ -1,5 +1,4 @@
 <template>
-  <SiteHeader />
   <div id="main">
     <div id="nav">
       <NavBar />
@@ -14,7 +13,6 @@
 </template>
 
 <script setup>
-import SiteHeader from '@/components/SiteHeader.vue'
 import PageHeader from '@/components/PageHeader.vue'
 import NavBar from './internal/NavBar.vue'
 import { useRoute } from 'vue-router'
@@ -25,28 +23,27 @@ const route = useRoute()
 <style scoped>
 #main {
   display: grid;
-  grid-template-columns: min-content 1fr 1fr;
-  margin-left: var(--size-gutter);
-  margin-right: var(--size-gutter);
+  grid-template-columns: repeat(16, 64px);
   grid-auto-rows: auto;
-  grid-column-gap: 64px;
+  grid-column-gap: 16px;
   max-width: 1000px;
 }
 
 #page-header {
-  grid-row: 1 / 1;
-  grid-column: 2 / 4;
+  grid-column: 1 / -1;
 }
 
 #nav {
   padding-top: 16px;
   grid-row: 2 / 3;
-  grid-column: 1 / 2;
+  grid-column: 1 / 3;
 }
 
 #content {
   grid-row: 2 / 3;
-  grid-column: 2 / 4;
+  grid-column: 5 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
 }
 
 @media (prefers-color-scheme: dark) {

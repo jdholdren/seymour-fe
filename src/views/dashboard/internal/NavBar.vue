@@ -1,33 +1,48 @@
 <template>
-  <ul>
-    <RouterLink :to="{ 'name': 'read' }">
-      <li :class="{ selected: $route.name === 'read' }">Your Feed</li>
-    </RouterLink>
-    <RouterLink :to="{ name: 'subscriptions' }">
-      <li :class="{ selected: $route.name === 'subscriptions' }">Subscriptions</li>
-    </RouterLink>
-    <RouterLink :to="{ name: 'account' }">
-      <li :class="{ selected: $route.name === 'account' }">Account</li>
-    </RouterLink>
-    <a href="/sso/logout">
-      <li>Log Out↗</li>
-    </a>
-  </ul>
+  <div class="navbar">
+    <div class="logo">Seymour</div>
+    <ul>
+      <RouterLink :to="{ 'name': 'read' }">
+        <li :class="{ selected: $route.name === 'read' }">Your Feed</li>
+      </RouterLink>
+      <RouterLink :to="{ name: 'subscriptions' }">
+        <li :class="{ selected: $route.name === 'subscriptions' }">Subscriptions</li>
+      </RouterLink>
+      <RouterLink :to="{ name: 'account' }">
+        <li :class="{ selected: $route.name === 'account' }">Account</li>
+      </RouterLink>
+      <a href="/sso/logout">
+        <li>Log Out↗</li>
+      </a>
+    </ul>
+  </div>
 </template>
 
 <script setup>
 import { RouterLink } from 'vue-router';
-
 </script>
 
 <style scoped>
+.navbar {
+  width: 15rem;
+  border-right: 2px solid var(--color-text);
+}
+
+.logo {
+  padding-left: 2rem;
+  margin-bottom: 1.5rem;
+
+  font-size: 1.5rem;
+  font-weight: bold;
+
+  color: #333;
+}
+
 ul {
   margin: 0px;
   padding: 0px;
-  padding-right: 32px;
   text-decoration: none;
   list-style: none;
-  border-right: 2px solid var(--color-text);
 }
 
 a {
@@ -35,10 +50,20 @@ a {
 }
 
 li {
+  width: 100%;
+  height: 3rem;
+  line-height: 3rem;
   color: var(--color-text);
+
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+li.hover {
+  background: var(--color-background-mute);
 }
 
 li.selected {
-  text-decoration: underline;
+  background: var(--color-background-soft);
 }
 </style>
