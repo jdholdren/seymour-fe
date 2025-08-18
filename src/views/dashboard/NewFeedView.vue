@@ -1,10 +1,11 @@
 <template>
-  <TextInput name="url" label="URL" v-model="url" />
-  <div v-if="fetching">
-    <VueSpinner />
+  <div id="container">
+    <TextInput name="url" label="URL" v-model="url" />
+    <div v-if="fetching">
+      <VueSpinner />
+    </div>
+    <StyledButton v-else id="submit" class="success" label="Subscribe" :disabled="url.length == 0" @click="onSubmit" />
   </div>
-  <StyledButton v-else :style="{ marginTop: '2rem' }" class="success" label="Subscribe" :disabled="url.length == 0"
-    @click="onSubmit" />
 </template>
 
 <script setup>
@@ -30,12 +31,21 @@ async function onSubmit() {
 </script>
 
 <style scoped>
+#container {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  grid-template-rows: 1fr 1fr;
+  row-gap: 24px;
+}
+
 h1 {
   font-size: 5rem;
   font-weight: 800;
 }
 
-:deep(input) {
-  min-width: 40rem;
+#submit {
+  grid-row: 2;
+  grid-column: 6 / span 3;
 }
 </style>

@@ -9,6 +9,7 @@ defineProps(["label", "disabled"])
 <style scoped>
 button {
   width: 100%;
+  max-height: 48px;
   padding: 12px;
   padding-left: 24px;
   padding-right: 24px;

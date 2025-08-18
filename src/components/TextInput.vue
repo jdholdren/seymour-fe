@@ -1,6 +1,8 @@
 <template>
-  <label :for="name">{{ label }}</label>
-  <input :id="name" type="text" v-model="url" />
+  <div>
+    <label :for="name">{{ label }}</label>
+    <input :id="name" type="text" v-model="url" />
+  </div>
 </template>
 
 <script setup>
@@ -11,6 +13,7 @@ defineProps(["label", "name"])
 <style scoped>
 label {
   display: block;
+  font-size: 1.1rem;
   font-weight: 700;
 }
 
