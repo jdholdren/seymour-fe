@@ -1,9 +1,7 @@
 <template>
-  <div id="main">
-    <div id="nav">
-      <NavBar />
-    </div>
-    <div id="content">
+  <div class="grid grid-cols-8 gap-4 bg-gray-200 h-screen">
+    <NavBar class="col-span-1" />
+    <div class="col-span-5">
       <div id="page-header">
         <PageHeader :title="route.meta.title" />
       </div>
@@ -19,40 +17,3 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 </script>
-
-<style scoped>
-#main {
-  display: grid;
-  grid-template-columns: repeat(16, 64px);
-  grid-auto-rows: auto;
-  grid-column-gap: 16px;
-  max-width: 1000px;
-}
-
-#page-header {
-  grid-column: 1 / -1;
-}
-
-#nav {
-  padding-top: 16px;
-  grid-row: 2 / 3;
-  grid-column: 1 / 3;
-}
-
-#content {
-  grid-row: 2 / 3;
-  grid-column: 5 / -1;
-  display: grid;
-  grid-template-columns: subgrid;
-}
-
-@media (prefers-color-scheme: dark) {
-  #sidebar {
-    background-color: var(--color-background-soft);
-  }
-
-  #logo {
-    color: var(--c-green);
-  }
-}
-</style>

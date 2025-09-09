@@ -1,43 +1,7 @@
-@import './base.css';
+@import "tailwindcss";
 
-#app {
-    margin: 0 auto;
-    font-weight: normal;
+@theme {
+    --text-2xl: 4rem;
 
-    font-size: 1.3rem;
-}
-
-a {
-    text-decoration: underline;
-    color: var(--color-text);
-}
-
-@media (hover: hover) {
-    a:hover {
-        color: var(--color-text-hover);
-    }
-}
-
-@media (min-width: 1024px) {
-    body {}
-
-    #app {}
-}
-
-h1 {
-    font-size: 6rem;
-    line-height: 5rem;
-    font-weight: bold;
-}
-
-h2 {
-    font-size: 3rem;
-    line-height: 5rem;
-    font-weight: bold;
-}
-
-h3 {
-    font-size: 2rem;
-    line-height: 5rem;
-    font-weight: bold;
+    --color-sage: oklch(0.6691 0.1599 156.7);
 }

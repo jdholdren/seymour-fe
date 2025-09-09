@@ -1,10 +1,10 @@
 <template>
   <div id="container">
-    <TextInput name="url" label="URL" v-model="url" />
+    <TextInput name="url" label="URL" v-model="url" class="max-w-xl" />
     <div v-if="fetching">
       <VueSpinner />
     </div>
-    <StyledButton v-else id="submit" class="success" label="Subscribe" :disabled="url.length == 0" @click="onSubmit" />
+    <StyledButton v-else id="submit" label="Subscribe" :disabled="url.length == 0" @click="onSubmit" class="mt-2" />
   </div>
 </template>
 
@@ -29,23 +29,3 @@ async function onSubmit() {
   router.push({ name: 'subscriptions' })
 }
 </script>
-
-<style scoped>
-#container {
-  display: grid;
-  grid-template-columns: subgrid;
-  grid-column: 1 / -1;
-  grid-template-rows: 1fr 1fr;
-  row-gap: 24px;
-}
-
-h1 {
-  font-size: 5rem;
-  font-weight: 800;
-}
-
-#submit {
-  grid-row: 2;
-  grid-column: 6 / span 3;
-}
-</style>

@@ -1,16 +1,7 @@
 <template>
-  <h1>{{ title }}</h1>
+  <h1 class="text-[3rem] font-bold">{{ title }}</h1>
 </template>
 
 <script setup>
 defineProps(["title"])
 </script>
-
-<style scoped>
-h1 {
-  font-size: 3rem;
-  font-weight: 800;
-
-  color: var(--color-heading);
-}
-</style>

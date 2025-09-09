@@ -1,30 +1,11 @@
 <template>
-  <ListItem>
-    <div class='item'>
-      <div class='subscription-title'>{{ subscription.feed_name }}</div>
-      <div class='subscription-description'>{{ subscription.feed_description }}</div>
-      <div class='last-synced'>{{ subscription.last_synced }}</div>
-    </div>
-  </ListItem>
+  <div class="w-auto bg-gray-300/30 rounded-md p-4 outline-1 outline-gray-300/70">
+    <div class="text-lg font-bold">{{ subscription.feed_name }}</div>
+    <div class="text-base">{{ subscription.feed_description }}</div>
+    <div class="text-base">{{ subscription.last_synced }}</div>
+  </div>
 </template>
 
 <script setup>
-import ListItem from '@/components/ListItem.vue'
-
 defineProps(['subscription'])
 </script>
-
-<style scoped>
-.item {
-  font-size: 1rem;
-}
-
-.subscription-title {
-  font-size: 1.7rem;
-  font-weight: 900;
-}
-
-.subscription-description {
-  font-size: 1.5rem;
-}
-</style>

@@ -1,7 +1,15 @@
 <template>
   <div>
-    <label :for="name">{{ label }}</label>
-    <input :id="name" type="text" v-model="url" />
+    <div>
+      <label :for="name" class="block text-sm/6 font-medium text-gray-600">{{ label }}</label>
+      <div class="mt-2">
+        <div
+          class="flex items-center rounded-md bg-white/5 pl-3 outline-1 -outline-offset-1 outline-gray-600 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-500">
+          <input :id="name" type="text" v-model="url" :name="label"
+            class="block min-w-0 grow py-1.5 m-auto text-base text-black placeholder:text-gray-500 focus:outline-none sm:text-sm/6" />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -9,29 +17,3 @@
 const url = defineModel()
 defineProps(["label", "name"])
 </script>
-
-<style scoped>
-label {
-  display: block;
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-input {
-  display: block;
-  margin-top: 0.75rem;
-
-  outline: none;
-  border: 0px;
-  border-bottom: 1px solid var(--color-text);
-  font-size: 1rem;
-
-  background-color: rgb(0, 0, 0, 0.0);
-  min-width: 320px;
-}
-
-input:focus {
-  outline: none;
-  border-bottom: 2px solid var(--color-text);
-}
-</style>

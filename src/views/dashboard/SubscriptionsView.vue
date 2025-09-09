@@ -1,16 +1,16 @@
 <template>
-  <div id="subscriptions-container">
-    <div class="actions">
-      <RouterLink class="action" to="/subscriptions/new">
+  <div>
+    <div class="flex gap-4">
+      <RouterLink to="/subscriptions/new">
         <StyledButton label="+ New Subscription" />
       </RouterLink>
-      <RouterLink class="action" to="/subscriptions/new">
+      <RouterLink to="/subscriptions/new">
         <StyledButton label="Manage Prompt" />
       </RouterLink>
     </div>
-    <div id="subscription-items-container">
-      <SubscriptionItem v-for="subscription in data?.subscriptions" :key="subscription.id" :subscription="subscription"
-        class="subscription-item" />
+    <div class="flex flex-col gap-4 w-xl mt-[3rem]">
+      <SubscriptionItem v-for="subscription in data?.subscriptions" :key="subscription.id"
+        :subscription="subscription" />
     </div>
   </div>
 </template>
@@ -25,36 +25,3 @@ const { call: fetchSubs, data } = useApiFetch("GET", `/api/subscriptions`)
 
 fetchSubs()
 </script>
-
-<style scoped>
-#subscriptions-container {
-  display: grid;
-  grid-template-columns: subgrid;
-  row-gap: 1em;
-
-  grid-column: 1 / -1;
-}
-
-#subscription-items-container {
-  display: grid;
-  grid-template-columns: subgrid;
-  row-gap: 1em;
-
-  grid-column: 1 / -1;
-}
-
-.subscription-item {
-  grid-column: 1 / -1;
-}
-
-.actions {
-  display: grid;
-  grid-template-columns: subgrid;
-  grid-column: 1 / -1;
-  align-content: end;
-}
-
-.action {
-  grid-column: span 3;
-}
-</style>
