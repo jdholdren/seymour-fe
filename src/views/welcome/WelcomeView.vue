@@ -1,8 +1,10 @@
 <template>
-  <div class="w-full content-center text-center">
-    <div class="p-16">
-      <h1 class="text-2xl">Read what matters.</h1>
-      <Button class="my-5" label="Sign in with Github" @click="sso" />
+  <div class="w-full flex justify-center mt-[20vh]">
+    <div class="max-w-3xl p-16 text-center">
+      <h1 class="text-7xl block">Read what matters.</h1>
+      <h2 class="text-2xl my-3 block">RSS feeds enhanced by AI filtering. Create prompts that reveal the most relevant
+        content from all your favorite sources.</h2>
+      <Button class="my-6 bg-sage text-white" label="Sign in with Github" @click="sso" />
     </div>
   </div>
 </template>

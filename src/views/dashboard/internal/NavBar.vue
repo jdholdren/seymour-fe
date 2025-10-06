@@ -2,8 +2,8 @@
   <div class="navbar">
     <div class="logo">Seymour</div>
     <ul>
-      <RouterLink :to="{ 'name': 'read' }">
-        <li :class="{ selected: $route.name === 'read' }">Your Feed</li>
+      <RouterLink :to="{ 'name': 'timeline' }">
+        <li :class="{ selected: $route.name === 'timeline' }">Your Feed</li>
       </RouterLink>
       <RouterLink :to="{ name: 'subscriptions' }">
         <li :class="{ selected: $route.name === 'subscriptions' }">Subscriptions</li>
@@ -11,7 +11,7 @@
       <RouterLink :to="{ name: 'account' }">
         <li :class="{ selected: $route.name === 'account' }">Account</li>
       </RouterLink>
-      <a href="/sso/logout">
+      <a href="/api/logout">
         <li>Log Out↗</li>
       </a>
     </ul>

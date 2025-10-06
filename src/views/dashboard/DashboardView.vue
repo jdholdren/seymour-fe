@@ -1,6 +1,6 @@
 <template>
-  <div class="grid grid-cols-8 gap-4 bg-gray-200 h-screen">
-    <NavBar class="col-span-1" />
+  <div class="grid grid-cols-8 gap-4 h-screen">
+    <NavBar class="col-span-1 mt-8" />
     <div class="col-span-5">
       <div id="page-header">
         <PageHeader :title="route.meta.title" />

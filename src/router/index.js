@@ -9,11 +9,11 @@ const router = createRouter({
       component: () => import('../views/dashboard/DashboardView.vue'),
       children: [
         {
-          path: '/your-feed',
-          name: 'read',
-          component: () => import("../views/dashboard/ReadView.vue"),
+          path: '/timeline',
+          name: 'timeline',
+          component: () => import("../views/dashboard/TimelineView.vue"),
           meta: {
-            title: "Your Feed"
+            title: "All Subscriptions"
           },
         },
         {
@@ -60,13 +60,11 @@ router.beforeEach(async (to) => {
     await getViewer()
   }
 
-  console.log(to)
-
   if (!viewer.value.user_id && !unauthenticatedRoutes.includes(to.name)) {
     return { name: "welcome" }
   }
   if (!to.name) {
-    return { name: "read" }
+    return { name: "timeline" }
   }
 })
 
