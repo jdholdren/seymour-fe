@@ -1,24 +1,34 @@
 <template>
-  <section>
-    <div class="account-grid">
-      <div class="label"><label for="email">Email</label></div>
-      <div class="value"><span id="email" class="account-value">{{ viewer.email }}</span></div>
-
-      <div class="label"><label for="since">Active Since</label></div>
-      <div class="value"><span id="since" class="account-value">{{ since }}</span></div>
+  <div>
+    <PageHeader :title="'Account Settings'" />
+    <div class="my-6 p-4 rounded-md bg-white w-md border-slate-400 border-1">
+      <h1 class="font-bold">Account Details</h1>
+      <table class="table-auto">
+        <tbody>
+          <tr>
+            <td>Email</td>
+            <td>{{ viewer.email }}</td>
+          </tr>
+          <tr>
+            <td>Active Since</td>
+            <td>{{ since }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-  </section>
+    <div class="my-6 p-4 rounded-md bg-white w-sm border-slate-400 border-1">
+      <h1 class="font-bold">Account Actions</h1>
+      <a href="/api/logout">
+        <li>Log Out</li>
+      </a>
+    </div>
+  </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
-import { getViewer, loaded, viewer } from '@/me'
-
-async function getDetails() {
-  if (loaded) return
-
-  await getViewer()
-}
+import { viewer } from '@/me'
+import PageHeader from '@/components/PageHeader.vue'
 
 const since = computed(() => {
   if (!viewer.value.created_at) return
@@ -32,23 +42,4 @@ const since = computed(() => {
 
   return parsed.toLocaleDateString(undefined, options)
 })
-
-getDetails()
 </script>
-
-<style scoped>
-p {
-  padding: 16px 16px 0 0;
-}
-
-label {
-  color: var(--color-heading);
-  font-weight: 800;
-}
-
-.account-grid {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 1rem;
-}
-</style>

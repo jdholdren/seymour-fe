@@ -1,5 +1,5 @@
 <template>
-  <div class="p-5 border border-stone-300 rounded-lg cursor-pointer hover:border-stone-500">
+  <div class="p-5 border border-stone-300 rounded-lg cursor-pointer hover:border-primary bg-white">
     <h2 class="text-neutral-500">{{ props.entry.feed_name }}</h2>
     <h1 class="text-neutral-800 font-bold">{{ props.entry.title }}</h1>
     <p class="text-neutral-500 line-clamp-2">{{ props.entry.description }}</p>
