@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-1 justify-center bg-surface">
+  <div class="">
     <div class="flex flex-col gap-6 max-w-2xl">
       <div class="text-center p-8">
         <h1 class="text-5xl font-bold">All Feeds</h1>

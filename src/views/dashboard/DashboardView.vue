@@ -1,7 +1,11 @@
 <template>
   <div class="flex flex-row min-h-screen">
     <NavBar class="w-xs border-r-1 border-stone-200 bg-surface-container" />
-    <router-view class="flex-auto p-4" />
+    <div class="p-4 flex flex-1 justify-center bg-surface ">
+      <Transition name="slide-fade">
+        <router-view class="max-w-2xl" />
+      </Transition>
+    </div>
   </div>
 </template>
 

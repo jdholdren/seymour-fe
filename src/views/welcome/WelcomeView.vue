@@ -4,7 +4,7 @@
       <h1 class="text-7xl block">Read what matters.</h1>
       <h2 class="text-2xl my-3 block">RSS feeds enhanced by AI filtering. Create prompts that reveal the most relevant
         content from all your favorite sources.</h2>
-      <Button class="my-6 bg-sage text-white" label="Sign in with Github" @click="sso" />
+      <Button class="my-6 bg-primary text-white" label="Sign in with Github" @click="sso" />
     </div>
   </div>
 </template>
