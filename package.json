@@ -11,6 +11,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@mozilla/readability": "^0.6.0",
     "@tailwindcss/vite": "^4.1.13",
     "js-md5": "^0.8.3",
     "oh-vue-icons": "^1.0.0-rc3",

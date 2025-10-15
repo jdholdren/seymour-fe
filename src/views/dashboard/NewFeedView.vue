@@ -20,6 +20,7 @@ import { VueSpinner } from 'vue3-spinners';
 const url = ref("")
 
 const { fetching, call: submit } = useApiFetch("POST", `/api/subscriptions`)
+
 async function onSubmit() {
   if (!url.value) return
 

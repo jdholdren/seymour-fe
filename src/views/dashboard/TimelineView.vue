@@ -5,7 +5,10 @@
         <h1 class="text-5xl font-bold">All Feeds</h1>
         <h2 class="text-xl py-4">All of your subscriptions combined into a single feed</h2>
       </div>
-      <TimelineItem v-for="entry in data?.items" :key="entry.id" :entry="entry" />
+      <RouterLink v-for="entry in data?.items" :key="entry.id" :to="`/article/${entry.entry_id}`"
+        class="w-fit place-self-center mb-1">
+        <TimelineItem :entry="entry" />
+      </RouterLink>
     </div>
   </div>
 </template>

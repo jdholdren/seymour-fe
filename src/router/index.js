@@ -12,34 +12,27 @@ const router = createRouter({
           path: '/timeline',
           name: 'timeline',
           component: () => import("../views/dashboard/TimelineView.vue"),
-          meta: {
-            title: "All Subscriptions"
-          },
         },
         {
           path: '/subscriptions',
           name: "subscriptions",
           component: () => import("../views/dashboard/SubscriptionsView.vue"),
-          meta: {
-            title: "Manage Subscriptions"
-          },
         },
         {
           path: '/subscriptions/new',
           name: "new-subscription",
           component: () => import("../views/dashboard/NewFeedView.vue"),
-          meta: {
-            title: "New Subscription"
-          },
         },
         {
           path: '/account',
           name: "account",
           component: () => import("../views/dashboard/AccountView.vue"),
-          meta: {
-            title: "Account"
-          },
-        }
+        },
+        {
+          path: '/article/:articleID',
+          name: "article",
+          component: () => import("../views/dashboard/ReaderView.vue"),
+        },
       ],
     },
     {
