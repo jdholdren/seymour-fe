@@ -6,7 +6,7 @@
         <h2 class="text-xl py-4">All of your subscriptions combined into a single feed</h2>
       </div>
       <RouterLink v-for="entry in data?.items" :key="entry.id" :to="`/article/${entry.entry_id}`"
-        class="w-fit place-self-center mb-1">
+        class="w-full place-self-center mb-1">
         <TimelineItem :entry="entry" />
       </RouterLink>
     </div>
