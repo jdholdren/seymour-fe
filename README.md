@@ -33,3 +33,8 @@ npm run build
 ```sh
 npm run lint
 ```
+
+
+# TODO:
+- [ ] Error handling
+- [ ] Prompt input

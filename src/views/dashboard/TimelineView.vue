@@ -22,5 +22,4 @@ import TimelineItem from './internal/TimelineItem.vue';
 const { call: fetchTimeline, data } = useApiFetch("GET", `/api/users/${viewer.value.user_id}/timeline`)
 
 fetchTimeline()
-
 </script>
