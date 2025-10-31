@@ -14,7 +14,7 @@ export default function (method, path) {
     const headers = {
       "Accept": "application/json"
     }
-    const options = { method, headers }
+    const options = { method, headers, credentials: 'include' }
     if (body) {
       options.body = JSON.stringify(body)
       options.headers["Content-Type"] = "application/json"
