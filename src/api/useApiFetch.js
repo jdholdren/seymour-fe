@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 
-export default function (method, url) {
+export default function (method, path) {
   const data = ref(null)
   const error = ref(null)
   const fetching = ref(false)
@@ -21,6 +21,7 @@ export default function (method, url) {
     }
 
     // Perform the request and wait for the response
+    const url = import.meta.env.VITE_API_HOST + path
     const response = await fetch(url, options)
 
     const code = response.status
