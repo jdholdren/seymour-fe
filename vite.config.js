@@ -19,15 +19,6 @@ export default defineConfig({
   },
   server: {
     port: 3000,
-    proxy: {
-      '/sso': {
-        target: 'http://localhost:3000',
-        secure: false,
-      },
-      '/api': {
-        target: 'http://localhost:4444',
-        secure: false,
-      },
-    },
+    proxy: {},
   },
 })

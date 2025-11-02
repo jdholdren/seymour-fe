@@ -9,15 +9,29 @@
         <li :class="{ selected: $route.name === 'subscriptions' }" class="p-4 py-2">Subscriptions</li>
       </RouterLink>
     </ul>
-    <h1 class="p-4 py-2 font-bold">Feeds</h1>
+    <h1 class="p-4 py-2 font-bold">Personal Timeline</h1>
     <ul>
-      <RouterLink :to="{ 'name': 'timeline' }">
-        <li :class="{ selected: $route.name === 'timeline' }" class="p-4 py-2">All</li>
+      <RouterLink :to="{ name: 'timeline' }">
+        <li :class="{ selected: $route.name === 'timeline' }" class="p-4 py-2">All Feeds</li>
+      </RouterLink>
+      <RouterLink v-for="feed in viewer.subscriptions" :key="feed.feed_id"
+        :to="{ name: 'timeline', query: { feed_id: feed.feed_id } }">
+        <li :class="{ selected: $route.name === 'timeline' }" class="p-4 py-2">{{ capFirst(feed.name) }}</li>
       </RouterLink>
     </ul>
   </div>
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router';
+import { RouterLink } from 'vue-router'
+
+import { getViewer, viewer } from "@/me"
+
+// Capitalize the first letter of the string
+function capFirst(s) {
+  if (!s) return ""
+  return String(s).charAt(0).toUpperCase() + String(s).slice(1)
+}
+
+getViewer()
 </script>
