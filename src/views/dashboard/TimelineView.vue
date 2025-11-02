@@ -1,15 +1,13 @@
 <template>
-  <div class="">
-    <div class="flex flex-col gap-6 max-w-2xl">
-      <div class="text-center p-8">
-        <h1 class="text-5xl font-bold">{{ feed.name }}</h1>
-        <h2 class="text-xl py-4">{{ feed.description }}</h2>
-      </div>
-      <RouterLink v-for="entry in data?.items" :key="entry.id" :to="`/article/${entry.entry_id}`"
-        class="w-full place-self-center mb-1">
-        <TimelineItem :entry="entry" />
-      </RouterLink>
+  <div class="flex flex-col gap-6 w-2xl">
+    <div class="text-center p-8">
+      <h1 class="text-5xl font-bold">{{ feed.name }}</h1>
+      <h2 class="text-xl py-4">{{ feed.description }}</h2>
     </div>
+    <RouterLink v-for="entry in data?.items" :key="entry.id" :to="`/article/${entry.entry_id}`"
+      class="w-full place-self-center mb-1">
+      <TimelineItem :entry="entry" />
+    </RouterLink>
   </div>
 </template>
 
