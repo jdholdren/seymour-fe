@@ -1,6 +1,6 @@
 <template>
   <div class="flex-1 w-full">
-    <div class="text-center p-8">
+    <div class="py-8">
       <h1 class="text-5xl font-bold">Add a new subscription</h1>
     </div>
     <TextInput name="url" label="URL" placeholder="https://example.com/feeds.xml" v-model="url" class="max-w-4xl" />

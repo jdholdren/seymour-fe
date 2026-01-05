@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col gap-6 w-2xl">
-    <div class="text-center p-8">
+    <div class="py-8">
       <h1 class="text-5xl font-bold">{{ feed.name }}</h1>
       <h2 class="text-xl py-4">{{ truncatedDescription }}</h2>
     </div>

@@ -1,9 +1,9 @@
 <template>
   <div class="flex flex-col gap-4">
-    <div class="text-center p-8">
+    <div class="py-8">
       <h1 class="text-5xl font-bold">Your Subscriptions</h1>
     </div>
-    <RouterLink to="/subscriptions/new" class="w-fit place-self-center mb-1">
+    <RouterLink to="/subscriptions/new" class="w-fit mb-1">
       <StyledButton label="+ New Subscription" class="" />
     </RouterLink>
     <SubscriptionItem v-for="subscription in data?.subscriptions" :key="subscription.id" :subscription="subscription" />

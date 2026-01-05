@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1 class="font-bold text-5xl text-center p-8">{{ data?.title }}</h1>
-    <p class="text-center">
+    <h1 class="font-bold text-5xl py-8">{{ data?.title }}</h1>
+    <p>
       <RouterLink class="text-gray-600 text-md p-16" :to="{}" @click="goToSource" :replace="true">
         Read on {{ host }}
       </RouterLink>
