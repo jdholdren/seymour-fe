@@ -16,6 +16,6 @@ import Button from "@/components/StyledButton.vue"
 
 function sso() {
   // Go to the API for the redirect
-  window.location.href = "/api/sso-login"
+  window.location.href = import.meta.env.VITE_API_HOST + "/api/sso-login"
 }
 </script>

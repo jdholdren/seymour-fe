@@ -9,7 +9,7 @@
         <li :class="{ 'bg-primary': $route.name === 'subscriptions' }" class="p-4 py-2">Subscriptions</li>
       </RouterLink>
     </ul>
-    <h1 class="p-4 py-2 font-bold">Personal Timeline</h1>
+    <h1 class="p-4 py-2 font-bold">Timeline</h1>
     <ul>
       <RouterLink :to="{ name: 'timeline' }">
         <li :class="{ 'bg-primary': $route.name === 'timeline' && !$route.query.feed_id }" class="p-4 py-2">All Feeds

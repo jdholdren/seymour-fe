@@ -1,5 +1,5 @@
 <template>
-  <button :class="{ disabled }" class="cursor-pointer py-3 px-6 rounded-4xl bg-primary text-white"><span
+  <button class="cursor-pointer py-3 px-6 rounded-4xl bg-primary text-white"><span
       class="label">{{
         label ||
         "unlabled"
@@ -7,5 +7,5 @@
 </template>
 
 <script setup>
-defineProps(["label", "disabled"])
+defineProps(["label"])
 </script>
