@@ -18,11 +18,6 @@
         </tbody>
       </table>
     </div>
-    <h1 class="font-bold">API Key</h1>
-    <div class="min-w-2xl my-6 mt-0.5 p-4 rounded-md bg-white w-md border-slate-400 border-1">
-      <p>You don't have a Claude API Key set up. This is needed to use a prompt to filter your timeline.</p>
-      <router-link :to="{name: 'api-key-setup'}">Set up a new API Key</router-link>
-    </div>
     <h1 class="font-bold">Account Actions</h1>
     <div class="min-w-2xl my-6 mt-0.5 p-4 rounded-md bg-white w-md border-slate-400 border-1">
       <table>

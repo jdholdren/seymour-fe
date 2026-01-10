@@ -11,6 +11,7 @@
 @theme {
     /* Light version of the primary */
     --color-primary: oklch(0.735 0.152 28.06);
+    --color-primary-faded: oklch(0.535 0.052 20.06);
     --color-surface: oklch(0.977 0.011 31.066);
     --color-surface-container: oklch(0.9273 0.011 31.066);
 }

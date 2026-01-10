@@ -29,6 +29,11 @@ const router = createRouter({
           component: () => import("../views/dashboard/AccountView.vue"),
         },
         {
+          path: '/account/prompt',
+          name: 'prompt',
+          component: () => import("../views/dashboard/prompt/PromptView.vue"),
+        },
+        {
           path: '/article/:articleID',
           name: "article",
           component: () => import("../views/dashboard/ReaderView.vue"),

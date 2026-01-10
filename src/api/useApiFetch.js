@@ -9,6 +9,9 @@ export default function (method, path) {
   // Does the actual execution of the request:
   async function call(body = null) {
     fetching.value = true
+    statusCode.value = undefined
+    error.value = undefined
+    data.value = undefined
 
     // Format the headers and options based on method and body presence
     const headers = {
