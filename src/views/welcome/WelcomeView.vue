@@ -93,12 +93,11 @@
     <!-- Final CTA Section -->
     <div class="w-full bg-primary py-20">
       <div class="max-w-4xl mx-auto px-8 text-center">
-        <h2 class="text-4xl font-bold text-white mb-6">Ready to read smarter?</h2>
-        <p class="text-xl text-blue-100 mb-8">
+        <h2 class="text-4xl font-bold text-white mb-2">Ready to read smarter?</h2>
+        <p class="text-xl text-white mb-8">
           Join the future of RSS reading. Less noise, more signal.
         </p>
-        <Button class="bg-white hover:bg-gray-100 text-primary px-8 py-4 text-lg font-semibold transition-colors"
-          label="Get Started with Github" @click="sso" />
+        <Button class="bg-white px-8 py-4" textColor="text-primary" label="Sign in with Github" @click="sso" />
       </div>
     </div>
   </div>
