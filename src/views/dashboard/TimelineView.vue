@@ -4,27 +4,46 @@
       <h1 class="text-5xl font-bold">{{ feed.name }}</h1>
       <h2 class="text-xl py-4">{{ truncatedDescription }}</h2>
     </div>
+
+    <!-- Top pagination -->
+    <PaginationControls v-if="data?.pagination && data.pagination.total > data.pagination.limit"
+      :current-page="currentPage" :total-items="data.pagination.total" :items-per-page="data.pagination.limit"
+      @page-changed="handlePageChange" />
+
     <RouterLink v-for="entry in data?.items" :key="entry.id" :to="`/article/${entry.entry_id}`"
       class="w-full place-self-center mb-1">
       <TimelineItem :entry="entry" />
     </RouterLink>
+
+    <!-- Bottom pagination -->
+    <PaginationControls
+      v-if="data?.pagination && data.pagination.total > data.pagination.limit && (data?.items?.length >= 5)"
+      :current-page="currentPage" :total-items="data.pagination.total" :items-per-page="data.pagination.limit"
+      @page-changed="handlePageChange" />
   </div>
 </template>
 
 <script setup>
 import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import useApiFetch from '@/api/useApiFetch'
 import { viewer } from '@/me';
 
 import TimelineItem from './internal/TimelineItem.vue';
+import PaginationControls from './internal/PaginationControls.vue';
 import { computed } from 'vue';
 
 const data = ref(null)
 
 const route = useRoute()
+const router = useRouter()
+
+const currentPage = computed(() => {
+  return parseInt(route.query.page) || 1
+})
+
 watch(route, async (_, r) => {
-  getFeedEntries(r.query.feed_id)
+  getFeedEntries(r.query.feed_id, r.query.page)
 })
 const feed = computed(() => {
   const feedID = route.query.feed_id;
@@ -44,12 +63,33 @@ const truncatedDescription = computed(() => {
   return description.substring(0, maxLength).trim() + '...';
 });
 
-async function getFeedEntries(feedID) {
-  const { call, data: resp } = useApiFetch("GET", `/api/users/${viewer.value.user_id}/timeline?feed_id=${feedID ?? ''}`)
+async function getFeedEntries(feedID, page = 1) {
+  const offset = (page - 1) * 20 // Assuming 20 items per page
+  const queryParams = new URLSearchParams({
+    ...(feedID && { feed_id: feedID }),
+    limit: '20',
+    offset: offset.toString()
+  })
+
+  const { call, data: resp } = useApiFetch("GET", `/api/users/${viewer.value.user_id}/timeline?${queryParams}`)
   await call()
 
   data.value = resp.value
 }
 
-getFeedEntries(route.query.feed_id)
+function handlePageChange(page) {
+  const query = { ...route.query }
+  if (page === 1) {
+    delete query.page
+  } else {
+    query.page = page.toString()
+  }
+
+  router.push({
+    name: route.name,
+    query
+  })
+}
+
+getFeedEntries(route.query.feed_id, route.query.page)
 </script>
