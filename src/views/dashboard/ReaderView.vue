@@ -2,7 +2,7 @@
   <div>
     <h1 class="font-bold text-5xl py-8">{{ data?.title }}</h1>
     <p>
-      <RouterLink class="text-gray-600 text-md p-16" :to="{}" @click="goToSource" :replace="true">
+      <RouterLink class="text-primary-faded text-md py-16" :to="{}" @click="goToSource" :replace="true">
         Read on {{ host }}
       </RouterLink>
     </p>
@@ -15,7 +15,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
-import useApiFetch from '@/api/useApiFetch';
+import useApiFetch from '@/use/useApiFetch';
 
 const route = useRoute()
 const { articleID } = route.params

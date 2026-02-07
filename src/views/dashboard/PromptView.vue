@@ -89,7 +89,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { viewer } from '@/me'
-import useApiFetch from '@/api/useApiFetch'
+import useApiFetch from '@/use/useApiFetch'
 
 const maxCharacters = 5000
 

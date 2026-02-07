@@ -1,5 +1,5 @@
 import { ref, watch } from 'vue'
-import useApiFetch from '@/api/useApiFetch'
+import useApiFetch from '@/use/useApiFetch'
 
 const loaded = ref(false)
 const viewer = ref(undefined)

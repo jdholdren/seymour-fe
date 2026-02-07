@@ -1,5 +1,7 @@
 import { ref } from 'vue'
 
+import { setGlobalError } from '@/use/globalErr'
+
 export default function (method, path) {
   const data = ref(null)
   const error = ref(null)
@@ -26,6 +28,19 @@ export default function (method, path) {
     // Perform the request and wait for the response
     const url = import.meta.env.VITE_API_HOST + path
     const response = await fetch(url, options)
+
+    // Error handling: anything 5XX is a global error.
+    //
+    // Parse it and set it in the global state.
+    if (response.status >= 500) {
+      // Don't set anything in the local state of this composable so
+      // that the error is only handled once:
+      const respBody = await response.json()
+      setGlobalError(respBody.message)
+
+      fetching.value = false
+      return
+    }
 
     const code = response.status
     statusCode.value = code

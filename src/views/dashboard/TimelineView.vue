@@ -26,7 +26,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import useApiFetch from '@/api/useApiFetch'
+import useApiFetch from '@/use/useApiFetch'
 import { viewer } from '@/me';
 
 import TimelineItem from './internal/TimelineItem.vue';

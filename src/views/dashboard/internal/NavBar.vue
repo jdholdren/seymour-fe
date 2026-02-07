@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex flex-col h-full">
     <div class="p-4 text-4xl font-bold">Seymour</div>
     <ul>
       <RouterLink :to="{ name: 'account' }">
@@ -26,13 +26,27 @@
             capFirst(feed.name) }}</li>
       </RouterLink>
     </ul>
+
+    <!-- Alpha disclaimer -->
+    <div class="mt-auto p-4 border-t border-stone-200">
+      <router-link to="/alpha" class="text-xs text-gray-500 hover:text-gray-700 transition-colors">
+        Alpha v{{ version }} • Report Issues
+      </router-link>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { RouterLink } from 'vue-router'
+import { computed } from 'vue'
 
 import { getViewer, viewer } from "@/me"
+
+// Get version info from build-time constants and package.json
+const version = computed(() => {
+  const gitHash = import.meta.env.VITE_GIT_HASH || 'unknown'
+  return `0.1.0-alpha (${gitHash})`
+})
 
 // Capitalize the first letter of the string
 function capFirst(s) {

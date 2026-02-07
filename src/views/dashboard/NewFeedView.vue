@@ -15,7 +15,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import useApiFetch from '@/api/useApiFetch';
+import useApiFetch from '@/use/useApiFetch';
 import { useRouter } from 'vue-router'
 
 import StyledButton from '@/components/StyledButton.vue';
@@ -25,7 +25,8 @@ import { computed } from 'vue';
 
 const url = ref("")
 
-const { fetching, call: submit, error } = useApiFetch("POST", `/api/subscriptions`)
+const { fetching, call: submit, error, statusCode } = useApiFetch("POST", `/api/subscriptions`)
+const router = useRouter()
 
 async function onSubmit() {
   if (!url.value) return
@@ -33,8 +34,9 @@ async function onSubmit() {
 
   await submit({ feed_url: url.value })
 
-  const router = useRouter()
-  router.push({ name: 'subscriptions' })
+  if (statusCode.value >= 200 && statusCode.value < 300) {
+    router.push({ name: 'subscriptions' })
+  }
 }
 
 const regex = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi)

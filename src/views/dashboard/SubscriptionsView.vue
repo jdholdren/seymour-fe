@@ -15,7 +15,7 @@ import { RouterLink } from 'vue-router';
 
 import StyledButton from '@/components/StyledButton.vue';
 
-import useApiFetch from '@/api/useApiFetch';
+import useApiFetch from '@/use/useApiFetch';
 import SubscriptionItem from './internal/SubscriptionItem.vue';
 
 const { call: fetchSubs, data } = useApiFetch("GET", `/api/subscriptions`)
