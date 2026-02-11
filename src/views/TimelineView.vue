@@ -71,7 +71,7 @@ async function getFeedEntries(feedID, page = 1) {
     offset: offset.toString()
   })
 
-  const { call, data: resp } = useApiFetch("GET", `/api/users/${viewer.value.user_id}/timeline?${queryParams}`)
+  const { call, data: resp } = useApiFetch("GET", `/api/timeline?${queryParams}`)
   await call()
 
   data.value = resp.value

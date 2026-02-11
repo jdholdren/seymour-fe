@@ -1,10 +1,7 @@
 <template>
-  <div class="flex flex-col h-full">
+  <div class="flex flex-col">
     <div class="p-4 text-4xl font-bold">Seymour</div>
     <ul>
-      <RouterLink :to="{ name: 'account' }">
-        <li :class="{ 'bg-primary': $route.name === 'account' }" class="p-4 py-2">Account</li>
-      </RouterLink>
       <RouterLink :to="{ name: 'subscriptions' }">
         <li :class="{ 'bg-primary': $route.name === 'subscriptions' }" class="p-4 py-2">Subscriptions</li>
       </RouterLink>

@@ -14,14 +14,15 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import useApiFetch from '@/use/useApiFetch';
 import { useRouter } from 'vue-router'
+import { VueSpinner } from 'vue3-spinners';
 
 import StyledButton from '@/components/StyledButton.vue';
 import TextInput from '@/components/TextInput.vue';
-import { VueSpinner } from 'vue3-spinners';
-import { computed } from 'vue';
+
+import { getViewer } from '@/use/useViewer'
 
 const url = ref("")
 
@@ -35,6 +36,8 @@ async function onSubmit() {
   await submit({ feed_url: url.value })
 
   if (statusCode.value >= 200 && statusCode.value < 300) {
+    await getViewer()
+
     router.push({ name: 'subscriptions' })
   }
 }

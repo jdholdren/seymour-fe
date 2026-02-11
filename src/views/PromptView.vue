@@ -18,9 +18,6 @@
         <div class="bg-surface p-3 rounded border-l-4 border-primary">
           <code class="text-sm">"Show me recipes for healthy meals, but not ones that include garlic."</code>
         </div>
-        <div class="bg-surface p-3 rounded border-l-4 border-primary">
-          <code class="text-sm">"Show me news articles about Ohio, but not ones that mention national politics."</code>
-        </div>
       </div>
       <p class="mt-4 text-sm text-gray-600">
         Your feed is in your control! As with any prompt, being incredibly descriptive or providing examples
@@ -49,15 +46,9 @@
           <div v-if="promptError" class="text-sm text-red-600 mt-1">
             {{ promptError.message }}
           </div>
-          <div v-if="isValidating" class="text-sm text-blue-600 mt-1">
-            Validating prompt...
-          </div>
-          <div v-if="isValidated && !promptError" class="text-sm text-green-600 mt-1">
-            ✓ Prompt looks good!
-          </div>
         </div>
 
-        <button type="submit" :disabled="!canSubmit || isSubmitting"
+        <button type="submit" :disabled="isSubmitting"
           class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
           {{ isSubmitting ? 'Saving...' : 'Save Prompt' }}
         </button>
@@ -75,19 +66,19 @@
     </div>
 
     <!-- Error feedback -->
-    <div v-if="submitError" class="p-4 bg-red-100 text-red-800 rounded-lg flex items-center">
+    <div v-if="submitErr" class="p-4 bg-red-100 text-red-800 rounded-lg flex items-center">
       <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
         <path fill-rule="evenodd"
           d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
           clip-rule="evenodd" />
       </svg>
-      <span>{{ submitError.message || 'Failed to save prompt. Please try again.' }}</span>
+      <span>{{ submitErr.message || 'Failed to save prompt. Please try again.' }}</span>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { ref } from 'vue'
 import { viewer } from '@/me'
 import useApiFetch from '@/use/useApiFetch'
 
@@ -95,81 +86,21 @@ const maxCharacters = 5000
 
 const promptText = ref(viewer.value?.prompt || '')
 const promptError = ref(null)
-const promptChecked = ref(false)
-const isSubmitting = ref(false)
 const showSuccess = ref(false)
-const submitError = ref(null)
 
 // API hooks
-const { call: precheck, statusCode, error: promptErr } = useApiFetch('POST', '/api/account/prompt:precheck')
-const { call: postPrompt, fetching: isValidating, error: submitErr } = useApiFetch('POST', '/api/account/prompt')
-
-const isValidated = computed(() => {
-  return promptChecked.value && statusCode.value === 200
-})
-
-const canSubmit = computed(() => {
-  return promptText.value.length > 0 &&
-    promptText.value.length <= maxCharacters &&
-    promptChecked.value &&
-    statusCode.value === 200 &&
-    !isSubmitting.value
-})
-
-// Debounced validation
-let debounceTimer = null
-const debouncePrecheck = () => {
-  clearTimeout(debounceTimer)
-  debounceTimer = setTimeout(async () => {
-    if (promptText.value.length > 0) {
-      await precheck({ prompt: promptText.value })
-      promptError.value = promptErr.value
-      promptChecked.value = true
-    }
-  }, 500)
-}
-
-// Watch for prompt changes and debounce validation
-watch(promptText, () => {
-  statusCode.value = undefined
-  promptChecked.value = false
-  promptError.value = null
-  showSuccess.value = false
-  submitError.value = null
-
-  if (promptText.value.length > 0) {
-    debouncePrecheck()
-  }
-})
+const { call: postPrompt, fetching: isSubmitting, error: submitErr, statusCode } = useApiFetch('PUT', '/api/prompt')
 
 // Submit handler
 async function handleSubmit() {
-  if (!canSubmit.value) return
+  await postPrompt({ prompt: promptText.value })
 
-  isSubmitting.value = true
-  submitError.value = null
+  if (statusCode.value != 200) return
+  showSuccess.value = true
 
-  try {
-    await postPrompt({ prompt: promptText.value })
-
-    if (submitErr.value) {
-      submitError.value = submitErr.value
-    } else {
-      showSuccess.value = true
-      // Update viewer with new prompt
-      if (viewer.value) {
-        viewer.value.prompt = promptText.value
-      }
-
-      // Auto-hide success message after 5 seconds
-      setTimeout(() => {
-        showSuccess.value = false
-      }, 5000)
-    }
-  } catch (error) {
-    submitError.value = error
-  } finally {
-    isSubmitting.value = false
-  }
+  // Auto-hide success message after 5 seconds
+  setTimeout(() => {
+    showSuccess.value = false
+  }, 5000)
 }
 </script>
