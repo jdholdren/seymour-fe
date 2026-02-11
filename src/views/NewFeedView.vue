@@ -22,7 +22,7 @@ import { VueSpinner } from 'vue3-spinners';
 import StyledButton from '@/components/StyledButton.vue';
 import TextInput from '@/components/TextInput.vue';
 
-import { getViewer } from '@/use/useViewer'
+import { getViewer } from '@/me'
 
 const url = ref("")
 
