@@ -3,11 +3,14 @@
     <div class="py-8">
       <h1 class="text-5xl font-bold">Your Subscriptions</h1>
     </div>
-    <EmptySubscriptions v-if="data && data.subscriptions?.length === 0" />
+    <EmptySubscriptions v-if="data?.subscriptions?.length === 0" />
     <RouterLink v-else to="/subscriptions/new" class="w-fit mb-1">
       <StyledButton label="+ New Subscription" class="" />
     </RouterLink>
-    <SubscriptionItem v-else v-for="subscription in data?.subscriptions" :key="subscription.id" :subscription="subscription" />
+    <div v-if="data?.subscriptions?.length > 0">
+      <SubscriptionItem v-for="subscription in data?.subscriptions" :key="subscription.id"
+        :subscription="subscription" />
+    </div>
   </div>
 </template>
 
