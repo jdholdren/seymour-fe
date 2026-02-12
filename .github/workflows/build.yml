@@ -33,12 +33,17 @@ jobs:
             type=sha
             type=raw,value=latest
 
+      - name: Extract tag
+        id: tag
+        run: echo "version=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+
       - uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: |
+            ${{ env.IMAGE_BASE }}-temporal:${{ steps.tag.outputs.version }}
+            ${{ env.IMAGE_BASE }}-temporal:latest
           build-args: |
             VITE_GIT_HASH=${{ github.sha }}
             VITE_GIT_BRANCH=${{ github.ref_name }}
