@@ -26,7 +26,8 @@ export default function (method, path) {
     }
 
     // Perform the request and wait for the response
-    const url = import.meta.env.VITE_API_HOST + path
+    const host = window.__CONFIG__?.VITE_API_HOST || import.meta.env.VITE_API_HOST || ''
+    const url = host + path
     const response = await fetch(url, options)
 
     // Error handling: anything 5XX is a global error.
