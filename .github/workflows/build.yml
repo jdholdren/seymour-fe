@@ -42,8 +42,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ env.IMAGE_BASE }}-temporal:${{ steps.tag.outputs.version }}
-            ${{ env.IMAGE_BASE }}-temporal:latest
+            ${{ env.IMAGE_BASE }}:${{ steps.tag.outputs.version }}
+            ${{ env.IMAGE_BASE }}:latest
           build-args: |
             VITE_GIT_HASH=${{ github.sha }}
             VITE_GIT_BRANCH=${{ github.ref_name }}
