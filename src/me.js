@@ -12,7 +12,7 @@ watch(viewer, () => {
 
 // Fetches the current viewer and sets it on the ref
 async function getViewer() {
-  const { data, call } = useApiFetch("GET", "/api/viewer")
+  const { data, call } = useApiFetch('GET', '/api/viewer')
   await call()
   viewer.value = data.value
 }

@@ -12,7 +12,7 @@ export async function setGlobalError(error) {
     globalError.value = null
 
     // Sleep so the other error can go away
-    await new Promise(r => setTimeout(r, 500))
+    await new Promise((r) => setTimeout(r, 500))
   }
 
   globalError.value = error

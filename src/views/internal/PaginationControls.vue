@@ -14,16 +14,24 @@
     </div>
     <!-- Pagination buttons on right -->
     <div>
-      <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+      <nav
+        class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+        aria-label="Pagination"
+      >
         <!-- Page numbers -->
-        <button v-for="page in visiblePages" :key="page" @click="goToPage(page)" :class="[
-          'relative inline-flex items-center px-4 py-2 border text-sm font-medium',
-          page === currentPage
-            ? 'z-10 bg-primary border-primary text-white'
-            : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50',
-          page === visiblePages[0] ? 'rounded-l-md' : '',
-          page === visiblePages[visiblePages.length - 1] ? 'rounded-r-md' : ''
-        ]">
+        <button
+          v-for="page in visiblePages"
+          :key="page"
+          @click="goToPage(page)"
+          :class="[
+            'relative inline-flex items-center px-4 py-2 border text-sm font-medium',
+            page === currentPage
+              ? 'z-10 bg-primary border-primary text-white'
+              : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50',
+            page === visiblePages[0] ? 'rounded-l-md' : '',
+            page === visiblePages[visiblePages.length - 1] ? 'rounded-r-md' : '',
+          ]"
+        >
           {{ page }}
         </button>
       </nav>
@@ -59,7 +67,7 @@ const totalPages = computed(() => Math.ceil(props.totalItems / props.itemsPerPag
 
 const startItem = computed(() => {
   if (props.totalItems === 0) return 0
-  return ((props.currentPage - 1) * props.itemsPerPage) + 1
+  return (props.currentPage - 1) * props.itemsPerPage + 1
 })
 
 const endItem = computed(() => {
@@ -101,5 +109,4 @@ function goToPage(page) {
     emit('page-changed', page)
   }
 }
-
 </script>

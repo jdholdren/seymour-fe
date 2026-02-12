@@ -8,22 +8,25 @@
       <StyledButton label="+ New Subscription" class="" />
     </RouterLink>
     <div v-if="data?.subscriptions?.length > 0">
-      <SubscriptionItem v-for="subscription in data?.subscriptions" :key="subscription.id"
-        :subscription="subscription" />
+      <SubscriptionItem
+        v-for="subscription in data?.subscriptions"
+        :key="subscription.id"
+        :subscription="subscription"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router';
+import { RouterLink } from 'vue-router'
 
-import StyledButton from '@/components/StyledButton.vue';
+import StyledButton from '@/components/StyledButton.vue'
 
-import useApiFetch from '@/use/useApiFetch';
-import SubscriptionItem from './internal/SubscriptionItem.vue';
-import EmptySubscriptions from '@/components/EmptySubscriptions.vue';
+import useApiFetch from '@/use/useApiFetch'
+import SubscriptionItem from './internal/SubscriptionItem.vue'
+import EmptySubscriptions from '@/components/EmptySubscriptions.vue'
 
-const { call: fetchSubs, data } = useApiFetch("GET", `/api/subscriptions`)
+const { call: fetchSubs, data } = useApiFetch('GET', `/api/subscriptions`)
 
 fetchSubs()
 </script>

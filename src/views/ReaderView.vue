@@ -2,7 +2,12 @@
   <div>
     <h1 class="font-bold text-5xl py-8">{{ data?.title }}</h1>
     <p>
-      <RouterLink class="text-primary-faded text-md py-16" :to="{}" @click="goToSource" :replace="true">
+      <RouterLink
+        class="text-primary-faded text-md py-16"
+        :to="{}"
+        @click="goToSource"
+        :replace="true"
+      >
         Read on {{ host }}
       </RouterLink>
     </p>
@@ -13,24 +18,24 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-import useApiFetch from '@/use/useApiFetch';
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import useApiFetch from '@/use/useApiFetch'
 
 const route = useRoute()
 const { articleID } = route.params
 
-const { call, data } = useApiFetch("GET", `/api/feed-entries/${articleID}`)
+const { call, data } = useApiFetch('GET', `/api/feed-entries/${articleID}`)
 
 const host = computed(() => {
   if (!data.value) return
 
   return new URL(data.value?.url).hostname
-});
+})
 
 // Navigates the user to the source of the post.
 function goToSource() {
-  window.open(data.value?.url, '_blank');
+  window.open(data.value?.url, '_blank')
 }
 
 call()
