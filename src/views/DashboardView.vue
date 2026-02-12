@@ -17,7 +17,7 @@
 <script setup>
 import NavBar from './internal/NavBar.vue'
 import GlobalError from '../components/GlobalError.vue'
-import { useGlobalError } from '@/use/globalErr';
+import { useGlobalError } from '@/use/globalErr'
 
 const globErr = useGlobalError()
 </script>

@@ -17,12 +17,12 @@ export default function (method, path) {
 
     // Format the headers and options based on method and body presence
     const headers = {
-      "Accept": "application/json"
+      Accept: 'application/json',
     }
     const options = { method, headers, credentials: 'include' }
     if (body) {
       options.body = JSON.stringify(body)
-      options.headers["Content-Type"] = "application/json"
+      options.headers['Content-Type'] = 'application/json'
     }
 
     // Perform the request and wait for the response

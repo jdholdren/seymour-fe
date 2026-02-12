@@ -11,32 +11,32 @@ const router = createRouter({
         {
           path: '/timeline',
           name: 'timeline',
-          component: () => import("../views/TimelineView.vue"),
+          component: () => import('../views/TimelineView.vue'),
         },
         {
           path: '/subscriptions',
-          name: "subscriptions",
-          component: () => import("../views/SubscriptionsView.vue"),
+          name: 'subscriptions',
+          component: () => import('../views/SubscriptionsView.vue'),
         },
         {
           path: '/subscriptions/new',
-          name: "new-subscription",
-          component: () => import("../views/NewFeedView.vue"),
+          name: 'new-subscription',
+          component: () => import('../views/NewFeedView.vue'),
         },
         {
           path: '/prompt',
           name: 'prompt',
-          component: () => import("../views/PromptView.vue"),
+          component: () => import('../views/PromptView.vue'),
         },
         {
           path: '/article/:articleID',
-          name: "article",
-          component: () => import("../views/ReaderView.vue"),
+          name: 'article',
+          component: () => import('../views/ReaderView.vue'),
         },
         {
           path: '/alpha',
           name: 'alpha',
-          component: () => import("../views/AlphaDisclaimerView.vue"),
+          component: () => import('../views/AlphaDisclaimerView.vue'),
         },
       ],
     },
@@ -50,7 +50,7 @@ router.beforeEach(async (to) => {
   }
 
   if (!to.name) {
-    return { name: "timeline" }
+    return { name: 'timeline' }
   }
 })
 
