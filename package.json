@@ -12,9 +12,9 @@
   },
   "dependencies": {
     "@mozilla/readability": "^0.6.0",
+    "@phosphor-icons/vue": "^2.2.1",
     "@tailwindcss/vite": "^4.1.13",
     "js-md5": "^0.8.3",
-    "oh-vue-icons": "^1.0.0-rc3",
     "tailwindcss": "^4.1.13",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0",
