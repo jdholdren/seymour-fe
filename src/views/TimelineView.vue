@@ -5,21 +5,26 @@
       <h2 class="text-xl py-4">{{ truncatedDescription }}</h2>
     </div>
 
-    <!-- Top pagination -->
-    <PaginationControls v-if="data?.pagination && data.pagination.total > data.pagination.limit"
-      :current-page="currentPage" :total-items="data.pagination.total" :items-per-page="data.pagination.limit"
-      @page-changed="handlePageChange" />
+    <EmptyFeed v-if="data && data.items?.length === 0 && route.query.feed_id" />
+    <EmptySubscriptions v-else-if="data && data.items?.length === 0" />
 
-    <RouterLink v-for="entry in data?.items" :key="entry.id" :to="`/article/${entry.entry_id}`"
-      class="w-full place-self-center mb-1">
-      <TimelineItem :entry="entry" />
-    </RouterLink>
+    <template v-else>
+      <!-- Top pagination -->
+      <PaginationControls v-if="data?.pagination && data.pagination.total > data.pagination.limit"
+        :current-page="currentPage" :total-items="data.pagination.total" :items-per-page="data.pagination.limit"
+        @page-changed="handlePageChange" />
 
-    <!-- Bottom pagination -->
-    <PaginationControls
-      v-if="data?.pagination && data.pagination.total > data.pagination.limit && (data?.items?.length >= 5)"
-      :current-page="currentPage" :total-items="data.pagination.total" :items-per-page="data.pagination.limit"
-      @page-changed="handlePageChange" />
+      <RouterLink v-for="entry in data?.items" :key="entry.id" :to="`/article/${entry.entry_id}`"
+        class="w-full place-self-center mb-1">
+        <TimelineItem :entry="entry" />
+      </RouterLink>
+
+      <!-- Bottom pagination -->
+      <PaginationControls
+        v-if="data?.pagination && data.pagination.total > data.pagination.limit && (data?.items?.length >= 5)"
+        :current-page="currentPage" :total-items="data.pagination.total" :items-per-page="data.pagination.limit"
+        @page-changed="handlePageChange" />
+    </template>
   </div>
 </template>
 
@@ -31,6 +36,8 @@ import { viewer } from '@/me';
 
 import TimelineItem from './internal/TimelineItem.vue';
 import PaginationControls from './internal/PaginationControls.vue';
+import EmptySubscriptions from '@/components/EmptySubscriptions.vue';
+import EmptyFeed from '@/components/EmptyFeed.vue';
 import { computed } from 'vue';
 
 const data = ref(null)
