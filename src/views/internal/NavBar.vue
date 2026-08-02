@@ -3,10 +3,18 @@
     <div class="p-4 text-4xl font-bold">Seymour</div>
     <ul>
       <RouterLink :to="{ name: 'timeline' }">
-        <li :class="{ 'bg-primary': $route.name === 'timeline' }" class="p-4 py-2">Timeline</li>
+        <li
+          :class="{ 'outline-2 outline-primary text-primary-faded': $route.name === 'timeline' }"
+          class="p-4 py-2 rounded"
+        >
+          Timeline
+        </li>
       </RouterLink>
       <RouterLink :to="{ name: 'subscriptions' }">
-        <li :class="{ 'bg-primary': $route.name === 'subscriptions' }" class="p-4 py-2">
+        <li
+          :class="{ 'outline-2 outline-primary text-primary-faded': $route.name === 'subscriptions' }"
+          class="p-4 py-2 rounded"
+        >
           Subscriptions
         </li>
       </RouterLink>
