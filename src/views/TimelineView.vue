@@ -3,6 +3,16 @@
     <div class="py-8">
       <h1 class="text-5xl font-bold">{{ feed.name }}</h1>
       <h2 class="text-xl py-4">{{ truncatedDescription }}</h2>
+      <select
+        class="border border-stone-300 rounded px-3 py-2"
+        :value="route.query.feed_id || ''"
+        @change="handleFeedChange($event.target.value)"
+      >
+        <option value="">All Feeds</option>
+        <option v-for="feed in viewer.subscriptions" :key="feed.feed_id" :value="feed.feed_id">
+          {{ feed.name }}
+        </option>
+      </select>
     </div>
 
     <EmptyFeed v-if="data && data.items?.length === 0 && route.query.feed_id" />
@@ -101,6 +111,13 @@ async function getFeedEntries(feedID, page = 1) {
   await call()
 
   data.value = resp.value
+}
+
+function handleFeedChange(feedID) {
+  router.push({
+    name: route.name,
+    query: feedID ? { feed_id: feedID } : {},
+  })
 }
 
 function handlePageChange(page) {

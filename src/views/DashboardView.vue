@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-row min-h-screen">
-    <NavBar class="w-xs border-r-1 border-stone-200 bg-surface-container" />
-    <div class="p-4 flex flex-1 bg-surface px-8">
-      <router-view class="max-w-2xl" v-slot="{ Component }">
+  <div class="relative grid grid-cols-[1fr_auto_1fr] min-h-screen bg-surface">
+    <NavBar class="sticky top-0 h-screen w-xs justify-self-end p-4" />
+    <div class="p-4 px-8">
+      <router-view class="max-w-2xl w-full" v-slot="{ Component }">
         <Transition mode="out-in">
           <component :is="Component" />
         </Transition>
