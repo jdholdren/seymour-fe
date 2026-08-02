@@ -25,8 +25,9 @@ import StyledButton from '@/components/StyledButton.vue'
 import useApiFetch from '@/use/useApiFetch'
 import SubscriptionItem from './internal/SubscriptionItem.vue'
 import EmptySubscriptions from '@/components/EmptySubscriptions.vue'
+import { userPath } from '@/me'
 
-const { call: fetchSubs, data } = useApiFetch('GET', `/api/subscriptions`)
+const { call: fetchSubs, data } = useApiFetch('GET', userPath('/subscriptions'))
 
 fetchSubs()
 </script>
