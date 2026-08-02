@@ -40,13 +40,22 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: '/landing',
+      name: 'landing',
+      component: () => import('../views/LandingView.vue'),
+    },
   ],
 })
 
 router.beforeEach(async (to) => {
   // Ensure that viewer has loaded:
   if (!loaded.value) {
-    await getViewer()
+    const reachable = await getViewer()
+
+    if (!reachable) {
+      return to.name === 'landing' ? true : { name: 'landing' }
+    }
   }
 
   if (!to.name) {

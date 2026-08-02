@@ -2,6 +2,10 @@ import { ref } from 'vue'
 
 import { setGlobalError } from '@/use/globalErr'
 
+// Sentinel statusCode used when the server couldn't be reached at all
+// (as opposed to a real HTTP response), so callers can tell the two apart.
+export const UNREACHABLE = 'unreachable'
+
 export default function (method, path) {
   const data = ref(null)
   const error = ref(null)
@@ -28,7 +32,16 @@ export default function (method, path) {
     // Perform the request and wait for the response
     const host = window.__CONFIG__?.VITE_API_HOST || import.meta.env.VITE_API_HOST || ''
     const url = host + path
-    const response = await fetch(url, options)
+    let response
+    try {
+      response = await fetch(url, options)
+    } catch {
+      // The server couldn't be reached at all (network error, server down, etc).
+      statusCode.value = UNREACHABLE
+      error.value = { message: 'Could not reach the server' }
+      fetching.value = false
+      return
+    }
 
     // Error handling: anything 5XX is a global error.
     //

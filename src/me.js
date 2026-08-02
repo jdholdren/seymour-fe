@@ -1,5 +1,5 @@
 import { ref, watch } from 'vue'
-import useApiFetch from '@/use/useApiFetch'
+import useApiFetch, { UNREACHABLE } from '@/use/useApiFetch'
 
 const loaded = ref(false)
 const viewer = ref(undefined)
@@ -10,11 +10,14 @@ watch(viewer, () => {
   loaded.value = !!viewer.value
 })
 
-// Fetches the current viewer and sets it on the ref
+// Fetches the current viewer and sets it on the ref.
+// Returns false if the server couldn't be reached at all.
 async function getViewer() {
-  const { data, call } = useApiFetch('GET', '/api/viewer')
+  const { data, statusCode, call } = useApiFetch('GET', '/api/viewer')
   await call()
   viewer.value = data.value
+
+  return statusCode.value !== UNREACHABLE
 }
 
 export { getViewer, loaded, viewer }

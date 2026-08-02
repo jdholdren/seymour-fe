@@ -41,6 +41,12 @@
 
     <!-- Alpha disclaimer -->
     <div class="mt-auto p-4 border-t border-stone-200">
+      <button
+        class="block text-xs text-gray-500 hover:text-gray-700 transition-colors mb-2"
+        @click="logout"
+      >
+        Log out
+      </button>
       <router-link to="/alpha" class="text-xs text-gray-500 hover:text-gray-700 transition-colors">
         Alpha v{{ version }} • Report Issues
       </router-link>
@@ -53,6 +59,7 @@ import { RouterLink } from 'vue-router'
 import { computed } from 'vue'
 
 import { getViewer, viewer } from '@/me'
+import useApiFetch from '@/use/useApiFetch'
 
 // Get version info from build-time constants and package.json
 const version = computed(() => {
@@ -67,4 +74,11 @@ function capFirst(s) {
 }
 
 getViewer()
+
+// Logs the user out, then returns to the landing page.
+async function logout() {
+  const { call } = useApiFetch('POST', '/api/logout')
+  await call()
+  window.location.href = '/landing'
+}
 </script>
