@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 
 import { setGlobalError } from '@/use/globalErr'
+import { setForbiddenError } from '@/use/forbiddenErr'
 
 // Sentinel statusCode used when the server couldn't be reached at all
 // (as opposed to a real HTTP response), so callers can tell the two apart.
@@ -39,6 +40,27 @@ export default function (method, path) {
       // The server couldn't be reached at all (network error, server down, etc).
       statusCode.value = UNREACHABLE
       error.value = { message: 'Could not reach the server' }
+      fetching.value = false
+      return
+    }
+
+    // No/expired session: send the user to a login page, preserving where
+    // they were so they can be sent back after authenticating.
+    if (response.status === 401) {
+      const returnPath = window.location.pathname + window.location.search
+      window.location.href = `/login?redirect=${encodeURIComponent(returnPath)}`
+
+      fetching.value = false
+      return
+    }
+
+    // Logged in, but acting on a resource that isn't theirs. Shouldn't
+    // normally be reachable through the UI, but show a generic error
+    // rather than crashing.
+    if (response.status === 403) {
+      const respBody = await response.json()
+      setForbiddenError(respBody.message)
+
       fetching.value = false
       return
     }

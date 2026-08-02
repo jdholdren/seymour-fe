@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { getViewer, loaded } from '@/me'
+import { getViewer, loaded, isLoggedIn } from '@/me'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,8 +45,15 @@ const router = createRouter({
       name: 'landing',
       component: () => import('../views/LandingView.vue'),
     },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LoginView.vue'),
+    },
   ],
 })
+
+const PUBLIC_ROUTES = ['landing', 'login']
 
 router.beforeEach(async (to) => {
   // Ensure that viewer has loaded:
@@ -56,6 +63,10 @@ router.beforeEach(async (to) => {
     if (!reachable) {
       return to.name === 'landing' ? true : { name: 'landing' }
     }
+  }
+
+  if (!PUBLIC_ROUTES.includes(to.name) && !isLoggedIn.value) {
+    return { name: 'login', query: { redirect: to.fullPath } }
   }
 
   if (!to.name) {

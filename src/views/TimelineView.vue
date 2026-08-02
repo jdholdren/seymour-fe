@@ -47,7 +47,7 @@
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import useApiFetch from '@/use/useApiFetch'
-import { viewer } from '@/me'
+import { viewer, userPath } from '@/me'
 
 import TimelineItem from './internal/TimelineItem.vue'
 import PaginationControls from './internal/PaginationControls.vue'
@@ -97,7 +97,7 @@ async function getFeedEntries(feedID, page = 1) {
     offset: offset.toString(),
   })
 
-  const { call, data: resp } = useApiFetch('GET', `/api/timeline?${queryParams}`)
+  const { call, data: resp } = useApiFetch('GET', userPath(`/timeline?${queryParams}`))
   await call()
 
   data.value = resp.value

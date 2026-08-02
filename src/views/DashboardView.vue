@@ -11,13 +11,19 @@
     <Transition>
       <GlobalError v-if="globErr" />
     </Transition>
+    <Transition>
+      <ForbiddenError v-if="forbiddenErr" />
+    </Transition>
   </div>
 </template>
 
 <script setup>
 import NavBar from './internal/NavBar.vue'
 import GlobalError from '../components/GlobalError.vue'
+import ForbiddenError from '../components/ForbiddenError.vue'
 import { useGlobalError } from '@/use/globalErr'
+import { useForbiddenError } from '@/use/forbiddenErr'
 
 const globErr = useGlobalError()
+const forbiddenErr = useForbiddenError()
 </script>

@@ -35,11 +35,16 @@ import { VueSpinner } from 'vue3-spinners'
 import StyledButton from '@/components/StyledButton.vue'
 import TextInput from '@/components/TextInput.vue'
 
-import { getViewer } from '@/me'
+import { getViewer, userPath } from '@/me'
 
 const url = ref('')
 
-const { fetching, call: submit, error, statusCode } = useApiFetch('POST', `/api/subscriptions`)
+const {
+  fetching,
+  call: submit,
+  error,
+  statusCode,
+} = useApiFetch('POST', userPath('/subscriptions'))
 const router = useRouter()
 
 async function onSubmit() {
