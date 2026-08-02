@@ -24,11 +24,6 @@ const router = createRouter({
           component: () => import('../views/NewFeedView.vue'),
         },
         {
-          path: '/prompt',
-          name: 'prompt',
-          component: () => import('../views/PromptView.vue'),
-        },
-        {
           path: '/article/:articleID',
           name: 'article',
           component: () => import('../views/ReaderView.vue'),
