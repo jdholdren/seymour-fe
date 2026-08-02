@@ -12,7 +12,9 @@
       </RouterLink>
       <RouterLink :to="{ name: 'subscriptions' }">
         <li
-          :class="{ 'outline-2 outline-primary text-primary-faded': $route.name === 'subscriptions' }"
+          :class="{
+            'outline-2 outline-primary text-primary-faded': $route.name === 'subscriptions',
+          }"
           class="p-4 py-2 rounded"
         >
           Subscriptions
