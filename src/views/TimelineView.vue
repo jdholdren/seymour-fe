@@ -21,12 +21,13 @@
         <select
           id="status-filter"
           class="rounded-md bg-white px-3 py-2 text-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-primary"
-          :value="route.query.filtered || ''"
-          @change="updateFilter('filtered', $event.target.value)"
+          :value="route.query.status || 'approved'"
+          @change="updateFilter('status', $event.target.value)"
         >
-          <option value="">All</option>
-          <option value="true">Filtered</option>
-          <option value="false">Unfiltered</option>
+          <option value="approved">Approved</option>
+          <option value="requires_judgement">Requires judgement</option>
+          <option value="rejected">Rejected</option>
+          <option value="all">All</option>
         </select>
       </div>
 
@@ -36,8 +37,8 @@
           id="date-from"
           type="date"
           class="rounded-md bg-white px-3 py-2 text-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-primary"
-          :value="route.query.date_from || ''"
-          @change="updateFilter('date_from', $event.target.value)"
+          :value="route.query.from || ''"
+          @change="updateFilter('from', $event.target.value)"
         />
       </div>
 
@@ -47,8 +48,8 @@
           id="date-to"
           type="date"
           class="rounded-md bg-white px-3 py-2 text-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-primary"
-          :value="route.query.date_to || ''"
-          @change="updateFilter('date_to', $event.target.value)"
+          :value="route.query.to || ''"
+          @change="updateFilter('to', $event.target.value)"
         />
       </div>
 
@@ -68,7 +69,8 @@
     </div>
 
     <EmptyFeed v-if="data && data.items?.length === 0 && route.query.feed_id" />
-    <EmptySubscriptions v-else-if="data && data.items?.length === 0" />
+    <EmptySubscriptions v-else-if="data && data.items?.length === 0 && !hasSubscriptions" />
+    <EmptyFilteredResults v-else-if="data && data.items?.length === 0" />
 
     <template v-else>
       <!-- Top pagination -->
@@ -115,6 +117,7 @@ import TimelineItem from './internal/TimelineItem.vue'
 import PaginationControls from './internal/PaginationControls.vue'
 import EmptySubscriptions from '@/components/EmptySubscriptions.vue'
 import EmptyFeed from '@/components/EmptyFeed.vue'
+import EmptyFilteredResults from '@/components/EmptyFilteredResults.vue'
 import { computed } from 'vue'
 
 const data = ref(null)
@@ -126,12 +129,19 @@ const currentPage = computed(() => {
   return parseInt(route.query.page) || 1
 })
 
-watch(route, async (_, r) => {
-  getFeedEntries(r.query)
+watch(route, async (to) => {
+  getFeedEntries(to.query)
 })
 
+const hasSubscriptions = computed(() => {
+  return Object.keys(viewer.value?.subscriptions || {}).length > 0
+})
 const hasActiveFilters = computed(() => {
-  return !!(route.query.filtered || route.query.date_from || route.query.date_to)
+  return !!(
+    (route.query.status && route.query.status !== 'approved') ||
+    route.query.from ||
+    route.query.to
+  )
 })
 const feed = computed(() => {
   const feedID = route.query.feed_id
@@ -158,11 +168,15 @@ const truncatedDescription = computed(() => {
 async function getFeedEntries(query = {}) {
   const page = parseInt(query.page) || 1
   const offset = (page - 1) * 20 // Assuming 20 items per page
+  // Default to "approved" to preserve the curated-timeline view, unless the
+  // user explicitly asked for all statuses.
+  const status = query.status || 'approved'
+
   const queryParams = new URLSearchParams({
     ...(query.feed_id && { feed_id: query.feed_id }),
-    ...(query.filtered && { filtered: query.filtered }),
-    ...(query.date_from && { date_from: query.date_from }),
-    ...(query.date_to && { date_to: query.date_to }),
+    ...(status !== 'all' && { status }),
+    ...(query.from && { from: query.from }),
+    ...(query.to && { to: query.to }),
     limit: '20',
     offset: offset.toString(),
   })

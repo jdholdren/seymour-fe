@@ -2,7 +2,7 @@
   <div class="flex flex-col">
     <div class="p-4 pb-6 text-4xl font-bold">Seymour</div>
     <ul class="flex flex-col gap-1">
-      <RouterLink :to="{ name: 'timeline' }">
+      <RouterLink :to="{ name: 'timeline', query: { status: 'approved' } }">
         <li
           :class="{ 'outline-2 outline-primary text-primary-faded': $route.name === 'timeline' }"
           class="px-4 py-2 rounded-md"
