@@ -19,8 +19,8 @@
       <h2 class="text-xl font-semibold text-gray-900">Found a bug or issue?</h2>
 
       <p>
-        We appreciate your feedback! If you encounter any problems or have suggestions for
-        improvement, please report them on our GitHub repository:
+        I appreciate any and all feedback! If you encounter any problems or have suggestions for
+        improvement, please raise an issue on GitHub:
       </p>
 
       <div class="mt-4">
@@ -44,7 +44,7 @@
       <h2 class="text-xl font-semibold text-gray-900 mt-6">Thank you!</h2>
 
       <p>
-        Thanks for trying out Seymour in its early stages. Your feedback and patience help us build
+        Thanks for trying out Seymour in its early stages. Your feedback and patience helps to build
         a better RSS reader.
       </p>
     </div>
