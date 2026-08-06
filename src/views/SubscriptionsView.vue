@@ -1,19 +1,21 @@
 <template>
-  <div class="flex flex-col gap-6 w-2xl">
+  <div class="flex flex-col gap-6">
     <div class="py-8">
       <h1 class="text-5xl font-bold">Your Subscriptions</h1>
     </div>
     <EmptySubscriptions v-if="data?.subscriptions?.length === 0" />
-    <RouterLink v-else to="/subscriptions/new" class="w-fit mb-1">
-      <StyledButton label="+ New Subscription" class="" />
-    </RouterLink>
-    <div v-if="data?.subscriptions?.length > 0">
-      <SubscriptionItem
-        v-for="subscription in data?.subscriptions"
-        :key="subscription.id"
-        :subscription="subscription"
-      />
-    </div>
+    <template v-else>
+      <RouterLink to="/subscriptions/new" class="w-fit">
+        <StyledButton label="+ New Subscription" />
+      </RouterLink>
+      <div v-if="data?.subscriptions?.length > 0" class="flex flex-col gap-3">
+        <SubscriptionItem
+          v-for="subscription in data?.subscriptions"
+          :key="subscription.id"
+          :subscription="subscription"
+        />
+      </div>
+    </template>
   </div>
 </template>
 

@@ -1,11 +1,11 @@
 <template>
   <div class="flex flex-col">
-    <div class="p-4 text-4xl font-bold">Seymour</div>
-    <ul>
+    <div class="p-4 pb-6 text-4xl font-bold">Seymour</div>
+    <ul class="flex flex-col gap-1">
       <RouterLink :to="{ name: 'timeline' }">
         <li
           :class="{ 'outline-2 outline-primary text-primary-faded': $route.name === 'timeline' }"
-          class="p-4 py-2 rounded"
+          class="px-4 py-2 rounded-md"
         >
           Timeline
         </li>
@@ -15,7 +15,7 @@
           :class="{
             'outline-2 outline-primary text-primary-faded': $route.name === 'subscriptions',
           }"
-          class="p-4 py-2 rounded"
+          class="px-4 py-2 rounded-md"
         >
           Subscriptions
         </li>

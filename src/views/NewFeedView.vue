@@ -1,27 +1,21 @@
 <template>
-  <div class="flex-1 w-full">
+  <div class="flex flex-col gap-6 max-w-xl">
     <div class="py-8">
       <h1 class="text-5xl font-bold">Add a new subscription</h1>
     </div>
-    <TextInput
-      name="url"
-      label="URL"
-      placeholder="https://example.com/feeds.xml"
-      v-model="url"
-      class="max-w-4xl"
-    />
-    <p class="text-red-600">{{ error?.message }}</p>
-    <p class="text-red-600">{{ urlError }}</p>
-    <div v-if="fetching">
-      <VueSpinner class="my-8" />
+    <div class="flex flex-col gap-2">
+      <TextInput name="url" label="URL" placeholder="https://example.com/feeds.xml" v-model="url" />
+      <p v-if="error?.message" class="text-sm text-red-600">{{ error.message }}</p>
+      <p v-if="urlError" class="text-sm text-red-600">{{ urlError }}</p>
     </div>
+    <VueSpinner v-if="fetching" class="my-2" />
     <StyledButton
       v-else
       id="submit"
       label="Subscribe"
       :disabled="url.length == 0"
       @click="onSubmit"
-      class="mt-2"
+      class="w-fit"
     />
   </div>
 </template>
