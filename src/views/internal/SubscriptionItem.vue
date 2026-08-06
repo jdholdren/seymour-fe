@@ -1,7 +1,16 @@
 <template>
   <div class="flex flex-col gap-2 bg-white rounded-lg p-5 border border-surface-container">
-    <div class="text-lg font-semibold text-gray-900 line-clamp-1">
-      {{ subscription.feed_name }}
+    <div class="flex items-start justify-between gap-2">
+      <div class="text-lg font-semibold text-gray-900 line-clamp-1">
+        {{ subscription.feed_name }}
+      </div>
+      <button
+        type="button"
+        class="text-xs text-gray-400 hover:text-red-600 transition-colors shrink-0"
+        @click="onUnsubscribeClick"
+      >
+        Unsubscribe
+      </button>
     </div>
     <div class="text-sm text-gray-600 line-clamp-3">{{ subscription.feed_description }}</div>
     <div class="text-xs text-gray-400 pt-2 mt-1 border-t border-surface-container">
@@ -11,7 +20,17 @@
 </template>
 
 <script setup>
-defineProps(['subscription'])
+// This component is a dumb, presentational view of subscription state owned
+// by the parent. It doesn't fetch or mutate anything itself — `onUnsubscribe`
+// is a function curried by the parent for this specific subscription, and the
+// parent is responsible for re-syncing state with the server afterward.
+const props = defineProps(['subscription', 'onUnsubscribe'])
+
+function onUnsubscribeClick() {
+  if (!confirm(`Unsubscribe from "${props.subscription.feed_name}"?`)) return
+
+  props.onUnsubscribe()
+}
 
 function formatLastSynced(lastSynced) {
   // Handle cases where server returns 0, null, undefined, or empty string
