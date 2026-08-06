@@ -1,31 +1,35 @@
 <template>
   <div>
-    <h1 class="font-bold text-5xl py-8">{{ data?.title }}</h1>
-    <p>
-      <RouterLink
-        class="text-primary-faded text-md py-16"
-        :to="{}"
-        @click="goToSource"
-        :replace="true"
-      >
-        Read on {{ host }}
-      </RouterLink>
-    </p>
-    <div class="article-content">
-      <div v-html="data?.reader_content"></div>
-    </div>
+    <VueSpinner v-if="fetching" class="my-8" />
+    <template v-else>
+      <h1 class="font-bold text-5xl py-8">{{ data?.title }}</h1>
+      <p>
+        <RouterLink
+          class="text-primary-faded text-md py-16"
+          :to="{}"
+          @click="goToSource"
+          :replace="true"
+        >
+          Read on {{ host }}
+        </RouterLink>
+      </p>
+      <div class="article-content">
+        <div v-html="data?.reader_content"></div>
+      </div>
+    </template>
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { VueSpinner } from 'vue3-spinners'
 import useApiFetch from '@/use/useApiFetch'
 
 const route = useRoute()
 const { articleID } = route.params
 
-const { call, data } = useApiFetch('GET', `/api/feed-entries/${articleID}`)
+const { call, data, fetching } = useApiFetch('GET', `/api/feed-entries/${articleID}`)
 
 const host = computed(() => {
   if (!data.value) return
