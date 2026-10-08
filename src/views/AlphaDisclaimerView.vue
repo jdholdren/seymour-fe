@@ -7,7 +7,7 @@
     <div class="bg-primary/10 border-l-4 border-primary p-4 mb-6">
       <div class="flex">
         <div>
-          <p class="text-sm text-gray-800">
+          <p class="text-sm text-foreground">
             <strong>This application is currently in alpha.</strong> You may encounter bugs,
             incomplete features, or unexpected behavior.
           </p>
@@ -15,8 +15,8 @@
       </div>
     </div>
 
-    <div class="space-y-4 text-gray-700">
-      <h2 class="text-xl font-semibold text-gray-900">Found a bug or issue?</h2>
+    <div class="space-y-4 text-muted">
+      <h2 class="text-xl font-semibold text-foreground">Found a bug or issue?</h2>
 
       <p>
         I appreciate any and all feedback! If you encounter any problems or have suggestions for
@@ -28,7 +28,7 @@
           href="https://github.com/jdholdren/seymour/issues"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/80 transition-colors"
+          class="inline-flex items-center px-4 py-2 bg-primary text-on-primary rounded-md hover:bg-primary-dark transition-colors"
         >
           <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
             <path
@@ -41,7 +41,7 @@
         </a>
       </div>
 
-      <h2 class="text-xl font-semibold text-gray-900 mt-6">Thank you!</h2>
+      <h2 class="text-xl font-semibold text-foreground mt-6">Thank you!</h2>
 
       <p>
         Thanks for trying out Seymour in its early stages. Your feedback and patience helps to build
@@ -49,8 +49,11 @@
       </p>
     </div>
 
-    <div class="mt-8 pt-6 border-t border-gray-200">
-      <router-link to="/timeline" class="text-primary hover:text-primary/80 transition-colors">
+    <div class="mt-8 pt-6 border-t border-border">
+      <router-link
+        to="/timeline"
+        class="text-primary-faded hover:text-foreground transition-colors"
+      >
         ← Back to Timeline
       </router-link>
     </div>

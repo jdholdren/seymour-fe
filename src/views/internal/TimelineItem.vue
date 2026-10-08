@@ -1,12 +1,12 @@
 <template>
   <div
-    class="w-full p-5 border border-stone-300 rounded-lg cursor-pointer hover:border-primary bg-white"
+    class="w-full p-5 border border-border rounded-lg cursor-pointer hover:border-primary bg-surface-raised"
   >
-    <h2 class="text-neutral-500">
+    <h2 class="text-muted">
       {{ props.entry.feed_name }} &#183; {{ formatDate(props.entry.publish_date) }}
     </h2>
-    <h1 class="text-neutral-800 font-bold">{{ props.entry.title }}</h1>
-    <p class="text-neutral-500 line-clamp-2">{{ props.entry.description }}</p>
+    <h1 class="text-foreground font-bold">{{ props.entry.title }}</h1>
+    <p class="text-muted line-clamp-2">{{ props.entry.description }}</p>
   </div>
 </template>
 

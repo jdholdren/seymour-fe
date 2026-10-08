@@ -1,8 +1,11 @@
 <template>
-  <div class="min-h-screen flex flex-col items-center justify-center gap-8">
-    <h1 class="text-4xl font-bold text-gray-900">Seymour</h1>
+  <div
+    class="relative min-h-screen flex flex-col items-center justify-center gap-8 bg-surface text-foreground"
+  >
+    <ThemeSelector class="absolute right-4 top-4" />
+    <h1 class="text-4xl font-bold text-foreground">Seymour</h1>
     <Button
-      class="bg-primary hover:bg-primary-dark text-white px-8 py-4 text-lg font-semibold transition-colors"
+      class="bg-primary hover:bg-primary-dark text-on-primary px-8 py-4 text-lg font-semibold transition-colors"
       label="Log in with GitHub"
       @click="loginWithGithub"
     />
@@ -13,6 +16,7 @@
 import { useRoute } from 'vue-router'
 
 import Button from '@/components/StyledButton.vue'
+import ThemeSelector from '@/components/ThemeSelector.vue'
 
 const route = useRoute()
 

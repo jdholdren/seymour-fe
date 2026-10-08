@@ -1,19 +1,19 @@
 <template>
-  <div class="flex flex-col gap-2 bg-white rounded-lg p-5 border border-surface-container">
+  <div class="flex flex-col gap-2 bg-surface-raised rounded-lg p-5 border border-border">
     <div class="flex items-start justify-between gap-2">
-      <div class="text-lg font-semibold text-gray-900 line-clamp-1">
+      <div class="text-lg font-semibold text-foreground line-clamp-1">
         {{ subscription.feed_name }}
       </div>
       <button
         type="button"
-        class="text-xs text-gray-400 hover:text-red-600 transition-colors shrink-0"
+        class="text-xs text-primary-faded hover:text-danger transition-colors shrink-0"
         @click="onUnsubscribeClick"
       >
         Unsubscribe
       </button>
     </div>
-    <div class="text-sm text-gray-600 line-clamp-3">{{ subscription.feed_description }}</div>
-    <div class="text-xs text-gray-400 pt-2 mt-1 border-t border-surface-container">
+    <div class="text-sm text-muted line-clamp-3">{{ subscription.feed_description }}</div>
+    <div class="text-xs text-muted pt-2 mt-1 border-t border-border">
       Last synced: {{ formatLastSynced(subscription.last_synced) }}
     </div>
   </div>
