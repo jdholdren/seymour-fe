@@ -28,6 +28,21 @@ npm run dev
 npm run build
 ```
 
+### Theme preferences
+
+Choose System, Light, or Dark from the theme selector in the sidebar or on the
+landing/login pages. System is the default and follows OS changes. Preferences
+are saved locally in the browser and synchronized across tabs.
+
+Theme colors live in `src/assets/main.css`; use its semantic color utilities for
+new UI rather than fixed light-mode colors.
+
+### Run theme tests
+
+```sh
+npm test
+```
+
 ### Lint with [ESLint](https://eslint.org/)
 
 ```sh

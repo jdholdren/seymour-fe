@@ -23,14 +23,15 @@
     </ul>
 
     <!-- Alpha disclaimer -->
-    <div class="mt-auto p-4 border-t border-stone-200">
+    <div class="mt-auto p-4 border-t border-border">
+      <ThemeSelector class="mb-4" />
       <button
-        class="block text-xs text-gray-500 hover:text-gray-700 transition-colors mb-2"
+        class="block text-xs text-muted hover:text-foreground transition-colors mb-2"
         @click="logout"
       >
         Log out
       </button>
-      <router-link to="/alpha" class="text-xs text-gray-500 hover:text-gray-700 transition-colors">
+      <router-link to="/alpha" class="text-xs text-muted hover:text-foreground transition-colors">
         Alpha v{{ version }} • Report Issues
       </router-link>
     </div>
@@ -40,6 +41,7 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import { computed } from 'vue'
+import ThemeSelector from '@/components/ThemeSelector.vue'
 
 import { getViewer } from '@/me'
 import useApiFetch from '@/use/useApiFetch'

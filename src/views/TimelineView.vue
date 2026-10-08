@@ -2,10 +2,10 @@
   <div class="flex flex-col gap-6">
     <div class="flex flex-wrap items-end gap-4 pt-8">
       <div class="flex flex-col gap-2">
-        <label for="feed-filter" class="text-sm font-medium text-gray-600">Feed</label>
+        <label for="feed-filter" class="text-sm font-medium text-muted">Feed</label>
         <select
           id="feed-filter"
-          class="rounded-md bg-white px-3 py-2 text-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-primary"
+          class="rounded-md bg-surface-raised text-foreground px-3 py-2 text-sm outline-1 -outline-offset-1 outline-border focus:outline-2 focus:-outline-offset-2 focus:outline-primary-faded"
           :value="route.query.feed_id || ''"
           @change="handleFeedChange($event.target.value)"
         >
@@ -17,10 +17,10 @@
       </div>
 
       <div class="flex flex-col gap-2">
-        <label for="status-filter" class="text-sm font-medium text-gray-600">Status</label>
+        <label for="status-filter" class="text-sm font-medium text-muted">Status</label>
         <select
           id="status-filter"
-          class="rounded-md bg-white px-3 py-2 text-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-primary"
+          class="rounded-md bg-surface-raised text-foreground px-3 py-2 text-sm outline-1 -outline-offset-1 outline-border focus:outline-2 focus:-outline-offset-2 focus:outline-primary-faded"
           :value="route.query.status || 'approved'"
           @change="updateFilter('status', $event.target.value)"
         >
@@ -32,22 +32,22 @@
       </div>
 
       <div class="flex flex-col gap-2">
-        <label for="date-from" class="text-sm font-medium text-gray-600">From</label>
+        <label for="date-from" class="text-sm font-medium text-muted">From</label>
         <input
           id="date-from"
           type="date"
-          class="rounded-md bg-white px-3 py-2 text-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-primary"
+          class="rounded-md bg-surface-raised text-foreground px-3 py-2 text-sm outline-1 -outline-offset-1 outline-border focus:outline-2 focus:-outline-offset-2 focus:outline-primary-faded"
           :value="route.query.from || ''"
           @change="updateFilter('from', $event.target.value)"
         />
       </div>
 
       <div class="flex flex-col gap-2">
-        <label for="date-to" class="text-sm font-medium text-gray-600">To</label>
+        <label for="date-to" class="text-sm font-medium text-muted">To</label>
         <input
           id="date-to"
           type="date"
-          class="rounded-md bg-white px-3 py-2 text-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-primary"
+          class="rounded-md bg-surface-raised text-foreground px-3 py-2 text-sm outline-1 -outline-offset-1 outline-border focus:outline-2 focus:-outline-offset-2 focus:outline-primary-faded"
           :value="route.query.to || ''"
           @change="updateFilter('to', $event.target.value)"
         />
@@ -56,7 +56,7 @@
       <button
         v-if="hasActiveFilters"
         type="button"
-        class="text-sm text-gray-500 hover:text-gray-700 transition-colors py-2"
+        class="text-sm text-primary-faded hover:text-foreground transition-colors py-2"
         @click="clearFilters"
       >
         Clear filters

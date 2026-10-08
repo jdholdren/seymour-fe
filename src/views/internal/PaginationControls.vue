@@ -2,7 +2,7 @@
   <div class="flex items-center justify-between px-4 py-3">
     <!-- Results text on left -->
     <div>
-      <p class="text-sm text-gray-700">
+      <p class="text-sm text-muted">
         Showing
         <span class="font-medium">{{ startItem }}</span>
         to
@@ -26,8 +26,8 @@
           :class="[
             'relative inline-flex items-center px-4 py-2 border text-sm font-medium',
             page === currentPage
-              ? 'z-10 bg-primary border-primary text-white'
-              : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50',
+              ? 'z-10 bg-primary border-primary text-on-primary'
+              : 'bg-surface-raised border-border text-primary-faded hover:bg-surface-container',
             page === visiblePages[0] ? 'rounded-l-md' : '',
             page === visiblePages[visiblePages.length - 1] ? 'rounded-r-md' : '',
           ]"

@@ -5,8 +5,8 @@
     </div>
     <div class="flex flex-col gap-2">
       <TextInput name="url" label="URL" placeholder="https://example.com/feeds.xml" v-model="url" />
-      <p v-if="error?.message" class="text-sm text-red-600">{{ error.message }}</p>
-      <p v-if="urlError" class="text-sm text-red-600">{{ urlError }}</p>
+      <p v-if="error?.message" class="text-sm text-danger">{{ error.message }}</p>
+      <p v-if="urlError" class="text-sm text-danger">{{ urlError }}</p>
     </div>
     <VueSpinner v-if="fetching" class="my-2" />
     <StyledButton
