@@ -29,13 +29,13 @@
 }
 
 @theme {
-  /* Muted teal accents, sea-glass surfaces, and crisp white cards. */
+  /* Muted teal accents, white surfaces, and neutral secondary containers. */
   --color-primary: oklch(0.52 0.085 185);
   --color-primary-dark: oklch(0.46 0.085 185);
   --color-primary-faded: oklch(0.46 0.065 185);
   --color-on-primary: oklch(1 0 0);
-  --color-surface: oklch(0.977 0.014 185);
-  --color-surface-container: oklch(0.9273 0.025 185);
+  --color-surface: oklch(1 0 0);
+  --color-surface-container: oklch(0.96 0 0);
   --color-surface-raised: oklch(1 0 0);
   --color-foreground: oklch(0.28 0.018 185);
   --color-muted: oklch(0.45 0.02 185);

@@ -8,8 +8,9 @@ Guidance for working in this repo.
 
 - Keep the interface calm, readable, and content-focused. Use muted teal for
   everyday actions, links, active states, and focus indicators.
-- Light mode uses pale sea-glass backgrounds, slightly deeper teal-tinted
-  secondary surfaces, crisp white cards, desaturated teal borders, and dark
+- Light mode uses white page backgrounds, cards, and inputs, with very light
+  neutral gray for secondary sections and hover/disabled surfaces. Keep teal
+  out of surface fills. Use desaturated teal borders for separation and dark
   charcoal text with subtle teal undertones.
 - Dark mode uses neutral slate surfaces with lighter muted teal accents.
 - Use the shared semantic color tokens in `src/assets/main.css` and their
