@@ -13,33 +13,34 @@
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --color-primary: oklch(0.76 0.14 28.06);
-  --color-primary-dark: oklch(0.7 0.14 28.06);
-  --color-primary-faded: oklch(0.8 0.12 28.06);
-  --color-surface: oklch(0.19 0.012 31.066);
-  --color-surface-container: oklch(0.24 0.012 31.066);
-  --color-surface-raised: oklch(0.27 0.012 31.066);
-  --color-foreground: oklch(0.94 0.008 31.066);
-  --color-muted: oklch(0.77 0.012 31.066);
-  --color-subtle: oklch(0.66 0.012 31.066);
-  --color-border: oklch(0.55 0.012 31.066);
+  --color-primary: oklch(0.74 0.09 185);
+  --color-primary-dark: oklch(0.68 0.09 185);
+  --color-primary-faded: oklch(0.8 0.065 185);
+  --color-on-primary: oklch(0.2 0.015 185);
+  --color-surface: oklch(0.19 0.012 255);
+  --color-surface-container: oklch(0.24 0.012 255);
+  --color-surface-raised: oklch(0.27 0.012 255);
+  --color-foreground: oklch(0.94 0.008 255);
+  --color-muted: oklch(0.77 0.012 255);
+  --color-subtle: oklch(0.66 0.012 255);
+  --color-border: oklch(0.55 0.012 255);
   --color-danger: oklch(0.78 0.13 25);
   --color-on-danger: oklch(0.19 0.012 25);
 }
 
 @theme {
-  /* Light version of the primary */
-  --color-primary: oklch(0.735 0.152 28.06);
-  --color-primary-dark: oklch(0.68 0.152 28.06);
-  --color-primary-faded: oklch(0.515 0.052 20.06);
-  --color-on-primary: oklch(0.2 0.02 28.06);
-  --color-surface: oklch(0.977 0.011 31.066);
-  --color-surface-container: oklch(0.9273 0.011 31.066);
+  /* Muted teal accents, sea-glass surfaces, and crisp white cards. */
+  --color-primary: oklch(0.52 0.085 185);
+  --color-primary-dark: oklch(0.46 0.085 185);
+  --color-primary-faded: oklch(0.46 0.065 185);
+  --color-on-primary: oklch(1 0 0);
+  --color-surface: oklch(0.977 0.014 185);
+  --color-surface-container: oklch(0.9273 0.025 185);
   --color-surface-raised: oklch(1 0 0);
-  --color-foreground: oklch(0.28 0.015 31.066);
-  --color-muted: oklch(0.45 0.015 31.066);
-  --color-subtle: oklch(0.53 0.015 31.066);
-  --color-border: oklch(0.62 0.012 31.066);
+  --color-foreground: oklch(0.28 0.018 185);
+  --color-muted: oklch(0.45 0.02 185);
+  --color-subtle: oklch(0.53 0.02 185);
+  --color-border: oklch(0.62 0.025 185);
   --color-danger: oklch(0.5 0.19 25);
   --color-on-danger: oklch(1 0 0);
 }
