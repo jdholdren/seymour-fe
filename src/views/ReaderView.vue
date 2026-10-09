@@ -2,16 +2,11 @@
   <div>
     <VueSpinner v-if="fetching" class="my-8" />
     <template v-else>
-      <h1 class="font-bold text-5xl py-8 text-foreground">{{ data?.title }}</h1>
+      <KitPageHeader :title="data?.title || ''" />
       <p>
-        <RouterLink
-          class="text-primary-faded text-md py-16"
-          :to="{}"
-          @click="goToSource"
-          :replace="true"
-        >
+        <KitTextLink :href="data?.url" target="_blank" rel="noopener noreferrer">
           Read on {{ host }}
-        </RouterLink>
+        </KitTextLink>
       </p>
       <div class="article-content">
         <div v-html="data?.reader_content"></div>
@@ -25,6 +20,8 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { VueSpinner } from 'vue3-spinners'
 import useApiFetch from '@/use/useApiFetch'
+import KitPageHeader from '@/components/kit/KitPageHeader.vue'
+import KitTextLink from '@/components/kit/KitTextLink.vue'
 
 const route = useRoute()
 const { articleID } = route.params
@@ -36,11 +33,6 @@ const host = computed(() => {
 
   return new URL(data.value?.url).hostname
 })
-
-// Navigates the user to the source of the post.
-function goToSource() {
-  window.open(data.value?.url, '_blank')
-}
 
 call()
 </script>

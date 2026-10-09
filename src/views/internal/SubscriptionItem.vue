@@ -1,22 +1,20 @@
 <template>
-  <div class="flex flex-col gap-2 bg-surface-raised rounded-lg p-5 border border-border">
+  <KitSurface class="flex flex-col gap-2">
     <div class="flex items-start justify-between gap-2">
-      <div class="text-lg font-semibold text-foreground line-clamp-1">
+      <KitHeading as="h2" size="card" class="line-clamp-1">
         {{ subscription.feed_name }}
-      </div>
-      <button
-        type="button"
-        class="text-xs text-primary-faded hover:text-danger transition-colors shrink-0"
-        @click="onUnsubscribeClick"
-      >
+      </KitHeading>
+      <KitButton variant="danger" size="sm" class="shrink-0" @click="onUnsubscribeClick">
         Unsubscribe
-      </button>
+      </KitButton>
     </div>
-    <div class="text-sm text-muted line-clamp-3">{{ subscription.feed_description }}</div>
-    <div class="text-xs text-muted pt-2 mt-1 border-t border-border">
+    <KitText size="small" tone="muted" class="line-clamp-3">{{
+      subscription.feed_description
+    }}</KitText>
+    <KitText size="caption" tone="muted" class="pt-2 mt-1 border-t border-border">
       Last synced: {{ formatLastSynced(subscription.last_synced) }}
-    </div>
-  </div>
+    </KitText>
+  </KitSurface>
 </template>
 
 <script setup>
@@ -24,6 +22,11 @@
 // by the parent. It doesn't fetch or mutate anything itself — `onUnsubscribe`
 // is a function curried by the parent for this specific subscription, and the
 // parent is responsible for re-syncing state with the server afterward.
+import KitSurface from '@/components/kit/KitSurface.vue'
+import KitHeading from '@/components/kit/KitHeading.vue'
+import KitText from '@/components/kit/KitText.vue'
+import KitButton from '@/components/kit/KitButton.vue'
+
 const props = defineProps(['subscription', 'onUnsubscribe'])
 
 function onUnsubscribeClick() {

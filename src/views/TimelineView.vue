@@ -1,72 +1,56 @@
 <template>
   <div class="flex flex-col gap-6">
     <div class="flex flex-wrap items-end gap-4 pt-8">
-      <div class="flex flex-col gap-2">
-        <label for="feed-filter" class="text-sm font-medium text-muted">Feed</label>
-        <select
-          id="feed-filter"
-          class="rounded-md bg-surface-raised text-foreground px-3 py-2 text-sm outline-1 -outline-offset-1 outline-border focus:outline-2 focus:-outline-offset-2 focus:outline-primary-faded"
-          :value="route.query.feed_id || ''"
+      <KitFormField id="feed-filter" label="Feed" v-slot="{ control }">
+        <KitSelect
+          v-bind="control"
+          :model-value="route.query.feed_id || ''"
           @change="handleFeedChange($event.target.value)"
         >
           <option value="">All Feeds</option>
           <option v-for="feed in viewer.subscriptions" :key="feed.feed_id" :value="feed.feed_id">
             {{ feed.name }}
           </option>
-        </select>
-      </div>
+        </KitSelect>
+      </KitFormField>
 
-      <div class="flex flex-col gap-2">
-        <label for="status-filter" class="text-sm font-medium text-muted">Status</label>
-        <select
-          id="status-filter"
-          class="rounded-md bg-surface-raised text-foreground px-3 py-2 text-sm outline-1 -outline-offset-1 outline-border focus:outline-2 focus:-outline-offset-2 focus:outline-primary-faded"
-          :value="route.query.status || 'approved'"
+      <KitFormField id="status-filter" label="Status" v-slot="{ control }">
+        <KitSelect
+          v-bind="control"
+          :model-value="route.query.status || 'approved'"
           @change="updateFilter('status', $event.target.value)"
         >
           <option value="approved">Approved</option>
           <option value="requires_judgement">Requires judgement</option>
           <option value="rejected">Rejected</option>
           <option value="all">All</option>
-        </select>
-      </div>
+        </KitSelect>
+      </KitFormField>
 
-      <div class="flex flex-col gap-2">
-        <label for="date-from" class="text-sm font-medium text-muted">From</label>
-        <input
-          id="date-from"
+      <KitFormField id="date-from" label="From" v-slot="{ control }">
+        <KitInput
+          v-bind="control"
           type="date"
-          class="rounded-md bg-surface-raised text-foreground px-3 py-2 text-sm outline-1 -outline-offset-1 outline-border focus:outline-2 focus:-outline-offset-2 focus:outline-primary-faded"
-          :value="route.query.from || ''"
+          :model-value="route.query.from || ''"
           @change="updateFilter('from', $event.target.value)"
         />
-      </div>
+      </KitFormField>
 
-      <div class="flex flex-col gap-2">
-        <label for="date-to" class="text-sm font-medium text-muted">To</label>
-        <input
-          id="date-to"
+      <KitFormField id="date-to" label="To" v-slot="{ control }">
+        <KitInput
+          v-bind="control"
           type="date"
-          class="rounded-md bg-surface-raised text-foreground px-3 py-2 text-sm outline-1 -outline-offset-1 outline-border focus:outline-2 focus:-outline-offset-2 focus:outline-primary-faded"
-          :value="route.query.to || ''"
+          :model-value="route.query.to || ''"
           @change="updateFilter('to', $event.target.value)"
         />
-      </div>
+      </KitFormField>
 
-      <button
-        v-if="hasActiveFilters"
-        type="button"
-        class="text-sm text-primary-faded hover:text-foreground transition-colors py-2"
-        @click="clearFilters"
-      >
+      <KitButton v-if="hasActiveFilters" variant="ghost" size="sm" @click="clearFilters">
         Clear filters
-      </button>
+      </KitButton>
     </div>
 
-    <div>
-      <h1 class="text-5xl font-bold">{{ feed.name }}</h1>
-      <h2 class="text-xl py-4">{{ truncatedDescription }}</h2>
-    </div>
+    <KitPageHeader :title="feed.name" :description="truncatedDescription" />
 
     <EmptyFeed v-if="data && data.items?.length === 0 && route.query.feed_id" />
     <EmptySubscriptions v-else-if="data && data.items?.length === 0 && !hasSubscriptions" />
@@ -86,7 +70,10 @@
         v-for="entry in data?.items"
         :key="entry.id"
         :to="`/article/${entry.entry_id}`"
-        class="w-full place-self-center mb-1"
+        :class="[
+          'w-full place-self-center mb-1 rounded-lg [&>*]:hover:border-primary',
+          focusClasses,
+        ]"
       >
         <TimelineItem :entry="entry" />
       </RouterLink>
@@ -119,6 +106,12 @@ import EmptySubscriptions from '@/components/EmptySubscriptions.vue'
 import EmptyFeed from '@/components/EmptyFeed.vue'
 import EmptyFilteredResults from '@/components/EmptyFilteredResults.vue'
 import { computed } from 'vue'
+import KitFormField from '@/components/kit/KitFormField.vue'
+import KitInput from '@/components/kit/KitInput.vue'
+import KitSelect from '@/components/kit/KitSelect.vue'
+import KitButton from '@/components/kit/KitButton.vue'
+import KitPageHeader from '@/components/kit/KitPageHeader.vue'
+import { focusClasses } from '@/components/kit/styles'
 
 const data = ref(null)
 

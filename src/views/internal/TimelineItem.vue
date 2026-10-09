@@ -1,17 +1,18 @@
 <template>
-  <div
-    class="w-full p-5 border border-border rounded-lg cursor-pointer hover:border-primary bg-surface-raised"
-  >
-    <h2 class="text-muted">
+  <KitSurface class="w-full">
+    <KitText size="small" tone="muted">
       {{ props.entry.feed_name }} &#183; {{ formatDate(props.entry.publish_date) }}
-    </h2>
-    <h1 class="text-foreground font-bold">{{ props.entry.title }}</h1>
-    <p class="text-muted line-clamp-2">{{ props.entry.description }}</p>
-  </div>
+    </KitText>
+    <KitHeading as="h2" size="compact">{{ props.entry.title }}</KitHeading>
+    <KitText tone="muted" class="line-clamp-2">{{ props.entry.description }}</KitText>
+  </KitSurface>
 </template>
 
 <script setup>
 import { defineProps } from 'vue'
+import KitSurface from '@/components/kit/KitSurface.vue'
+import KitHeading from '@/components/kit/KitHeading.vue'
+import KitText from '@/components/kit/KitText.vue'
 
 const props = defineProps({
   entry: {

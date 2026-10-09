@@ -12,7 +12,7 @@
       <GlobalError v-if="globErr" />
     </Transition>
     <Transition>
-      <ForbiddenError v-if="forbiddenErr" />
+      <ForbiddenError v-if="forbiddenErr" :message="forbiddenErr" />
     </Transition>
   </div>
 </template>

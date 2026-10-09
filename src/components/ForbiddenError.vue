@@ -1,11 +1,11 @@
 <template>
-  <div class="w-fit absolute p-8 bg-danger text-on-danger rounded m-3 right-0">
-    <span>{{ forbiddenErr || "You don't have permission to do that." }}</span>
+  <div class="w-fit absolute m-3 right-0">
+    <KitAlert tone="danger">{{ message || "You don't have permission to do that." }}</KitAlert>
   </div>
 </template>
 
 <script setup>
-import { useForbiddenError } from '@/use/forbiddenErr'
+import KitAlert from './kit/KitAlert.vue'
 
-const forbiddenErr = useForbiddenError()
+defineProps({ message: { type: String, default: '' } })
 </script>
