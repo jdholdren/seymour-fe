@@ -1,6 +1,14 @@
 <template>
   <div class="flex flex-col">
-    <div class="p-4 pb-6 text-4xl font-bold">Seymour</div>
+    <div class="p-4 pb-6">
+      <div class="mb-2 text-4xl font-bold">Seymour</div>
+      <RouterLink
+        to="/alpha"
+        :class="['text-xs text-muted hover:text-foreground transition-colors', focusClasses]"
+      >
+        Alpha v{{ version }} • Report Issues
+      </RouterLink>
+    </div>
     <ul class="flex flex-col gap-1">
       <li>
         <RouterLink
@@ -28,26 +36,20 @@
       </li>
     </ul>
 
-    <!-- Alpha disclaimer -->
-    <div class="mt-auto p-4 border-t border-border">
-      <ThemeSelector class="mb-4" />
+    <!-- Account and appearance controls -->
+    <div class="mt-auto flex flex-col items-start gap-2 p-4 border-t border-border">
+      <ThemeSelector class="mb-2" />
       <KitButton
         variant="ghost"
         size="sm"
-        class="mb-2"
+        class="-ml-3"
         :disabled="loggingOut"
         :loading="loggingOut"
         @click="logout"
       >
         {{ loggingOut ? 'Logging out…' : 'Log out' }}
       </KitButton>
-      <p v-if="logoutError" role="alert" class="text-xs text-danger mb-2">{{ logoutError }}</p>
-      <router-link
-        to="/alpha"
-        :class="['text-xs text-muted hover:text-foreground transition-colors', focusClasses]"
-      >
-        Alpha v{{ version }} • Report Issues
-      </router-link>
+      <p v-if="logoutError" role="alert" class="text-xs text-danger">{{ logoutError }}</p>
     </div>
   </div>
 </template>
