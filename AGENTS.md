@@ -6,13 +6,17 @@ Guidance for working in this repo.
 
 ## Design guidelines
 
-- Keep the interface calm, readable, and content-focused. Use muted teal for
+- Keep the interface calm, readable, and content-focused. Use muted blue-teal for
   everyday actions, links, active states, and focus indicators.
 - Light mode uses white page backgrounds, cards, and inputs, with very light
   neutral gray for secondary sections and hover/disabled surfaces. Keep teal
   out of surface fills. Use desaturated teal borders for separation and dark
   charcoal text with subtle teal undertones.
-- Dark mode uses neutral slate surfaces with lighter muted teal accents.
+- Dark mode uses neutral slate surfaces with lighter muted blue-teal accents.
+- Use darker blue-teal accents in light mode outside the landing hero, including
+  buttons, links, and focus indicators. The hero keeps lighter dark-mode-style
+  accents through shared hero tokens. Its light accent falls below contrast
+  targets on white; keep that exception localized to the hero.
 - Use the shared semantic color tokens in `src/assets/main.css` and their
   Tailwind utilities rather than hard-coded colors in components. Preserve
   consistent hover, focus, disabled, and error states in both themes.

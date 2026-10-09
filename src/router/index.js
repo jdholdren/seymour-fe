@@ -42,13 +42,12 @@ const router = createRouter({
     },
     {
       path: '/login',
-      name: 'login',
-      component: () => import('../views/LoginView.vue'),
+      redirect: (to) => ({ name: 'landing', query: to.query, hash: to.hash }),
     },
   ],
 })
 
-const PUBLIC_ROUTES = ['landing', 'login']
+const PUBLIC_ROUTES = ['landing']
 
 router.beforeEach(async (to) => {
   // Ensure that viewer has loaded:
@@ -61,7 +60,7 @@ router.beforeEach(async (to) => {
   }
 
   if (!PUBLIC_ROUTES.includes(to.name) && !isLoggedIn.value) {
-    return { name: 'login', query: { redirect: to.fullPath } }
+    return { name: 'landing', query: { redirect: to.fullPath } }
   }
 
   if (!to.name) {

@@ -13,10 +13,10 @@
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --color-primary: oklch(0.74 0.09 185);
-  --color-primary-dark: oklch(0.68 0.09 185);
-  --color-primary-faded: oklch(0.8 0.065 185);
-  --color-on-primary: oklch(0.2 0.015 185);
+  --color-primary: oklch(0.74 0.09 190);
+  --color-primary-dark: oklch(0.68 0.09 190);
+  --color-primary-faded: oklch(0.8 0.065 190);
+  --color-on-primary: oklch(0.2 0.015 190);
   --color-surface: oklch(0.19 0.012 255);
   --color-surface-container: oklch(0.24 0.012 255);
   --color-surface-raised: oklch(0.27 0.012 255);
@@ -29,11 +29,15 @@
 }
 
 @theme {
-  /* Muted teal accents, white surfaces, and neutral secondary containers. */
-  --color-primary: oklch(0.52 0.085 185);
-  --color-primary-dark: oklch(0.46 0.085 185);
-  --color-primary-faded: oklch(0.46 0.065 185);
+  /* Blue-teal accents, white surfaces, and neutral secondary containers. */
+  --color-primary: oklch(0.52 0.085 190);
+  --color-primary-dark: oklch(0.46 0.085 190);
+  --color-primary-faded: oklch(0.46 0.065 190);
   --color-on-primary: oklch(1 0 0);
+  --color-hero-primary: oklch(0.74 0.09 190);
+  --color-hero-primary-dark: oklch(0.68 0.09 190);
+  --color-hero-accent: oklch(0.8 0.065 190);
+  --color-on-hero-primary: oklch(0.2 0.015 190);
   --color-surface: oklch(1 0 0);
   --color-surface-container: oklch(0.96 0 0);
   --color-surface-raised: oklch(1 0 0);
