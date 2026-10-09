@@ -24,6 +24,11 @@ const router = createRouter({
           component: () => import('../views/NewFeedView.vue'),
         },
         {
+          path: '/preferences',
+          name: 'feed-preferences',
+          component: () => import('../views/FeedPreferencesView.vue'),
+        },
+        {
           path: '/article/:articleID',
           name: 'article',
           component: () => import('../views/ReaderView.vue'),
