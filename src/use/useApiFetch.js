@@ -2,6 +2,7 @@ import { ref } from 'vue'
 
 import { setGlobalError } from '@/use/globalErr'
 import { setForbiddenError } from '@/use/forbiddenErr'
+import { landingDestination } from './authNavigation'
 
 // Sentinel statusCode used when the server couldn't be reached at all
 // (as opposed to a real HTTP response), so callers can tell the two apart.
@@ -44,11 +45,15 @@ export default function (method, path) {
       return
     }
 
-    // No/expired session: send the user to a login page, preserving where
+    // No/expired session: send the user to landing, preserving where
     // they were so they can be sent back after authenticating.
     if (response.status === 401) {
-      const returnPath = window.location.pathname + window.location.search
-      window.location.href = `/login?redirect=${encodeURIComponent(returnPath)}`
+      statusCode.value = 401
+      const { pathname, search, hash } = window.location
+      // Landing must remain usable even when /api/viewer returns 401.
+      if (pathname !== '/landing' && pathname !== '/login') {
+        window.location.href = landingDestination(pathname + search + hash)
+      }
 
       fetching.value = false
       return

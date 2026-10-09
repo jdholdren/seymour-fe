@@ -28,9 +28,11 @@
       <button
         class="block text-xs text-muted hover:text-foreground transition-colors mb-2"
         @click="logout"
+        :disabled="loggingOut"
       >
-        Log out
+        {{ loggingOut ? 'Logging out…' : 'Log out' }}
       </button>
+      <p v-if="logoutError" role="alert" class="text-xs text-danger mb-2">{{ logoutError }}</p>
       <router-link to="/alpha" class="text-xs text-muted hover:text-foreground transition-colors">
         Alpha v{{ version }} • Report Issues
       </router-link>
@@ -40,7 +42,7 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import ThemeSelector from '@/components/ThemeSelector.vue'
 
 import { getViewer } from '@/me'
@@ -54,10 +56,21 @@ const version = computed(() => {
 
 getViewer()
 
+const loggingOut = ref(false)
+const logoutError = ref('')
+
 // Logs the user out, then returns to the landing page.
 async function logout() {
-  const { call } = useApiFetch('POST', '/api/logout')
+  if (loggingOut.value) return
+  loggingOut.value = true
+  logoutError.value = ''
+  const { call, statusCode } = useApiFetch('POST', '/api/logout')
   await call()
-  window.location.href = '/landing'
+  if ((statusCode.value >= 200 && statusCode.value < 300) || statusCode.value === 401) {
+    window.location.href = '/landing'
+  } else {
+    logoutError.value = 'Could not log out. Please try again.'
+  }
+  loggingOut.value = false
 }
 </script>
