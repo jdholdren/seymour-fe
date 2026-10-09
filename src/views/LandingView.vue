@@ -117,6 +117,49 @@
         </div>
       </section>
 
+      <section
+        class="section-rule grid items-center gap-10 py-12 md:grid-cols-2 md:gap-16"
+        aria-labelledby="reading-heading"
+      >
+        <div>
+          <p class="eyebrow mb-4">03 / Settle in and read</p>
+          <KitHeading id="reading-heading" size="marketing">
+            Good stories.<br />Room to enjoy them.
+          </KitHeading>
+          <p class="mt-5 text-lg leading-relaxed text-muted">
+            Open an article in a clean, focused reading view. Thoughtful typography and breathing
+            room keep the story at the center, so you can spend less time scanning and more time
+            reading.
+          </p>
+        </div>
+        <KitSurface
+          as="aside"
+          padding="none"
+          class="min-w-0 px-6 py-8 sm:px-8 sm:py-10"
+          aria-label="Example article in the reading view"
+        >
+          <article>
+            <p class="text-xs uppercase tracking-wide text-muted">Engineering blog</p>
+            <KitHeading as="h3" size="section" class="mt-4">
+              Building a durable event processing system
+            </KitHeading>
+            <div class="mt-6 space-y-4 font-serif text-base leading-8 text-foreground">
+              <p>
+                The best infrastructure is the kind you don’t have to think about. Events arrive,
+                work gets done, and nothing quietly slips through the cracks.
+              </p>
+              <p>
+                Getting there starts with a simple question: what should happen when something goes
+                wrong?
+              </p>
+              <blockquote class="border-l-2 border-primary-faded pl-4 italic text-muted">
+                Reliability isn’t the absence of failure. It’s knowing what happens next.
+              </blockquote>
+            </div>
+          </article>
+        </KitSurface>
+      </section>
+
       <KitSurface
         as="section"
         tone="secondary"
