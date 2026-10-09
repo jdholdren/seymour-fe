@@ -22,9 +22,12 @@
         <button
           v-for="page in visiblePages"
           :key="page"
+          type="button"
           @click="goToPage(page)"
+          :aria-current="page === currentPage ? 'page' : undefined"
           :class="[
             'relative inline-flex items-center px-4 py-2 border text-sm font-medium',
+            focusClasses,
             page === currentPage
               ? 'z-10 bg-primary border-primary text-on-primary'
               : 'bg-surface-raised border-border text-primary-faded hover:bg-surface-container',
@@ -41,6 +44,7 @@
 
 <script setup>
 import { computed, defineProps, defineEmits } from 'vue'
+import { focusClasses } from '@/components/kit/styles'
 
 const props = defineProps({
   currentPage: {

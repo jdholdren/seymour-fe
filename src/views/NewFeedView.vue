@@ -1,22 +1,20 @@
 <template>
   <div class="flex flex-col gap-6 max-w-xl">
-    <div class="py-8">
-      <h1 class="text-5xl font-bold">Add a new subscription</h1>
-    </div>
-    <div class="flex flex-col gap-2">
-      <TextInput name="url" label="URL" placeholder="https://example.com/feeds.xml" v-model="url" />
-      <p v-if="error?.message" class="text-sm text-danger">{{ error.message }}</p>
-      <p v-if="urlError" class="text-sm text-danger">{{ urlError }}</p>
-    </div>
-    <VueSpinner v-if="fetching" class="my-2" />
-    <StyledButton
-      v-else
-      id="submit"
-      label="Subscribe"
-      :disabled="url.length == 0"
-      @click="onSubmit"
-      class="w-fit"
-    />
+    <KitPageHeader title="Add a new subscription" />
+    <KitFormField id="url" label="URL" :error="error?.message || urlError">
+      <template #default="{ control }">
+        <KitInput
+          v-bind="control"
+          v-model="url"
+          type="url"
+          name="url"
+          placeholder="https://example.com/feeds.xml"
+        />
+      </template>
+    </KitFormField>
+    <KitButton :disabled="url.length == 0" :loading="fetching" class="w-fit" @click="onSubmit">
+      {{ fetching ? 'Subscribing…' : 'Subscribe' }}
+    </KitButton>
   </div>
 </template>
 
@@ -24,10 +22,11 @@
 import { ref, computed } from 'vue'
 import useApiFetch from '@/use/useApiFetch'
 import { useRouter } from 'vue-router'
-import { VueSpinner } from 'vue3-spinners'
 
-import StyledButton from '@/components/StyledButton.vue'
-import TextInput from '@/components/TextInput.vue'
+import KitButton from '@/components/kit/KitButton.vue'
+import KitFormField from '@/components/kit/KitFormField.vue'
+import KitInput from '@/components/kit/KitInput.vue'
+import KitPageHeader from '@/components/kit/KitPageHeader.vue'
 
 import { getViewer, userPath } from '@/me'
 
