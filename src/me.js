@@ -4,6 +4,7 @@ import useApiFetch, { UNREACHABLE } from '@/use/useApiFetch'
 // @typedef {Object} Viewer
 // @property {{id: string, preferred_name?: string}} [user] - present only if logged in
 // @property {Object.<string, {name: string, feed_id: string, description: string}>} subscriptions
+// @property {{prompt: string}} [feed_preferences] - prompt may be empty when no preferences are configured
 
 const loaded = ref(false)
 const viewer = ref(undefined)

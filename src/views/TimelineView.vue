@@ -17,7 +17,7 @@
       <KitFormField id="status-filter" label="Status" v-slot="{ control }">
         <KitSelect
           v-bind="control"
-          :model-value="route.query.status || 'approved'"
+          :model-value="activeStatus"
           @change="updateFilter('status', $event.target.value)"
         >
           <option value="approved">Approved</option>
@@ -50,7 +50,26 @@
       </KitButton>
     </div>
 
-    <KitPageHeader :title="feed.name" :description="truncatedDescription" />
+    <KitPageHeader :title="feed.name" :description="truncatedDescription">
+      <template #actions>
+        <RouterLink
+          :to="{ name: 'feed-preferences' }"
+          :class="['text-sm text-primary hover:underline', focusClasses]"
+        >
+          Edit feed preferences
+        </RouterLink>
+      </template>
+    </KitPageHeader>
+
+    <p v-if="showNoPromptNotice" class="rounded-md border border-border p-3 text-sm text-muted">
+      Set your feed preferences to let Seymour find what matters to you.
+      <RouterLink
+        :to="{ name: 'feed-preferences' }"
+        :class="['text-primary hover:underline', focusClasses]"
+      >
+        Set feed preferences
+      </RouterLink>
+    </p>
 
     <EmptyFeed v-if="data && data.items?.length === 0 && route.query.feed_id" />
     <EmptySubscriptions v-else-if="data && data.items?.length === 0 && !hasSubscriptions" />
@@ -95,8 +114,8 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { computed, ref, watch } from 'vue'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 import useApiFetch from '@/use/useApiFetch'
 import { viewer, userPath } from '@/me'
 
@@ -105,7 +124,12 @@ import PaginationControls from './internal/PaginationControls.vue'
 import EmptySubscriptions from '@/components/EmptySubscriptions.vue'
 import EmptyFeed from '@/components/EmptyFeed.vue'
 import EmptyFilteredResults from '@/components/EmptyFilteredResults.vue'
-import { computed } from 'vue'
+import {
+  defaultTimelineStatus,
+  hasFeedPrompt,
+  isFeedPromptKnown,
+  timelineStatus,
+} from '@/use/feedPreferenceState'
 import KitFormField from '@/components/kit/KitFormField.vue'
 import KitInput from '@/components/kit/KitInput.vue'
 import KitSelect from '@/components/kit/KitSelect.vue'
@@ -114,6 +138,7 @@ import KitPageHeader from '@/components/kit/KitPageHeader.vue'
 import { focusClasses } from '@/components/kit/styles'
 
 const data = ref(null)
+let latestRequest = 0
 
 const route = useRoute()
 const router = useRouter()
@@ -122,16 +147,40 @@ const currentPage = computed(() => {
   return parseInt(route.query.page) || 1
 })
 
+const feedPreferences = computed(() => viewer.value?.feed_preferences)
+const activeStatus = computed(() => timelineStatus(route.query.status, feedPreferences.value))
+const showNoPromptNotice = computed(
+  () => isFeedPromptKnown(feedPreferences.value) && !hasFeedPrompt(feedPreferences.value),
+)
+
 watch(route, async (to) => {
   getFeedEntries(to.query)
 })
+
+watch(
+  () => {
+    const preferences = feedPreferences.value
+    if (!isFeedPromptKnown(preferences)) return 'unknown'
+    return hasFeedPrompt(preferences) ? 'configured' : 'empty'
+  },
+  (state, previousState) => {
+    if (state === previousState) return
+    if (!route.query.status && route.query.page) {
+      const query = { ...route.query }
+      delete query.page
+      router.push({ name: route.name, query })
+    } else {
+      getFeedEntries(route.query)
+    }
+  },
+)
 
 const hasSubscriptions = computed(() => {
   return Object.keys(viewer.value?.subscriptions || {}).length > 0
 })
 const hasActiveFilters = computed(() => {
   return !!(
-    (route.query.status && route.query.status !== 'approved') ||
+    activeStatus.value !== defaultTimelineStatus(feedPreferences.value) ||
     route.query.from ||
     route.query.to
   )
@@ -159,11 +208,10 @@ const truncatedDescription = computed(() => {
 })
 
 async function getFeedEntries(query = {}) {
+  const request = ++latestRequest
   const page = parseInt(query.page) || 1
   const offset = (page - 1) * 20 // Assuming 20 items per page
-  // Default to "approved" to preserve the curated-timeline view, unless the
-  // user explicitly asked for all statuses.
-  const status = query.status || 'approved'
+  const status = timelineStatus(query.status, feedPreferences.value)
 
   const queryParams = new URLSearchParams({
     ...(query.feed_id && { feed_id: query.feed_id }),
@@ -177,7 +225,7 @@ async function getFeedEntries(query = {}) {
   const { call, data: resp } = useApiFetch('GET', userPath(`/timeline?${queryParams}`))
   await call()
 
-  data.value = resp.value
+  if (request === latestRequest) data.value = resp.value
 }
 
 function handleFeedChange(feedID) {

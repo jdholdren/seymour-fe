@@ -10,6 +10,7 @@ test('authentication preserves supported internal routes, queries, and hashes', 
     '/timeline?status=all#articles',
     '/subscriptions',
     '/subscriptions/new',
+    '/preferences',
     '/article/123',
     '/alpha',
   ]) {

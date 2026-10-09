@@ -4,7 +4,7 @@
     <ul class="flex flex-col gap-1">
       <li>
         <RouterLink
-          :to="{ name: 'timeline', query: { status: 'approved' } }"
+          :to="{ name: 'timeline' }"
           :class="[
             $route.name === 'timeline' && 'outline-2 outline-primary text-primary-faded',
             focusClasses,
@@ -24,6 +24,18 @@
           class="block px-4 py-2 rounded-md"
         >
           Subscriptions
+        </RouterLink>
+      </li>
+      <li>
+        <RouterLink
+          :to="{ name: 'feed-preferences' }"
+          :class="[
+            $route.name === 'feed-preferences' && 'outline-2 outline-primary text-primary-faded',
+            focusClasses,
+          ]"
+          class="block px-4 py-2 rounded-md"
+        >
+          Feed preferences
         </RouterLink>
       </li>
     </ul>
