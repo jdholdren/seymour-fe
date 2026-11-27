@@ -4,10 +4,9 @@
   >
     <span
       class="mt-1 flex size-7 items-center justify-center rounded-full border border-mint text-xs text-primary"
-      role="img"
-      :aria-label="entry.read ? 'Read' : 'Unread'"
+      aria-hidden="true"
     >
-      <span v-if="entry.read" aria-hidden="true">✓</span>
+      <span class="size-2 rounded-full bg-primary-faded"></span>
     </span>
     <div class="min-w-0">
       <h2
@@ -18,11 +17,7 @@
       <p class="mt-1 text-sm text-muted">
         {{ entry.feed_name }}
         <span class="mx-1" aria-hidden="true">·</span>
-        {{
-          entry.reading_minutes
-            ? `${entry.reading_minutes} min`
-            : formatDate(entry.published_at || entry.publish_date)
-        }}
+        {{ formatDate(entry.publish_date) }}
       </p>
       <p
         v-if="showDescription && entry.description"

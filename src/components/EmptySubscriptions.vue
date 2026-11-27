@@ -11,11 +11,5 @@
 import { PhPlant } from '@phosphor-icons/vue'
 import KitEmptyState from '@/components/kit/KitEmptyState.vue'
 import KitButtonLink from '@/components/kit/KitButtonLink.vue'
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-
-const route = useRoute()
-const newFeedRoute = computed(() =>
-  route.meta.demo ? { name: 'demo-new-feed' } : '/subscriptions/new',
-)
+const newFeedRoute = '/subscriptions/new'
 </script>

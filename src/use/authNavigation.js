@@ -5,7 +5,7 @@ export function normalizeReturnPath(value) {
   }
   const path = value.split(/[?#]/)[0]
   if (
-    ['/', '/timeline', '/subscriptions', '/subscriptions/new', '/alpha'].includes(path) ||
+    ['/timeline', '/subscriptions', '/subscriptions/new', '/alpha'].includes(path) ||
     /^\/article\/[^/]+$/.test(path)
   ) {
     return value
@@ -14,5 +14,5 @@ export function normalizeReturnPath(value) {
 }
 
 export function landingDestination(returnPath) {
-  return `/landing?redirect=${encodeURIComponent(normalizeReturnPath(returnPath))}`
+  return `/?redirect=${encodeURIComponent(normalizeReturnPath(returnPath))}`
 }

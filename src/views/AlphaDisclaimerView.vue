@@ -43,19 +43,15 @@
     </div>
 
     <div class="mt-8 pt-6 border-t border-border">
-      <KitTextLink :to="{ name: route.meta.demo ? 'demo-inbox' : 'timeline' }"
-        >← Back to Inbox</KitTextLink
-      >
+      <KitTextLink :to="{ name: 'timeline' }">← Back to Inbox</KitTextLink>
     </div>
   </div>
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router'
 import KitAlert from '@/components/kit/KitAlert.vue'
 import KitButtonLink from '@/components/kit/KitButtonLink.vue'
 import KitHeading from '@/components/kit/KitHeading.vue'
 import KitPageHeader from '@/components/kit/KitPageHeader.vue'
 import KitTextLink from '@/components/kit/KitTextLink.vue'
-const route = useRoute()
 </script>

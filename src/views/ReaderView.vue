@@ -3,23 +3,8 @@
     <VueSpinner v-if="fetching" class="mx-auto my-16" />
     <article v-else-if="article" class="reader-document">
       <header class="reader-heading">
-        <KitTextLink v-if="isDemo" :to="{ name: collection }" class="text-sm">
-          ← {{ collectionLabel }}
-        </KitTextLink>
-        <KitProgress
-          v-if="isDemo"
-          class="my-6"
-          :value="progress.percent"
-          label="Inbox reading progress"
-        />
-        <p v-if="article.feed_name || host" class="reader-meta">
-          {{ article.feed_name || host
-          }}<span v-if="article.reading_minutes"> · {{ article.reading_minutes }} min read</span>
-        </p>
-        <KitPageHeader
-          :title="article.title"
-          :description="isDemo ? article.description : undefined"
-        />
+        <p v-if="host" class="reader-meta">{{ host }}</p>
+        <KitPageHeader :title="article.title" />
         <KitTextLink
           v-if="article.url"
           :href="article.url"
@@ -29,80 +14,27 @@
         >
           Read original <span aria-hidden="true">↗</span>
         </KitTextLink>
-        <div
-          v-if="isDemo"
-          role="group"
-          aria-label="Article actions"
-          class="mt-7 flex flex-wrap gap-3"
-        >
-          <KitButton variant="outline" @click="toggleArchived">
-            <PhArchiveBox class="size-5" aria-hidden="true" />
-            {{ article.archived ? 'Restore to inbox' : 'Archive' }}
-          </KitButton>
-          <KitButton
-            :variant="article.read ? 'outline' : 'primary'"
-            @click="demo.toggleRead(article.id)"
-          >
-            <PhCheck class="size-5" aria-hidden="true" />
-            {{ article.read ? 'Mark unread' : 'Mark read' }}
-          </KitButton>
-          <KitButton variant="outline" @click="demo.toggleSaved(article.id)">
-            <PhBookmark class="size-5" aria-hidden="true" />
-            {{ article.saved ? 'Remove saved' : 'Save' }}
-          </KitButton>
-        </div>
       </header>
 
       <div class="article-content" v-html="article.reader_content"></div>
-
-      <nav
-        v-if="isDemo && neighbors.length"
-        aria-label="Browse articles"
-        class="mt-10 flex flex-wrap gap-3"
-      >
-        <KitButtonLink
-          v-for="neighbor in neighbors"
-          :key="neighbor.entry.entry_id"
-          :to="{
-            name: 'demo-article',
-            params: { articleID: neighbor.entry.entry_id },
-            query: { from: collection },
-          }"
-          size="sm"
-          variant="outline"
-        >
-          {{ neighbor.label }}
-        </KitButtonLink>
-      </nav>
     </article>
     <div v-else class="reader-document">
       <KitPageHeader title="Article unavailable" />
-      <KitTextLink :to="{ name: isDemo ? collection : 'timeline' }"
-        >Back to {{ isDemo ? collectionLabel : 'Inbox' }}</KitTextLink
-      >
+      <KitTextLink :to="{ name: 'timeline' }">Back to Inbox</KitTextLink>
     </div>
   </div>
 </template>
 
 <script setup>
 import { computed, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { PhArchiveBox, PhBookmark, PhCheck } from '@phosphor-icons/vue'
+import { useRoute } from 'vue-router'
 import { VueSpinner } from 'vue3-spinners'
 import useApiFetch from '@/use/useApiFetch'
-import KitButton from '@/components/kit/KitButton.vue'
-import KitButtonLink from '@/components/kit/KitButtonLink.vue'
 import KitPageHeader from '@/components/kit/KitPageHeader.vue'
 import KitTextLink from '@/components/kit/KitTextLink.vue'
-import KitProgress from '@/components/kit/KitProgress.vue'
-import { useDemo } from '@/use/useDemo'
 
 const route = useRoute()
-const router = useRouter()
-const isDemo = computed(() => !!route.meta.demo)
-const demo = useDemo()
-const { progress } = demo
-const remoteArticle = ref(null)
+const article = ref(null)
 const fetching = ref(false)
 
 watch(
@@ -114,22 +46,16 @@ watch(
       active = false
     })
     fetching.value = true
-    remoteArticle.value = null
+    article.value = null
     const { data, call } = useApiFetch('GET', `/api/feed-entries/${encodeURIComponent(id)}`)
     try {
       await call()
-      if (active) remoteArticle.value = data.value
+      if (active) article.value = data.value
     } finally {
       if (active) fetching.value = false
     }
   },
   { immediate: true },
-)
-
-const article = computed(() =>
-  isDemo.value
-    ? demo.entries.value.find((entry) => entry.entry_id === route.params.articleID)
-    : remoteArticle.value,
 )
 
 const host = computed(() => {
@@ -139,30 +65,6 @@ const host = computed(() => {
     return ''
   }
 })
-
-const collection = computed(() => {
-  const from = route.query.from
-  return from === 'demo-saved' || from === 'demo-archive' ? from : 'demo-inbox'
-})
-const collectionLabel = computed(
-  () =>
-    ({ 'demo-saved': 'Saved', 'demo-archive': 'Archive', 'demo-inbox': 'Inbox' })[collection.value],
-)
-const neighbors = computed(() => {
-  const list = demo.list(collection.value)
-  const index = list.findIndex((entry) => entry.entry_id === route.params.articleID)
-  if (index < 0) return []
-  return [
-    { entry: list[index - 1], label: '← Previous' },
-    { entry: list[index + 1], label: 'Next →' },
-  ].filter(({ entry }) => entry)
-})
-
-function toggleArchived() {
-  const wasArchived = article.value.archived
-  demo.toggleArchived(article.value.id)
-  if (!wasArchived || collection.value === 'demo-archive') router.push({ name: collection.value })
-}
 </script>
 
 <style scoped>
