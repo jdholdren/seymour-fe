@@ -1,23 +1,20 @@
 <template>
-  <div class="flex items-center justify-between px-4 py-3">
+  <div class="flex flex-wrap items-center justify-between gap-3 border-y border-rule px-1 py-3">
     <!-- Results text on left -->
     <div>
-      <p class="text-sm text-muted">
-        Showing
+      <p class="text-xs text-muted">
+        Stories
         <span class="font-medium">{{ startItem }}</span>
         to
         <span class="font-medium">{{ endItem }}</span>
         of
         <span class="font-medium">{{ totalItems }}</span>
-        results
+        total
       </p>
     </div>
     <!-- Pagination buttons on right -->
     <div>
-      <nav
-        class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
-        aria-label="Pagination"
-      >
+      <nav class="relative z-0 inline-flex gap-1" aria-label="Pagination">
         <!-- Page numbers -->
         <button
           v-for="page in visiblePages"
@@ -26,13 +23,11 @@
           @click="goToPage(page)"
           :aria-current="page === currentPage ? 'page' : undefined"
           :class="[
-            'relative inline-flex items-center px-4 py-2 border text-sm font-medium',
+            'relative inline-flex min-w-9 items-center justify-center rounded-full border border-rule px-3 py-2 text-sm font-medium transition',
             focusClasses,
             page === currentPage
-              ? 'z-10 bg-primary border-primary text-on-primary'
-              : 'bg-surface-raised border-border text-primary-faded hover:bg-surface-container',
-            page === visiblePages[0] ? 'rounded-l-md' : '',
-            page === visiblePages[visiblePages.length - 1] ? 'rounded-r-md' : '',
+              ? 'z-10 border-mint bg-surface-container text-foreground'
+              : 'bg-surface-raised text-primary-faded hover:bg-surface-container',
           ]"
         >
           {{ page }}

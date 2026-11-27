@@ -1,11 +1,10 @@
 @import 'tailwindcss';
 
 :root {
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--font-sans);
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-smooth: always;
   color: var(--color-foreground);
   background: var(--color-surface);
   color-scheme: light;
@@ -13,38 +12,44 @@
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --color-primary: oklch(0.74 0.09 190);
-  --color-primary-dark: oklch(0.68 0.09 190);
-  --color-primary-faded: oklch(0.8 0.065 190);
-  --color-on-primary: oklch(0.2 0.015 190);
-  --color-surface: oklch(0.19 0.012 255);
-  --color-surface-container: oklch(0.24 0.012 255);
-  --color-surface-raised: oklch(0.27 0.012 255);
-  --color-foreground: oklch(0.94 0.008 255);
-  --color-muted: oklch(0.77 0.012 255);
-  --color-subtle: oklch(0.66 0.012 255);
-  --color-border: oklch(0.55 0.012 255);
+  --color-primary: oklch(0.8 0.065 228);
+  --color-primary-dark: oklch(0.73 0.063 230);
+  --color-primary-faded: oklch(0.81 0.054 227);
+  --color-on-primary: oklch(0.21 0.037 251);
+  --color-surface: oklch(0.2 0.037 251);
+  --color-surface-container: oklch(0.27 0.038 247);
+  --color-surface-raised: oklch(0.23 0.037 249);
+  --color-foreground: oklch(0.95 0.013 244);
+  --color-muted: oklch(0.77 0.041 237);
+  --color-subtle: oklch(0.72 0.041 237);
+  --color-border: oklch(0.54 0.044 242);
+  --color-rule: oklch(0.31 0.038 242);
+  --color-mint: oklch(0.77 0.063 169);
   --color-danger: oklch(0.78 0.13 25);
   --color-on-danger: oklch(0.19 0.012 25);
 }
 
 @theme {
-  /* Blue-teal accents, white surfaces, and neutral secondary containers. */
-  --color-primary: oklch(0.52 0.085 190);
-  --color-primary-dark: oklch(0.46 0.085 190);
-  --color-primary-faded: oklch(0.46 0.065 190);
-  --color-on-primary: oklch(1 0 0);
-  --color-hero-primary: oklch(0.74 0.09 190);
-  --color-hero-primary-dark: oklch(0.68 0.09 190);
-  --color-hero-accent: oklch(0.8 0.065 190);
+  --font-sans: 'Aptos', 'Segoe UI', system-ui, sans-serif;
+  --font-serif: 'Charter', 'Bitstream Charter', 'Georgia', serif;
+  --color-primary: oklch(0.43 0.078 171);
+  --color-primary-dark: oklch(0.37 0.068 171);
+  --color-primary-faded: oklch(0.43 0.064 224);
+  --color-on-primary: oklch(0.99 0.008 81);
+  --color-hero-primary: oklch(0.8 0.065 190);
+  --color-hero-primary-dark: oklch(0.73 0.065 190);
+  --color-hero-accent: oklch(0.83 0.065 190);
   --color-on-hero-primary: oklch(0.2 0.015 190);
-  --color-surface: oklch(1 0 0);
-  --color-surface-container: oklch(0.96 0 0);
-  --color-surface-raised: oklch(1 0 0);
-  --color-foreground: oklch(0.28 0.018 185);
-  --color-muted: oklch(0.45 0.02 185);
-  --color-subtle: oklch(0.53 0.02 185);
-  --color-border: oklch(0.62 0.025 185);
+  --color-surface: oklch(0.975 0.012 75);
+  --color-surface-container: oklch(0.935 0.017 151);
+  --color-surface-raised: oklch(0.983 0.01 78);
+  --color-foreground: oklch(0.26 0.048 248);
+  --color-muted: oklch(0.48 0.043 239);
+  --color-subtle: oklch(0.51 0.041 239);
+  --color-border: oklch(0.62 0.026 231);
+  --color-rule: oklch(0.89 0.013 155);
+  --color-mint: oklch(0.85 0.063 163);
+  --color-on-mint: oklch(0.26 0.048 248);
   --color-danger: oklch(0.5 0.19 25);
   --color-on-danger: oklch(1 0 0);
 }

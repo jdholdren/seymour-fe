@@ -22,6 +22,13 @@ npm install
 npm run dev
 ```
 
+### Try the frontend without a backend
+
+Open `/demo` in the running app to use the inbox, reader, saved articles, archive,
+and feed list with sample content. Changes are stored in the browser. Feeds
+added in demo mode are local entries and are not fetched. Open `/landing` to
+access the GitHub sign-in flow when a Seymour backend is available.
+
 ### Compile and Minify for Production
 
 ```sh

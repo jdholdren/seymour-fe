@@ -1,7 +1,10 @@
 <template>
-  <div class="flex flex-col gap-6 max-w-xl">
-    <KitPageHeader title="Add a new subscription" />
-    <KitFormField id="url" label="URL" :error="error?.message || urlError">
+  <form class="flex max-w-xl flex-col gap-6" @submit.prevent="onSubmit">
+    <KitPageHeader
+      title="Add a new feed"
+      description="Bring a publication into your reading list."
+    />
+    <KitFormField id="url" label="Feed URL" :error="demoError || error?.message">
       <template #default="{ control }">
         <KitInput
           v-bind="control"
@@ -12,16 +15,17 @@
         />
       </template>
     </KitFormField>
-    <KitButton :disabled="url.length == 0" :loading="fetching" class="w-fit" @click="onSubmit">
+    <KitButton type="submit" :disabled="url.length == 0" :loading="fetching" class="w-fit">
       {{ fetching ? 'Subscribing…' : 'Subscribe' }}
     </KitButton>
-  </div>
+  </form>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import useApiFetch from '@/use/useApiFetch'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { useDemo } from '@/use/useDemo'
 
 import KitButton from '@/components/kit/KitButton.vue'
 import KitFormField from '@/components/kit/KitFormField.vue'
@@ -31,18 +35,29 @@ import KitPageHeader from '@/components/kit/KitPageHeader.vue'
 import { getViewer, userPath } from '@/me'
 
 const url = ref('')
+const route = useRoute()
 
 const {
   fetching,
   call: submit,
   error,
   statusCode,
-} = useApiFetch('POST', userPath('/subscriptions'))
+} = useApiFetch('POST', route.meta.demo ? '' : userPath('/subscriptions'))
 const router = useRouter()
+const demo = useDemo()
+const demoError = ref('')
 
 async function onSubmit() {
-  if (!url.value) return
+  if (!url.value || fetching.value) return
   error.value = undefined
+
+  if (route.meta.demo) {
+    demoError.value = demo.addFeed({ url: url.value })
+      ? ''
+      : 'Enter a valid feed URL that is not already in your list.'
+    if (!demoError.value) router.push({ name: 'demo-feeds' })
+    return
+  }
 
   await submit({ feed_url: url.value })
 
@@ -52,12 +67,4 @@ async function onSubmit() {
     router.push({ name: 'subscriptions' })
   }
 }
-
-const regex = new RegExp(
-  /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/gi,
-)
-const urlError = computed(() => {
-  if (!url.value || url.value.match(regex)) return undefined
-  return 'Invalid URL'
-})
 </script>
