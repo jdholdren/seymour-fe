@@ -9,6 +9,7 @@ test('authentication preserves supported internal routes, queries, and hashes', 
     '/timeline?status=all#articles',
     '/subscriptions',
     '/subscriptions/new',
+    '/settings',
     '/article/123',
   ]) {
     assert.equal(normalizeReturnPath(path), path)
