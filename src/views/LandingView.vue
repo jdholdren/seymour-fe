@@ -1,259 +1,55 @@
 <template>
-  <div class="landing min-h-screen bg-surface text-foreground">
+  <div class="flex min-h-svh bg-surface p-3 text-foreground">
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:absolute focus:z-20 focus:bg-surface focus:p-4"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-20 focus:rounded-md focus:bg-surface focus:p-4 focus:text-foreground focus:outline-2 focus:outline-primary"
       >Skip to content</a
     >
-    <header class="relative pb-3">
-      <div
-        class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-5 px-6 py-5 sm:px-10"
-      >
-        <RouterLink to="/landing" aria-label="Seymour home"><SeymourWordmark /></RouterLink>
-        <nav aria-label="Main navigation" class="flex flex-wrap items-center gap-5 text-sm">
-          <a href="#how-it-works" class="hidden text-muted hover:text-foreground sm:block"
-            >How it works</a
+
+    <div class="flex min-w-0 flex-1 flex-col lg:w-[63%] lg:flex-none">
+      <header class="flex items-center justify-between gap-4 px-4 py-4 sm:px-8 sm:py-7 lg:px-10">
+        <RouterLink to="/" aria-label="Seymour home" class="rounded-sm">
+          <SeymourWordmark />
+        </RouterLink>
+        <ThemeSelector />
+      </header>
+
+      <main id="main" tabindex="-1" class="flex flex-1 items-center px-4 py-8 sm:px-8 lg:px-10">
+        <section class="w-full max-w-md" aria-labelledby="login-heading">
+          <h1
+            id="login-heading"
+            class="font-serif text-4xl font-normal leading-tight tracking-tight sm:text-5xl"
           >
-          <a href="#api" class="hidden text-muted hover:text-foreground sm:block">For developers</a>
-          <ThemeSelector />
-          <KitButton @click="getStarted">{{
-            isLoggedIn ? 'Open timeline →' : 'Get started →'
-          }}</KitButton>
-        </nav>
-      </div>
-      <MastheadRule class="mx-auto max-w-6xl" />
-    </header>
-
-    <main id="main" class="mx-auto max-w-6xl px-6 sm:px-10">
-      <section
-        class="hero relative overflow-hidden py-20 text-center sm:py-28"
-        aria-labelledby="hero-heading"
-      >
-        <h1
-          id="hero-heading"
-          class="hero-title mx-auto max-w-5xl text-5xl font-bold leading-[1.02] tracking-tight sm:text-7xl lg:text-8xl"
-        >
-          Make room for<br /><span class="text-primary-faded">the good stuff.</span>
-        </h1>
-        <p class="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-muted sm:text-xl">
-          Your favorite writers, gathered in one thoughtful reading space. Seymour filters the noise
-          around what you care about, so you can spend your time with stories worth reading.
-        </p>
-        <div class="mt-8 flex flex-wrap justify-center gap-4">
-          <RouterLink to="/demo" class="demo-link"
-            >Try the live demo <span aria-hidden="true">↗</span></RouterLink
-          >
-          <KitButton @click="getStarted">{{
-            isLoggedIn ? 'Open your timeline →' : 'Get started →'
-          }}</KitButton>
-          <KitButtonLink href="#how-it-works" variant="outline">How it works ↓</KitButtonLink>
-        </div>
-      </section>
-
-      <section
-        id="how-it-works"
-        class="section-rule grid gap-10 py-12 md:grid-cols-2 md:gap-16"
-        aria-labelledby="sources-heading"
-      >
-        <div>
-          <KitHeading id="sources-heading" size="marketing">
-            Just tell Seymour<br />what you want.
-          </KitHeading>
-          <p class="mt-5 text-lg leading-relaxed text-muted">
-            Forget complicated filters, keywords, and endless configuration. Write a prompt
-            describing the kind of articles you care about, in your own words.
+            Sign in to Seymour
+          </h1>
+          <p class="mt-4 text-base leading-relaxed text-muted">
+            Your thoughtful reading space is waiting.
           </p>
-          <p class="mt-4 text-lg leading-relaxed text-muted">
-            Be as specific or broad as you’d like. You’re in control of what makes it into your
-            feed.
-          </p>
-        </div>
-        <aside class="self-center" aria-label="Example filtering prompt">
-          <blockquote
-            class="space-y-5 border-l-4 border-primary-faded pl-6 font-mono text-base leading-relaxed text-muted sm:pl-8 sm:text-lg"
-          >
-            <p>“I’m interested in software engineering, distributed systems, and AI agents.</p>
-            <p>
-              Prioritize deep technical articles, original research, and real-world engineering
-              experience.
-            </p>
-            <p>Skip generic listicles, marketing, and product announcements.”</p>
-          </blockquote>
-        </aside>
-      </section>
 
-      <section class="section-rule py-12" aria-labelledby="timeline-heading">
-        <KitHeading id="timeline-heading" size="marketing">
-          Only the articles<br />worth your attention.
-        </KitHeading>
-        <p class="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
-          As new articles arrive, Seymour evaluates each one against your instructions, approving
-          relevant stories and filtering out the rest.
-        </p>
-        <div class="mt-7 grid gap-4 md:grid-cols-3">
-          <KitSurface
-            v-for="article in articles"
-            :key="article.title"
-            as="article"
-            :tone="article.approved ? 'raised' : 'secondary'"
-            padding="md"
-            bordered
-          >
-            <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
-              <span class="uppercase tracking-wide text-muted">{{ article.source }}</span>
-              <span :class="article.approved ? 'text-primary-faded' : 'text-muted'">{{
-                article.approved ? '✓ Approved' : '⊗ Rejected'
-              }}</span>
-            </div>
-            <KitHeading
-              as="h3"
-              size="card"
-              class="mt-4"
-              :class="article.approved ? '' : 'text-muted'"
-            >
-              {{ article.title }}
-            </KitHeading>
-            <p class="mt-3 leading-relaxed text-muted">{{ article.description }}</p>
-          </KitSurface>
-        </div>
-      </section>
+          <KitButton class="mt-8 w-full justify-center" size="lg" @click="signInWithGitHub">
+            <PhGithubLogo aria-hidden="true" class="size-5" />
+            Continue with GitHub
+          </KitButton>
+        </section>
+      </main>
+    </div>
 
-      <section
-        class="section-rule grid items-center gap-10 py-12 md:grid-cols-2 md:gap-16"
-        aria-labelledby="reading-heading"
-      >
-        <div>
-          <KitHeading id="reading-heading" size="marketing">
-            Good stories.<br />Room to enjoy them.
-          </KitHeading>
-          <p class="mt-5 text-lg leading-relaxed text-muted">
-            Open an article in a clean, focused reading view. Thoughtful typography and breathing
-            room keep the story at the center, so you can spend less time scanning and more time
-            reading.
-          </p>
-        </div>
-        <KitSurface
-          as="aside"
-          padding="none"
-          class="min-w-0 px-6 py-8 sm:px-8 sm:py-10"
-          aria-label="Example article in the reading view"
-        >
-          <article>
-            <p class="text-xs uppercase tracking-wide text-muted">Engineering blog</p>
-            <KitHeading as="h3" size="section" class="mt-4">
-              Building a durable event processing system
-            </KitHeading>
-            <div class="mt-6 space-y-4 font-serif text-base leading-8 text-foreground">
-              <p>
-                The best infrastructure is the kind you don’t have to think about. Events arrive,
-                work gets done, and nothing quietly slips through the cracks.
-              </p>
-              <p>
-                Getting there starts with a simple question: what should happen when something goes
-                wrong?
-              </p>
-              <blockquote class="border-l-2 border-primary-faded pl-4 italic text-muted">
-                Reliability isn’t the absence of failure. It’s knowing what happens next.
-              </blockquote>
-            </div>
-          </article>
-        </KitSurface>
-      </section>
-
-      <KitSurface
-        as="section"
-        tone="secondary"
-        padding="none"
-        bordered
-        id="api"
-        class="relative mt-16 mb-16 grid w-full scroll-mt-6 gap-8 rounded-2xl border-border/30 p-8 sm:mt-24 sm:p-12 md:grid-cols-[minmax(0,1fr)_auto] md:gap-x-12 lg:p-14"
-        aria-labelledby="start-heading"
-      >
-        <div
-          aria-hidden="true"
-          class="absolute -top-6 left-8 flex h-12 w-16 items-center justify-center rounded-lg border border-border/40 bg-surface font-mono text-xl font-semibold text-primary-faded sm:left-12"
-        >
-          &lt;/&gt;
-        </div>
-        <div class="pt-2">
-          <p class="eyebrow mb-5 flex items-center gap-3">
-            <span aria-hidden="true" class="h-px w-8 bg-primary-faded/50"></span>
-            For developers
-          </p>
-          <KitHeading id="start-heading" size="marketing" class="max-w-[18ch]">
-            Built to work with your tools.
-          </KitHeading>
-          <p class="mt-5 max-w-lg leading-relaxed text-muted">
-            Seymour is API-first under the hood. Build integrations, automate reading workflows, or
-            make something entirely your own.
-          </p>
-        </div>
-        <div
-          class="flex items-end border-t border-border/25 pt-6 md:border-t-0 md:border-l md:pl-8 md:pt-0"
-        >
-          <KitButtonLink
-            href="https://github.com/jdholdren/seymour#readme"
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="outline"
-            class="shrink-0"
-            >Explore API access →</KitButtonLink
-          >
-        </div>
-      </KitSurface>
-    </main>
-
-    <footer
-      class="mx-auto flex max-w-6xl flex-wrap justify-between gap-4 px-6 pb-8 text-xs text-muted sm:px-10"
-    >
-      <p>© {{ new Date().getFullYear() }} Seymour</p>
-    </footer>
+    <aside class="art-panel hidden lg:block lg:w-[37%]" aria-hidden="true"></aside>
   </div>
 </template>
 
 <script setup>
+import { PhGithubLogo } from '@phosphor-icons/vue'
+import { useRoute } from 'vue-router'
 import SeymourWordmark from '@/components/SeymourWordmark.vue'
-import MastheadRule from '@/components/MastheadRule.vue'
-import { useRoute, useRouter } from 'vue-router'
-import KitButton from '@/components/kit/KitButton.vue'
-import KitButtonLink from '@/components/kit/KitButtonLink.vue'
-import KitSurface from '@/components/kit/KitSurface.vue'
-import KitHeading from '@/components/kit/KitHeading.vue'
 import ThemeSelector from '@/components/ThemeSelector.vue'
-import { isLoggedIn } from '@/me'
+import KitButton from '@/components/kit/KitButton.vue'
 import { normalizeReturnPath } from '@/use/authNavigation'
 
 const route = useRoute()
-const router = useRouter()
-const articles = [
-  {
-    source: 'Engineering blog',
-    approved: true,
-    title: 'Building a durable event processing system',
-    description:
-      'An in-depth exploration of production-grade messaging architecture and its practical tradeoffs.',
-  },
-  {
-    source: 'Research journal',
-    approved: true,
-    title: 'Long-term memory for autonomous agents',
-    description:
-      'A novel research approach to how AI agents retain and retrieve knowledge over time.',
-  },
-  {
-    source: 'Tech daily',
-    approved: false,
-    title: 'Top 10 must-have productivity apps',
-    description: 'A roundup of popular applications and familiar productivity tips.',
-  },
-]
 
-function getStarted() {
+function signInWithGitHub() {
   const redirect = normalizeReturnPath(route.query.redirect)
-  if (isLoggedIn.value) {
-    router.push(redirect)
-    return
-  }
   const host = window.__CONFIG__?.VITE_API_HOST || import.meta.env.VITE_API_HOST || ''
   window.location.href = `${host}/api/oauth-login/gh?s=${encodeURIComponent(redirect)}`
 }
@@ -262,41 +58,32 @@ function getStarted() {
 <style scoped>
 @reference '../assets/main.css';
 
-.hero-title {
-  font-family: var(--font-serif);
-  font-weight: 400;
-}
-
-.hero {
-  isolation: isolate;
-}
-
-.hero::after {
-  position: absolute;
-  z-index: -1;
-  right: -8%;
-  bottom: -8rem;
-  left: -8%;
-  height: 12rem;
-  border-radius: 50% 50% 0 0 / 45% 45% 0 0;
-  background: color-mix(in oklab, var(--color-primary-faded) 10%, transparent);
-  content: '';
-}
-
-.demo-link {
-  @apply inline-flex items-center gap-2 rounded-full bg-mint px-6 py-3 font-serif text-on-mint transition hover:bg-mint/85 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary;
-}
-
-.eyebrow {
-  @apply text-xs font-semibold uppercase tracking-[0.18em] text-primary-faded;
-  font-family: Inter, system-ui, sans-serif;
-}
-
-.section-rule {
-  @apply scroll-mt-6 border-t border-border/40;
+.art-panel {
+  border-radius: 12px;
+  background-color: var(--color-surface-container);
+  background-image: radial-gradient(
+      ellipse at 20% 18%,
+      color-mix(in oklab, var(--color-primary-faded) 48%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 82% 82%,
+      color-mix(in oklab, var(--color-primary) 42%, transparent),
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse at 65% 38%,
+      color-mix(in oklab, var(--color-mint) 34%, transparent),
+      transparent 56%
+    ),
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      transparent 0 3px,
+      color-mix(in oklab, var(--color-foreground) 3%, transparent) 3.5px 4px
+    );
 }
 
 a:focus-visible {
-  @apply rounded-sm outline-2 outline-offset-4 outline-primary-faded;
+  @apply outline-2 outline-offset-4 outline-primary-faded;
 }
 </style>

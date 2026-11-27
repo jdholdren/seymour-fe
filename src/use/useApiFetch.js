@@ -8,7 +8,7 @@ import { landingDestination } from './authNavigation'
 // (as opposed to a real HTTP response), so callers can tell the two apart.
 export const UNREACHABLE = 'unreachable'
 
-export default function (method, path) {
+export default function (method, path, { redirectOnUnauthorized = true } = {}) {
   const data = ref(null)
   const error = ref(null)
   const fetching = ref(false)
@@ -51,7 +51,7 @@ export default function (method, path) {
       statusCode.value = 401
       const { pathname, search, hash } = window.location
       // Landing must remain usable even when /api/viewer returns 401.
-      if (pathname !== '/landing' && pathname !== '/login') {
+      if (redirectOnUnauthorized && !['/', '/landing', '/login'].includes(pathname)) {
         window.location.href = landingDestination(pathname + search + hash)
       }
 

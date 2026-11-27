@@ -6,7 +6,6 @@ import { normalizeReturnPath, landingDestination } from '../src/use/authNavigati
 
 test('authentication preserves supported internal routes, queries, and hashes', () => {
   for (const path of [
-    '/',
     '/timeline?status=all#articles',
     '/subscriptions',
     '/subscriptions/new',
@@ -14,7 +13,7 @@ test('authentication preserves supported internal routes, queries, and hashes', 
     '/alpha',
   ]) {
     assert.equal(normalizeReturnPath(path), path)
-    assert.equal(landingDestination(path), `/landing?redirect=${encodeURIComponent(path)}`)
+    assert.equal(landingDestination(path), `/?redirect=${encodeURIComponent(path)}`)
   }
 })
 
@@ -27,6 +26,7 @@ test('invalid and public return paths fall back to timeline without loops', () =
     'https://example.com',
     '//example.com',
     '/\\example.com',
+    '/',
     '/landing?redirect=/landing',
     '/login',
     '/unknown',
@@ -50,7 +50,11 @@ test('legacy login redirects and protected routes use landing', async () => {
   runInNewContext(source, {
     loaded,
     isLoggedIn,
-    getViewer: async () => reachable,
+    normalizeReturnPath,
+    getViewer: async ({ redirectOnUnauthorized }) => {
+      assert.equal(redirectOnUnauthorized, false)
+      return reachable
+    },
     createWebHistory: () => ({}),
     createRouter: (options) => {
       routes = options.routes
@@ -61,16 +65,30 @@ test('legacy login redirects and protected routes use landing', async () => {
       }
     },
   })
-  const query = { redirect: '/article/123' }
-  const legacy = routes.find((route) => route.path === '/login').redirect({ query, hash: '' })
-  assert.equal(legacy.name, 'landing')
-  assert.equal(legacy.query, query)
+  // Old sign-in links resolve to the canonical root and keep their destination.
+  assert.equal(routes.find((route) => route.name === 'landing').path, '/')
+  const query = { redirect: '/article/123?view=reader#text' }
+  for (const path of ['/login', '/landing']) {
+    const legacy = routes.find((route) => route.path === path).redirect({ query, hash: '#main' })
+    assert.equal(legacy.name, 'landing')
+    assert.equal(legacy.query, query)
+    assert.equal(legacy.hash, '#main')
+  }
+
+  // Signed-out visits to a protected page keep its destination on the sign-in page.
   const destination = await guard({ name: 'article', fullPath: '/article/123#text' })
   assert.equal(destination.name, 'landing')
   assert.equal(destination.query.redirect, '/article/123#text')
   assert.equal(await guard({ name: 'landing' }), undefined)
+
+  // An authenticated visitor continues directly to the requested workspace page.
   isLoggedIn.value = true
   assert.equal(await guard({ name: 'timeline' }), undefined)
+  assert.equal(await guard({ name: 'landing' }), '/timeline')
+  assert.equal(await guard({ name: 'landing', query }), query.redirect)
+  assert.equal(await guard({ name: 'landing', query: { redirect: '/' } }), '/timeline')
+
+  // Root remains usable during a backend outage, and protected links still point there.
   loaded.value = false
   reachable = false
   assert.equal(await guard({ name: 'landing' }), true)
@@ -83,25 +101,34 @@ test('expired sessions preserve destinations without reloading public landing', 
     .replace('export const UNREACHABLE', 'const UNREACHABLE')
     .replace('export default function', 'function useApiFetch')
     .replace('import.meta.env.VITE_API_HOST', "''")
-  for (const pathname of ['/article/123', '/landing', '/login']) {
+  // A background request may redirect, but public pages and guard-owned checks should stay put.
+  for (const [pathname, redirectOnUnauthorized, shouldRedirect] of [
+    ['/article/123', undefined, true],
+    ['/article/123', false, false],
+    ['/', undefined, false],
+    ['/landing', undefined, false],
+    ['/login', undefined, false],
+  ]) {
     const window = {
       location: { pathname, search: '?status=all', hash: '#text', href: 'unchanged' },
     }
     const context = {
       window,
       landingDestination,
+      redirectOnUnauthorized,
       ref: (value) => ({ value }),
       fetch: async () => ({ status: 401 }),
     }
-    runInNewContext(`${source}\nthis.request = useApiFetch('GET', '/api/viewer')`, context)
+    runInNewContext(
+      `${source}\nthis.request = useApiFetch('GET', '/api/viewer', { redirectOnUnauthorized })`,
+      context,
+    )
     await context.request.call()
     assert.equal(context.request.statusCode.value, 401)
     assert.equal(context.request.fetching.value, false)
     assert.equal(
       window.location.href,
-      pathname === '/article/123'
-        ? landingDestination('/article/123?status=all#text')
-        : 'unchanged',
+      shouldRedirect ? landingDestination('/article/123?status=all#text') : 'unchanged',
     )
   }
 })

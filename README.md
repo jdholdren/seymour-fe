@@ -22,13 +22,6 @@ npm install
 npm run dev
 ```
 
-### Try the frontend without a backend
-
-Open `/demo` in the running app to use the inbox, reader, saved articles, archive,
-and feed list with sample content. Changes are stored in the browser. Feeds
-added in demo mode are local entries and are not fetched. Open `/landing` to
-access the GitHub sign-in flow when a Seymour backend is available.
-
 ### Compile and Minify for Production
 
 ```sh
@@ -38,7 +31,7 @@ npm run build
 ### Theme preferences
 
 Choose System, Light, or Dark from the theme selector in the sidebar or on the
-landing/login pages. System is the default and follows OS changes. Preferences
+sign-in page at `/`. System is the default and follows OS changes. Preferences
 are saved locally in the browser and synchronized across tabs.
 
 Theme colors live in `src/assets/main.css`; use its semantic color utilities for

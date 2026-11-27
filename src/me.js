@@ -21,8 +21,8 @@ const isLoggedIn = computed(() => viewer.value?.user != null)
 
 // Fetches the current viewer and sets it on the ref.
 // Returns false if the server couldn't be reached at all.
-async function getViewer() {
-  const { data, statusCode, call } = useApiFetch('GET', '/api/viewer')
+async function getViewer(options) {
+  const { data, statusCode, call } = useApiFetch('GET', '/api/viewer', options)
   await call()
   viewer.value = data.value
 

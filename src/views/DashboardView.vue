@@ -4,7 +4,7 @@
       class="relative mx-auto flex max-w-[90rem] items-center gap-3 px-5 pb-9 pt-7 sm:px-8 lg:px-10"
     >
       <RouterLink
-        :to="route.meta.demo ? { name: 'demo-inbox' } : { name: 'timeline' }"
+        :to="{ name: 'timeline' }"
         class="flex items-center gap-3 rounded-lg text-foreground no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
         aria-label="Seymour home"
       >
@@ -22,7 +22,7 @@
       <main class="min-w-0 px-5 pb-12 pt-4 sm:px-8 lg:px-0 lg:py-10">
         <router-view class="w-full" v-slot="{ Component }">
           <Transition mode="out-in">
-            <component :is="Component" :key="route.meta.demo ? 'demo' : 'connected'" />
+            <component :is="Component" />
           </Transition>
         </router-view>
       </main>
@@ -41,9 +41,8 @@ import GlobalError from '../components/GlobalError.vue'
 import ForbiddenError from '../components/ForbiddenError.vue'
 import { useGlobalError } from '@/use/globalErr'
 import { useForbiddenError } from '@/use/forbiddenErr'
-import { RouterLink, useRoute } from 'vue-router'
+import { RouterLink } from 'vue-router'
 
 const globErr = useGlobalError()
 const forbiddenErr = useForbiddenError()
-const route = useRoute()
 </script>

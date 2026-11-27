@@ -32,12 +32,6 @@
             <path v-else d="M4 7h16M6 7V4.5h12V7m-12 0v13h12V7m-8 4h4" />
           </svg>
           <span>{{ item.label }}</span>
-          <span
-            v-if="item.label === 'Inbox' && route.meta.demo && progress"
-            class="ml-auto rounded-full bg-surface px-2 py-0.5 text-xs tabular-nums text-muted"
-          >
-            {{ progress.remaining }}
-          </span>
         </RouterLink>
       </li>
     </ul>
@@ -50,7 +44,7 @@
         Settings
       </h2>
       <ThemeSelector class="px-3.5" />
-      <div v-if="!route.meta.demo" class="mt-4 border-t border-rule px-3.5 pt-4">
+      <div class="mt-4 border-t border-rule px-3.5 pt-4">
         <KitButton
           variant="ghost"
           size="sm"
@@ -75,50 +69,31 @@
 
 <script setup>
 import { RouterLink, useRoute } from 'vue-router'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import ThemeSelector from '@/components/ThemeSelector.vue'
 import KitButton from '@/components/kit/KitButton.vue'
 import { focusClasses } from '@/components/kit/styles'
 import useApiFetch from '@/use/useApiFetch'
-import { useDemo } from '@/use/useDemo'
 
 const route = useRoute()
-const { progress } = useDemo()
-const navItems = computed(() =>
-  route.meta.demo
-    ? [
-        { label: 'Inbox', icon: 'inbox', to: { name: 'demo-inbox' }, route: 'demo-inbox' },
-        { label: 'Feeds', icon: 'feeds', to: { name: 'demo-feeds' }, route: 'demo-feeds' },
-        { label: 'Saved', icon: 'saved', to: { name: 'demo-saved' }, route: 'demo-saved' },
-        { label: 'Archive', icon: 'archive', to: { name: 'demo-archive' }, route: 'demo-archive' },
-      ]
-    : [
-        {
-          label: 'Inbox',
-          icon: 'inbox',
-          to: { name: 'timeline', query: { status: 'approved' } },
-          route: 'timeline',
-        },
-        { label: 'Feeds', icon: 'feeds', to: { name: 'subscriptions' }, route: 'subscriptions' },
-      ],
-)
+const navItems = [
+  {
+    label: 'Inbox',
+    icon: 'inbox',
+    to: { name: 'timeline', query: { status: 'approved' } },
+    route: 'timeline',
+  },
+  { label: 'Feeds', icon: 'feeds', to: { name: 'subscriptions' }, route: 'subscriptions' },
+]
 
 function isActive(item) {
   if (route.name === item.route) return true
-  if (route.name === 'demo-article') {
-    const from = route.query.from
-    return item.route === (from === 'demo-saved' || from === 'demo-archive' ? from : 'demo-inbox')
-  }
   if (route.name === 'article') return item.route === 'timeline'
-  if (route.name === 'demo-new-feed') return item.route === 'demo-feeds'
   return route.name === 'new-subscription' && item.route === 'subscriptions'
 }
 
-// Get version info from build-time constants and package.json
-const version = computed(() => {
-  const gitHash = import.meta.env.VITE_GIT_HASH || 'unknown'
-  return `0.1.0-alpha (${gitHash})`
-})
+const gitHash = import.meta.env.VITE_GIT_HASH || 'unknown'
+const version = `0.1.0-alpha (${gitHash})`
 
 const loggingOut = ref(false)
 const logoutError = ref('')
@@ -130,7 +105,7 @@ async function logout() {
   const { call, statusCode } = useApiFetch('POST', '/api/logout')
   await call()
   if ((statusCode.value >= 200 && statusCode.value < 300) || statusCode.value === 401) {
-    window.location.href = '/landing'
+    window.location.href = '/'
   } else {
     logoutError.value = 'Could not log out. Please try again.'
   }
