@@ -1,66 +1,118 @@
 <template>
-  <div class="flex flex-col">
-    <div class="p-4 pb-6 text-4xl font-bold">Seymour</div>
-    <ul class="flex flex-col gap-1">
-      <li>
+  <nav class="flex min-w-0 flex-col" aria-label="Main navigation">
+    <ul class="flex gap-1 overflow-x-auto pb-1 lg:flex-col lg:gap-1.5 lg:overflow-visible lg:pb-0">
+      <li v-for="item in navItems" :key="item.label" class="shrink-0 lg:w-full">
         <RouterLink
-          :to="{ name: 'timeline', query: { status: 'approved' } }"
+          :to="item.to"
+          :aria-current="isActive(item) ? 'page' : undefined"
           :class="[
-            $route.name === 'timeline' && 'outline-2 outline-primary text-primary-faded',
+            'group flex items-center gap-3 rounded-xl px-3.5 py-2.5 font-serif text-base transition-colors',
+            isActive(item)
+              ? 'bg-surface-container text-foreground'
+              : 'text-muted hover:bg-surface-container hover:text-foreground',
             focusClasses,
           ]"
-          class="block px-4 py-2 rounded-md"
         >
-          Timeline
-        </RouterLink>
-      </li>
-      <li>
-        <RouterLink
-          :to="{ name: 'subscriptions' }"
-          :class="[
-            $route.name === 'subscriptions' && 'outline-2 outline-primary text-primary-faded',
-            focusClasses,
-          ]"
-          class="block px-4 py-2 rounded-md"
-        >
-          Subscriptions
+          <svg
+            viewBox="0 0 24 24"
+            class="size-[1.15rem] shrink-0"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path v-if="item.icon === 'inbox'" d="M4 5.5h16v13H4zM4 14h4l1.5 2h5L16 14h4" />
+            <path
+              v-else-if="item.icon === 'feeds'"
+              d="M5 19a2 2 0 0 0-2-2M3 12a9 9 0 0 1 9 9M3 5a16 16 0 0 1 16 16M5 5h14v14"
+            />
+            <path v-else-if="item.icon === 'saved'" d="M6 4.5h12v16l-6-4-6 4z" />
+            <path v-else d="M4 7h16M6 7V4.5h12V7m-12 0v13h12V7m-8 4h4" />
+          </svg>
+          <span>{{ item.label }}</span>
+          <span
+            v-if="item.label === 'Inbox' && route.meta.demo && progress"
+            class="ml-auto rounded-full bg-surface px-2 py-0.5 text-xs tabular-nums text-muted"
+          >
+            {{ progress.remaining }}
+          </span>
         </RouterLink>
       </li>
     </ul>
 
-    <!-- Alpha disclaimer -->
-    <div class="mt-auto p-4 border-t border-border">
-      <ThemeSelector class="mb-4" />
-      <KitButton
-        variant="ghost"
-        size="sm"
-        class="mb-2"
-        :disabled="loggingOut"
-        :loading="loggingOut"
-        @click="logout"
+    <section class="mt-5 border-t border-rule pt-4 lg:mt-auto" aria-labelledby="settings-heading">
+      <h2
+        id="settings-heading"
+        class="mb-2 px-3.5 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-subtle"
       >
-        {{ loggingOut ? 'Logging out…' : 'Log out' }}
-      </KitButton>
-      <p v-if="logoutError" role="alert" class="text-xs text-danger mb-2">{{ logoutError }}</p>
-      <router-link
-        to="/alpha"
-        :class="['text-xs text-muted hover:text-foreground transition-colors', focusClasses]"
-      >
-        Alpha v{{ version }} • Report Issues
-      </router-link>
-    </div>
-  </div>
+        Settings
+      </h2>
+      <ThemeSelector class="px-3.5" />
+      <div v-if="!route.meta.demo" class="mt-4 border-t border-rule px-3.5 pt-4">
+        <KitButton
+          variant="ghost"
+          size="sm"
+          class="mb-2"
+          :disabled="loggingOut"
+          :loading="loggingOut"
+          @click="logout"
+        >
+          {{ loggingOut ? 'Logging out…' : 'Log out' }}
+        </KitButton>
+        <p v-if="logoutError" role="alert" class="mb-2 text-xs text-danger">{{ logoutError }}</p>
+        <router-link
+          to="/alpha"
+          :class="['text-xs text-muted transition-colors hover:text-foreground', focusClasses]"
+        >
+          Alpha v{{ version }} · Report issues
+        </router-link>
+      </div>
+    </section>
+  </nav>
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 import { computed, ref } from 'vue'
 import ThemeSelector from '@/components/ThemeSelector.vue'
 import KitButton from '@/components/kit/KitButton.vue'
 import { focusClasses } from '@/components/kit/styles'
-
-import { getViewer } from '@/me'
 import useApiFetch from '@/use/useApiFetch'
+import { useDemo } from '@/use/useDemo'
+
+const route = useRoute()
+const { progress } = useDemo()
+const navItems = computed(() =>
+  route.meta.demo
+    ? [
+        { label: 'Inbox', icon: 'inbox', to: { name: 'demo-inbox' }, route: 'demo-inbox' },
+        { label: 'Feeds', icon: 'feeds', to: { name: 'demo-feeds' }, route: 'demo-feeds' },
+        { label: 'Saved', icon: 'saved', to: { name: 'demo-saved' }, route: 'demo-saved' },
+        { label: 'Archive', icon: 'archive', to: { name: 'demo-archive' }, route: 'demo-archive' },
+      ]
+    : [
+        {
+          label: 'Inbox',
+          icon: 'inbox',
+          to: { name: 'timeline', query: { status: 'approved' } },
+          route: 'timeline',
+        },
+        { label: 'Feeds', icon: 'feeds', to: { name: 'subscriptions' }, route: 'subscriptions' },
+      ],
+)
+
+function isActive(item) {
+  if (route.name === item.route) return true
+  if (route.name === 'demo-article') {
+    const from = route.query.from
+    return item.route === (from === 'demo-saved' || from === 'demo-archive' ? from : 'demo-inbox')
+  }
+  if (route.name === 'article') return item.route === 'timeline'
+  if (route.name === 'demo-new-feed') return item.route === 'demo-feeds'
+  return route.name === 'new-subscription' && item.route === 'subscriptions'
+}
 
 // Get version info from build-time constants and package.json
 const version = computed(() => {
@@ -68,12 +120,9 @@ const version = computed(() => {
   return `0.1.0-alpha (${gitHash})`
 })
 
-getViewer()
-
 const loggingOut = ref(false)
 const logoutError = ref('')
 
-// Logs the user out, then returns to the landing page.
 async function logout() {
   if (loggingOut.value) return
   loggingOut.value = true

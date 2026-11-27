@@ -1,9 +1,9 @@
 export const focusClasses =
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-faded'
 
-export const buttonClasses = `inline-flex items-center justify-center gap-2 rounded-sm font-medium transition-colors ${focusClasses}`
+export const buttonClasses = `inline-flex items-center justify-center gap-2 rounded-full font-serif transition-colors ${focusClasses}`
 export const buttonVariants = {
-  primary: 'bg-primary text-on-primary hover:bg-primary-dark',
+  primary: 'bg-mint text-on-mint hover:bg-mint/85',
   outline: 'border border-border text-foreground hover:bg-surface-container',
   ghost: 'text-primary-faded hover:text-foreground hover:bg-surface-container',
   danger: 'text-danger hover:bg-surface-container',
@@ -20,11 +20,11 @@ export const surfaceTones = {
 }
 export const surfacePaddings = { none: '', sm: 'p-3', md: 'p-5', lg: 'p-8' }
 export const headingSizes = {
-  page: 'text-4xl sm:text-5xl font-bold leading-tight',
-  section: 'text-2xl font-semibold',
-  card: 'text-lg font-semibold leading-snug',
-  compact: 'text-base font-bold',
-  marketing: 'text-3xl sm:text-4xl font-bold leading-tight tracking-tight',
+  page: 'font-serif text-4xl sm:text-5xl leading-tight tracking-tight',
+  section: 'font-serif text-2xl',
+  card: 'font-serif text-xl leading-snug',
+  compact: 'font-serif text-base',
+  marketing: 'font-serif text-3xl sm:text-4xl leading-tight tracking-tight',
 }
 export const textSizes = { body: 'text-base', small: 'text-sm', caption: 'text-xs' }
 export const textTones = { default: 'text-foreground', muted: 'text-muted', danger: 'text-danger' }

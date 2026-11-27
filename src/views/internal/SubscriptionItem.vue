@@ -1,7 +1,7 @@
 <template>
-  <KitSurface class="flex flex-col gap-2">
+  <KitSurface class="subscription-item flex flex-col gap-2" padding="md">
     <div class="flex items-start justify-between gap-2">
-      <KitHeading as="h2" size="card" class="line-clamp-1">
+      <KitHeading as="h2" size="card" class="feed-title line-clamp-1">
         {{ subscription.feed_name }}
       </KitHeading>
       <KitButton variant="danger" size="sm" class="shrink-0" @click="onUnsubscribeClick">
@@ -11,8 +11,9 @@
     <KitText size="small" tone="muted" class="line-clamp-3">{{
       subscription.feed_description
     }}</KitText>
-    <KitText size="caption" tone="muted" class="pt-2 mt-1 border-t border-border">
-      Last synced: {{ formatLastSynced(subscription.last_synced) }}
+    <KitText size="caption" tone="muted" class="sync-meta pt-2 mt-1 border-t border-border">
+      <span class="sync-pill">Feed</span> Last synced
+      {{ formatLastSynced(subscription.last_synced) }}
     </KitText>
   </KitSurface>
 </template>
@@ -81,3 +82,32 @@ function formatLastSynced(lastSynced) {
   return `${years} year${years === 1 ? '' : 's'} ago`
 }
 </script>
+
+<style scoped>
+.subscription-item {
+  border-radius: 0;
+  border-width: 0 0 1px;
+  box-shadow: none;
+}
+.feed-title {
+  font-family: Georgia, 'Times New Roman', serif;
+}
+.sync-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.sync-pill {
+  border-radius: 999px;
+  padding: 0.16rem 0.5rem;
+  background: var(--color-mint, #dceee5);
+  color: var(--color-on-mint, #244b3d);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+:global(:root[data-theme='dark']) .sync-pill {
+  background: var(--color-surface-container);
+  color: var(--color-muted);
+}
+</style>

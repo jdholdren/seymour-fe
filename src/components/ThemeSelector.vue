@@ -1,6 +1,11 @@
 <template>
-  <KitFormField :id="themeId" label="Theme" inline v-slot="{ control }">
-    <KitSelect v-bind="control" :model-value="preference" @change="setTheme($event.target.value)">
+  <KitFormField :id="themeId" label="Appearance" v-slot="{ control }">
+    <KitSelect
+      v-bind="control"
+      :model-value="preference"
+      class="mt-1 w-full"
+      @change="setTheme($event.target.value)"
+    >
       <option value="system">System</option>
       <option value="light">Light</option>
       <option value="dark">Dark</option>

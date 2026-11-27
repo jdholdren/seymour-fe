@@ -1,49 +1,52 @@
 <template>
-  <div class="min-h-screen bg-surface text-foreground">
+  <div class="landing min-h-screen bg-surface text-foreground">
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:absolute focus:z-20 focus:bg-surface focus:p-4"
       >Skip to content</a
     >
-    <header class="border-b border-border/40">
+    <header class="relative pb-3">
       <div
         class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-5 px-6 py-5 sm:px-10"
       >
-        <a href="#" aria-label="Seymour home" class="text-3xl font-bold tracking-tight"
-          >Seymour<span class="text-primary-faded">.</span></a
-        >
+        <RouterLink to="/landing" aria-label="Seymour home"><SeymourWordmark /></RouterLink>
         <nav aria-label="Main navigation" class="flex flex-wrap items-center gap-5 text-sm">
           <a href="#how-it-works" class="hidden text-muted hover:text-foreground sm:block"
             >How it works</a
           >
-          <a href="#api" class="hidden text-muted hover:text-foreground sm:block">API</a>
+          <a href="#api" class="hidden text-muted hover:text-foreground sm:block">For developers</a>
           <ThemeSelector />
           <KitButton @click="getStarted">{{
             isLoggedIn ? 'Open timeline →' : 'Get started →'
           }}</KitButton>
         </nav>
       </div>
+      <MastheadRule class="mx-auto max-w-6xl" />
     </header>
 
     <main id="main" class="mx-auto max-w-6xl px-6 sm:px-10">
-      <section class="hero py-20 text-center sm:py-24" aria-labelledby="hero-heading">
+      <section
+        class="hero relative overflow-hidden py-20 text-center sm:py-28"
+        aria-labelledby="hero-heading"
+      >
         <h1
           id="hero-heading"
-          class="text-5xl font-bold leading-[1.05] tracking-tight sm:text-7xl lg:text-8xl"
+          class="hero-title mx-auto max-w-5xl text-5xl font-bold leading-[1.02] tracking-tight sm:text-7xl lg:text-8xl"
         >
-          Your feed.<br /><span class="text-primary-faded">Your rules.</span>
+          Make room for<br /><span class="text-primary-faded">the good stuff.</span>
         </h1>
-        <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted sm:text-xl">
-          Seymour uses AI to read your RSS feeds and find what matters to you.<br
-            class="hidden sm:block"
-          />
-          Just describe what you’re interested in, and let Seymour handle the filtering.
+        <p class="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-muted sm:text-xl">
+          Your favorite writers, gathered in one thoughtful reading space. Seymour filters the noise
+          around what you care about, so you can spend your time with stories worth reading.
         </p>
         <div class="mt-8 flex flex-wrap justify-center gap-4">
+          <RouterLink to="/demo" class="demo-link"
+            >Try the live demo <span aria-hidden="true">↗</span></RouterLink
+          >
           <KitButton @click="getStarted">{{
             isLoggedIn ? 'Open your timeline →' : 'Get started →'
           }}</KitButton>
-          <KitButtonLink href="#how-it-works" variant="outline">See how it works ↓</KitButtonLink>
+          <KitButtonLink href="#how-it-works" variant="outline">How it works ↓</KitButtonLink>
         </div>
       </section>
 
@@ -53,7 +56,6 @@
         aria-labelledby="sources-heading"
       >
         <div>
-          <p class="eyebrow mb-4">01 / Set your preferences</p>
           <KitHeading id="sources-heading" size="marketing">
             Just tell Seymour<br />what you want.
           </KitHeading>
@@ -81,7 +83,6 @@
       </section>
 
       <section class="section-rule py-12" aria-labelledby="timeline-heading">
-        <p class="eyebrow mb-4">02 / AI evaluates your feeds</p>
         <KitHeading id="timeline-heading" size="marketing">
           Only the articles<br />worth your attention.
         </KitHeading>
@@ -122,7 +123,6 @@
         aria-labelledby="reading-heading"
       >
         <div>
-          <p class="eyebrow mb-4">03 / Settle in and read</p>
           <KitHeading id="reading-heading" size="marketing">
             Good stories.<br />Room to enjoy them.
           </KitHeading>
@@ -212,6 +212,8 @@
 </template>
 
 <script setup>
+import SeymourWordmark from '@/components/SeymourWordmark.vue'
+import MastheadRule from '@/components/MastheadRule.vue'
 import { useRoute, useRouter } from 'vue-router'
 import KitButton from '@/components/kit/KitButton.vue'
 import KitButtonLink from '@/components/kit/KitButtonLink.vue'
@@ -260,15 +262,34 @@ function getStarted() {
 <style scoped>
 @reference '../assets/main.css';
 
+.hero-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+}
+
 .hero {
-  --color-primary: var(--color-hero-primary);
-  --color-primary-dark: var(--color-hero-primary-dark);
-  --color-primary-faded: var(--color-hero-accent);
-  --color-on-primary: var(--color-on-hero-primary);
+  isolation: isolate;
+}
+
+.hero::after {
+  position: absolute;
+  z-index: -1;
+  right: -8%;
+  bottom: -8rem;
+  left: -8%;
+  height: 12rem;
+  border-radius: 50% 50% 0 0 / 45% 45% 0 0;
+  background: color-mix(in oklab, var(--color-primary-faded) 10%, transparent);
+  content: '';
+}
+
+.demo-link {
+  @apply inline-flex items-center gap-2 rounded-full bg-mint px-6 py-3 font-serif text-on-mint transition hover:bg-mint/85 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary;
 }
 
 .eyebrow {
   @apply text-xs font-semibold uppercase tracking-[0.18em] text-primary-faded;
+  font-family: Inter, system-ui, sans-serif;
 }
 
 .section-rule {
