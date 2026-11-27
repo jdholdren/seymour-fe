@@ -29,33 +29,44 @@
               d="M5 19a2 2 0 0 0-2-2M3 12a9 9 0 0 1 9 9M3 5a16 16 0 0 1 16 16M5 5h14v14"
             />
             <path v-else-if="item.icon === 'saved'" d="M6 4.5h12v16l-6-4-6 4z" />
+            <path
+              v-else-if="item.icon === 'settings'"
+              d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7ZM19 12a7.1 7.1 0 0 0-.1-1.2l1.5-1.2-1.5-2.6-1.8.7a7 7 0 0 0-2-1.2L14.8 4h-3.1l-.3 2.5a7 7 0 0 0-2 1.2l-1.8-.7-1.5 2.6 1.5 1.2a7.1 7.1 0 0 0 0 2.4l-1.5 1.2 1.5 2.6 1.8-.7a7 7 0 0 0 2 1.2l.3 2.5h3.1l.3-2.5a7 7 0 0 0 2-1.2l1.8.7 1.5-2.6-1.5-1.2A7.1 7.1 0 0 0 19 12Z"
+            />
             <path v-else d="M4 7h16M6 7V4.5h12V7m-12 0v13h12V7m-8 4h4" />
           </svg>
           <span>{{ item.label }}</span>
         </RouterLink>
       </li>
-    </ul>
-
-    <section class="mt-5 border-t border-rule pt-4 lg:mt-auto" aria-labelledby="settings-heading">
-      <h2
-        id="settings-heading"
-        class="mb-2 px-3.5 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-subtle"
-      >
-        Settings
-      </h2>
-      <ThemeSelector class="px-3.5" />
-      <div class="mt-4 border-t border-rule px-3.5 pt-4">
+      <li class="shrink-0 lg:w-full">
         <KitButton
           variant="ghost"
-          size="sm"
-          class="mb-2"
+          size="md"
+          class="w-full justify-start rounded-xl px-3.5 py-2.5 font-serif text-base"
           :disabled="loggingOut"
           :loading="loggingOut"
           @click="logout"
         >
+          <svg
+            viewBox="0 0 24 24"
+            class="size-[1.15rem] shrink-0"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M10 17l5-5-5-5m5 5H3m9-9h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6" />
+          </svg>
           {{ loggingOut ? 'Logging out…' : 'Log out' }}
         </KitButton>
-        <p v-if="logoutError" role="alert" class="mb-2 text-xs text-danger">{{ logoutError }}</p>
+        <p v-if="logoutError" role="alert" class="px-3.5 text-xs text-danger">{{ logoutError }}</p>
+      </li>
+    </ul>
+
+    <section class="mt-5 border-t border-rule px-3.5 pt-4 lg:mt-auto">
+      <div class="px-3.5">
         <a
           href="https://github.com/jdholdren/seymour/issues"
           target="_blank"
@@ -72,7 +83,6 @@
 <script setup>
 import { RouterLink, useRoute } from 'vue-router'
 import { ref } from 'vue'
-import ThemeSelector from '@/components/ThemeSelector.vue'
 import KitButton from '@/components/kit/KitButton.vue'
 import { focusClasses } from '@/components/kit/styles'
 import useApiFetch from '@/use/useApiFetch'
@@ -86,6 +96,7 @@ const navItems = [
     route: 'timeline',
   },
   { label: 'Feeds', icon: 'feeds', to: { name: 'subscriptions' }, route: 'subscriptions' },
+  { label: 'Settings', icon: 'settings', to: { name: 'settings' }, route: 'settings' },
 ]
 
 function isActive(item) {
@@ -93,9 +104,6 @@ function isActive(item) {
   if (route.name === 'article') return item.route === 'timeline'
   return route.name === 'new-subscription' && item.route === 'subscriptions'
 }
-
-const gitHash = import.meta.env.VITE_GIT_HASH || 'unknown'
-const version = `0.1.0-alpha (${gitHash})`
 
 const loggingOut = ref(false)
 const logoutError = ref('')
