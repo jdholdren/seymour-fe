@@ -21,7 +21,7 @@
       />
       <main class="min-w-0 px-5 pb-12 pt-4 sm:px-8 lg:px-0 lg:py-10">
         <router-view class="w-full" v-slot="{ Component }">
-          <Transition mode="out-in">
+          <Transition name="slide-fade" mode="out-in">
             <component :is="Component" />
           </Transition>
         </router-view>

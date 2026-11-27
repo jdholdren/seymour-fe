@@ -104,12 +104,18 @@ const currentPage = computed(() => {
 const selectedFeedID = computed(() => route.params.feedID || route.query.feed_id)
 
 watch(
-  () => route.query,
-  (query) => {
-    if (route.name === 'timeline' || route.name === 'feed-posts') getFeedEntries(query)
+  () => [route.name, selectedFeedID.value, route.query],
+  ([name, feedID, query], _, onCleanup) => {
+    if (name !== 'timeline' && name !== 'feed-posts') return
+
+    let active = true
+    onCleanup(() => {
+      active = false
+    })
+    getFeedEntries(query, feedID, () => active)
   },
+  { immediate: true },
 )
-watch(selectedFeedID, () => getFeedEntries(route.query))
 
 const hasSubscriptions = computed(() => {
   return Object.keys(viewer.value?.subscriptions || {}).length > 0
@@ -138,11 +144,11 @@ const truncatedDescription = computed(() => {
   return description.substring(0, maxLength).trim() + '...'
 })
 
-async function getFeedEntries(query = {}) {
+async function getFeedEntries(query = {}, feedID = selectedFeedID.value, isActive = () => true) {
   const page = parseInt(query.page) || 1
   const offset = (page - 1) * 20 // Assuming 20 items per page
   const queryParams = new URLSearchParams({
-    ...(selectedFeedID.value && { feed_id: selectedFeedID.value }),
+    ...(feedID && { feed_id: feedID }),
     status: 'approved',
     ...(query.from && { from: query.from }),
     ...(query.to && { to: query.to }),
@@ -153,7 +159,7 @@ async function getFeedEntries(query = {}) {
   const { call, data: resp } = useApiFetch('GET', userPath(`/timeline?${queryParams}`))
   await call()
 
-  data.value = resp.value
+  if (isActive()) data.value = resp.value
 }
 
 // Updates a single filter in the query string, resetting pagination
@@ -190,6 +196,4 @@ function handlePageChange(page) {
     query,
   })
 }
-
-getFeedEntries(route.query)
 </script>
