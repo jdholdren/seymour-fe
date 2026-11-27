@@ -100,8 +100,10 @@ const navItems = [
 ]
 
 function isActive(item) {
-  if (route.name === item.route) return true
-  if (route.name === 'article') return item.route === 'timeline'
+  if (route.name === item.route) {
+    return item.route !== 'timeline' || !route.params.feedID
+  }
+  if (route.name === 'article') return item.route === 'timeline' && !route.params.feedID
   return route.name === 'new-subscription' && item.route === 'subscriptions'
 }
 

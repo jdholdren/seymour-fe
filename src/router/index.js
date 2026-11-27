@@ -20,6 +20,11 @@ const router = createRouter({
           component: () => import('../views/TimelineView.vue'),
         },
         {
+          path: '/feeds/:feedID/posts',
+          name: 'feed-posts',
+          component: () => import('../views/TimelineView.vue'),
+        },
+        {
           path: '/subscriptions',
           name: 'subscriptions',
           component: () => import('../views/SubscriptionsView.vue'),

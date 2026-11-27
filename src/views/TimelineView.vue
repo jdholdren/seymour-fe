@@ -1,39 +1,16 @@
 <template>
   <div class="mx-auto flex w-full max-w-6xl flex-col gap-7 px-4 pb-12 sm:px-6">
     <header class="pt-3 sm:pt-6">
+      <KitTextLink v-if="selectedFeedID" :to="{ name: 'subscriptions' }" class="mb-4 inline-flex">
+        ← Back to feeds
+      </KitTextLink>
       <h1 class="font-serif text-4xl leading-tight text-foreground sm:text-5xl">{{ feed.name }}</h1>
       <p v-if="truncatedDescription" class="mt-2 max-w-xl text-sm text-muted">
         {{ truncatedDescription }}
       </p>
     </header>
 
-    <div class="flex flex-wrap items-end gap-4 pt-8">
-      <KitFormField id="feed-filter" label="Feed" v-slot="{ control }">
-        <KitSelect
-          v-bind="control"
-          :model-value="route.query.feed_id || ''"
-          @change="handleFeedChange($event.target.value)"
-        >
-          <option value="">All Feeds</option>
-          <option v-for="feed in viewer.subscriptions" :key="feed.feed_id" :value="feed.feed_id">
-            {{ feed.name }}
-          </option>
-        </KitSelect>
-      </KitFormField>
-
-      <KitFormField id="status-filter" label="Status" v-slot="{ control }">
-        <KitSelect
-          v-bind="control"
-          :model-value="route.query.status || 'approved'"
-          @change="updateFilter('status', $event.target.value)"
-        >
-          <option value="approved">Approved</option>
-          <option value="requires_judgement">Requires judgement</option>
-          <option value="rejected">Rejected</option>
-          <option value="all">All</option>
-        </KitSelect>
-      </KitFormField>
-
+    <div v-if="selectedFeedID" class="flex flex-wrap items-end gap-4 pt-8">
       <KitFormField id="date-from" label="From" v-slot="{ control }">
         <KitInput
           v-bind="control"
@@ -57,7 +34,7 @@
       </KitButton>
     </div>
 
-    <EmptyFeed v-if="data && data.items?.length === 0 && route.query.feed_id" />
+    <EmptyFeed v-if="data && data.items?.length === 0 && selectedFeedID" />
     <EmptySubscriptions v-else-if="data && data.items?.length === 0 && !hasSubscriptions" />
     <EmptyFilteredResults v-else-if="data && data.items?.length === 0" />
 
@@ -113,8 +90,8 @@ import EmptyFeed from '@/components/EmptyFeed.vue'
 import EmptyFilteredResults from '@/components/EmptyFilteredResults.vue'
 import KitFormField from '@/components/kit/KitFormField.vue'
 import KitInput from '@/components/kit/KitInput.vue'
-import KitSelect from '@/components/kit/KitSelect.vue'
 import KitButton from '@/components/kit/KitButton.vue'
+import KitTextLink from '@/components/kit/KitTextLink.vue'
 import { focusClasses } from '@/components/kit/styles'
 
 const data = ref(null)
@@ -124,26 +101,24 @@ const router = useRouter()
 const currentPage = computed(() => {
   return parseInt(route.query.page) || 1
 })
+const selectedFeedID = computed(() => route.params.feedID || route.query.feed_id)
 
 watch(
   () => route.query,
   (query) => {
-    if (route.name === 'timeline') getFeedEntries(query)
+    if (route.name === 'timeline' || route.name === 'feed-posts') getFeedEntries(query)
   },
 )
+watch(selectedFeedID, () => getFeedEntries(route.query))
 
 const hasSubscriptions = computed(() => {
   return Object.keys(viewer.value?.subscriptions || {}).length > 0
 })
 const hasActiveFilters = computed(() => {
-  return !!(
-    (route.query.status && route.query.status !== 'approved') ||
-    route.query.from ||
-    route.query.to
-  )
+  return !!(route.query.from || route.query.to)
 })
 const feed = computed(() => {
-  const feedID = route.query.feed_id
+  const feedID = selectedFeedID.value
   if (!feedID)
     return {
       name: 'Inbox',
@@ -166,13 +141,9 @@ const truncatedDescription = computed(() => {
 async function getFeedEntries(query = {}) {
   const page = parseInt(query.page) || 1
   const offset = (page - 1) * 20 // Assuming 20 items per page
-  // Default to "approved" to preserve the curated-timeline view, unless the
-  // user explicitly asked for all statuses.
-  const status = query.status || 'approved'
-
   const queryParams = new URLSearchParams({
-    ...(query.feed_id && { feed_id: query.feed_id }),
-    ...(status !== 'all' && { status }),
+    ...(selectedFeedID.value && { feed_id: selectedFeedID.value }),
+    status: 'approved',
     ...(query.from && { from: query.from }),
     ...(query.to && { to: query.to }),
     limit: '20',
@@ -185,15 +156,12 @@ async function getFeedEntries(query = {}) {
   data.value = resp.value
 }
 
-function handleFeedChange(feedID) {
-  updateFilter('feed_id', feedID)
-}
-
 // Updates a single filter in the query string, resetting pagination
 // since the result set is changing.
 function updateFilter(key, value) {
   const query = { ...route.query }
   delete query.page
+  delete query.feed_id
 
   if (value) {
     query[key] = value
@@ -201,11 +169,11 @@ function updateFilter(key, value) {
     delete query[key]
   }
 
-  router.push({ name: route.name, query })
+  router.push({ name: route.name, params: route.params, query })
 }
 
 function clearFilters() {
-  router.push({ name: route.name, query: {} })
+  router.push({ name: route.name, params: route.params, query: {} })
 }
 
 function handlePageChange(page) {
@@ -218,6 +186,7 @@ function handlePageChange(page) {
 
   router.push({
     name: route.name,
+    params: route.params,
     query,
   })
 }

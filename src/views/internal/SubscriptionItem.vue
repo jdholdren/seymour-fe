@@ -1,20 +1,24 @@
 <template>
-  <KitSurface class="subscription-item flex flex-col gap-2" padding="md">
-    <div class="flex items-start justify-between gap-2">
-      <KitHeading as="h2" size="card" class="feed-title line-clamp-1">
-        {{ subscription.feed_name }}
-      </KitHeading>
-      <KitButton variant="danger" size="sm" class="shrink-0" @click="onUnsubscribeClick">
-        Unsubscribe
-      </KitButton>
-    </div>
-    <KitText size="small" tone="muted" class="line-clamp-3">{{
-      subscription.feed_description
-    }}</KitText>
-    <KitText size="caption" tone="muted" class="sync-meta pt-2 mt-1 border-t border-border">
-      <span class="sync-pill">Feed</span> Last synced
-      {{ formatLastSynced(subscription.last_synced) }}
-    </KitText>
+  <KitSurface class="subscription-item flex items-center gap-3" padding="md">
+    <RouterLink
+      :to="{ name: 'feed-posts', params: { feedID: subscription.feed_id } }"
+      class="group flex min-w-0 flex-1 items-center justify-between gap-4 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+    >
+      <span class="flex min-w-0 flex-col gap-0.5">
+        <KitHeading as="h2" size="card" class="feed-title line-clamp-1 group-hover:text-primary">
+          {{ subscription.feed_name }}
+        </KitHeading>
+        <KitText size="small" tone="muted" class="line-clamp-1">
+          {{ subscription.feed_description }}
+        </KitText>
+      </span>
+      <span class="shrink-0 text-sm font-semibold text-primary group-hover:underline">
+        View posts <span aria-hidden="true">→</span>
+      </span>
+    </RouterLink>
+    <KitButton variant="danger" size="sm" class="shrink-0" @click="onUnsubscribeClick">
+      Unsubscribe
+    </KitButton>
   </KitSurface>
 </template>
 
@@ -27,6 +31,7 @@ import KitSurface from '@/components/kit/KitSurface.vue'
 import KitHeading from '@/components/kit/KitHeading.vue'
 import KitText from '@/components/kit/KitText.vue'
 import KitButton from '@/components/kit/KitButton.vue'
+import { RouterLink } from 'vue-router'
 
 const props = defineProps(['subscription', 'onUnsubscribe'])
 
@@ -34,52 +39,6 @@ function onUnsubscribeClick() {
   if (!confirm(`Unsubscribe from "${props.subscription.feed_name}"?`)) return
 
   props.onUnsubscribe()
-}
-
-function formatLastSynced(lastSynced) {
-  // Handle cases where server returns 0, null, undefined, or empty string
-  if (!lastSynced || lastSynced === 0) {
-    return 'Never'
-  }
-
-  const date = new Date(lastSynced)
-
-  // Check if the date is valid
-  if (isNaN(date.getTime())) {
-    return 'Invalid date'
-  }
-
-  const seconds = Math.round((Date.now() - date.getTime()) / 1000)
-
-  if (seconds < 0) {
-    return 'Just now'
-  }
-  if (seconds < 60) {
-    return 'Just now'
-  }
-
-  const minutes = Math.round(seconds / 60)
-  if (minutes < 60) {
-    return `${minutes} minute${minutes === 1 ? '' : 's'} ago`
-  }
-
-  const hours = Math.round(minutes / 60)
-  if (hours < 24) {
-    return `${hours} hour${hours === 1 ? '' : 's'} ago`
-  }
-
-  const days = Math.round(hours / 24)
-  if (days < 30) {
-    return `${days} day${days === 1 ? '' : 's'} ago`
-  }
-
-  const months = Math.round(days / 30)
-  if (months < 12) {
-    return `${months} month${months === 1 ? '' : 's'} ago`
-  }
-
-  const years = Math.round(months / 12)
-  return `${years} year${years === 1 ? '' : 's'} ago`
 }
 </script>
 
@@ -91,23 +50,5 @@ function formatLastSynced(lastSynced) {
 }
 .feed-title {
   font-family: Georgia, 'Times New Roman', serif;
-}
-.sync-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-}
-.sync-pill {
-  border-radius: 999px;
-  padding: 0.16rem 0.5rem;
-  background: var(--color-mint, #dceee5);
-  color: var(--color-on-mint, #244b3d);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-:global(:root[data-theme='dark']) .sync-pill {
-  background: var(--color-surface-container);
-  color: var(--color-muted);
 }
 </style>
