@@ -5,7 +5,7 @@ export function normalizeReturnPath(value) {
   }
   const path = value.split(/[?#]/)[0]
   if (
-    ['/timeline', '/subscriptions', '/subscriptions/new', '/alpha'].includes(path) ||
+    ['/timeline', '/subscriptions', '/subscriptions/new'].includes(path) ||
     /^\/article\/[^/]+$/.test(path)
   ) {
     return value
