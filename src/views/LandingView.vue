@@ -37,7 +37,9 @@
       </main>
 
       <footer class="px-4 pb-6 text-center sm:px-8 lg:px-10">
-        <KitTextLink to="/alpha">About the alpha</KitTextLink>
+        <KitTextLink href="https://github.com/jdholdren/seymour/issues">
+          Report an issue
+        </KitTextLink>
       </footer>
     </div>
 
