@@ -23,11 +23,11 @@
           @click="goToPage(page)"
           :aria-current="page === currentPage ? 'page' : undefined"
           :class="[
-            'relative inline-flex min-w-9 items-center justify-center rounded-full border border-rule px-3 py-2 text-sm font-medium transition',
+            'min-w-8 cursor-pointer rounded-sm px-2 py-1 text-sm font-medium transition-colors',
             focusClasses,
             page === currentPage
-              ? 'z-10 border-mint bg-surface-container text-foreground'
-              : 'bg-surface-raised text-primary-faded hover:bg-surface-container',
+              ? 'text-primary underline decoration-primary underline-offset-4'
+              : 'text-muted hover:text-primary',
           ]"
         >
           {{ page }}
