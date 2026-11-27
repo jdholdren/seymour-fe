@@ -10,7 +10,10 @@
       </p>
     </header>
 
-    <div v-if="selectedFeedID" class="flex flex-wrap items-end gap-4 pt-8">
+    <div
+      v-if="selectedFeedID && !usesFeedEntriesEndpoint"
+      class="flex flex-wrap items-end gap-4 pt-8"
+    >
       <KitFormField id="date-from" label="From" v-slot="{ control }">
         <KitInput
           v-bind="control"
@@ -102,6 +105,10 @@ const currentPage = computed(() => {
   return parseInt(route.query.page) || 1
 })
 const selectedFeedID = computed(() => route.params.feedID || route.query.feed_id)
+const pageSize = 20
+const usesFeedEntriesEndpoint = computed(
+  () => route.name === 'feed-posts' && !!selectedFeedID.value,
+)
 
 watch(
   () => [route.name, selectedFeedID.value, route.query],
@@ -146,13 +153,41 @@ const truncatedDescription = computed(() => {
 
 async function getFeedEntries(query = {}, feedID = selectedFeedID.value, isActive = () => true) {
   const page = parseInt(query.page) || 1
-  const offset = (page - 1) * 20 // Assuming 20 items per page
+  const offset = (page - 1) * pageSize
+
+  // The feed-specific endpoint uses page/size and returns summaries without
+  // feed names, while the inbox endpoint uses offset/limit and timeline rows.
+  if (route.name === 'feed-posts' && feedID) {
+    const params = new URLSearchParams({ page: page.toString(), size: pageSize.toString() })
+    const { call, data: resp } = useApiFetch(
+      'GET',
+      `/api/feeds/${encodeURIComponent(feedID)}/entries?${params}`,
+    )
+    await call()
+
+    if (isActive() && resp.value) {
+      data.value = {
+        items: resp.value.entries.map((entry) => ({
+          ...entry,
+          entry_id: entry.id,
+          feed_name: feed.value.name,
+          publish_date: entry.publish_time,
+        })),
+        pagination: {
+          total: resp.value.total,
+          limit: resp.value.size,
+        },
+      }
+    }
+    return
+  }
+
   const queryParams = new URLSearchParams({
     ...(feedID && { feed_id: feedID }),
     status: 'approved',
     ...(query.from && { from: query.from }),
     ...(query.to && { to: query.to }),
-    limit: '20',
+    limit: pageSize.toString(),
     offset: offset.toString(),
   })
 
