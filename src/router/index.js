@@ -34,11 +34,6 @@ const router = createRouter({
           name: 'article',
           component: () => import('../views/ReaderView.vue'),
         },
-        {
-          path: '/alpha',
-          name: 'alpha',
-          component: () => import('../views/AlphaDisclaimerView.vue'),
-        },
       ],
     },
     {

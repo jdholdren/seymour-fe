@@ -10,7 +10,6 @@ test('authentication preserves supported internal routes, queries, and hashes', 
     '/subscriptions',
     '/subscriptions/new',
     '/article/123',
-    '/alpha',
   ]) {
     assert.equal(normalizeReturnPath(path), path)
     assert.equal(landingDestination(path), `/?redirect=${encodeURIComponent(path)}`)

@@ -56,12 +56,14 @@
           {{ loggingOut ? 'Logging out…' : 'Log out' }}
         </KitButton>
         <p v-if="logoutError" role="alert" class="mb-2 text-xs text-danger">{{ logoutError }}</p>
-        <router-link
-          to="/alpha"
+        <a
+          href="https://github.com/jdholdren/seymour/issues"
+          target="_blank"
+          rel="noopener noreferrer"
           :class="['text-xs text-muted transition-colors hover:text-foreground', focusClasses]"
         >
-          Alpha v{{ version }} · Report issues
-        </router-link>
+          Report issues on GitHub
+        </a>
       </div>
     </section>
   </nav>
