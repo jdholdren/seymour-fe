@@ -11,11 +11,14 @@
         <RouterLink to="/" aria-label="Seymour home" class="rounded-sm">
           <SeymourWordmark />
         </RouterLink>
-        <ThemeSelector />
       </header>
 
-      <main id="main" tabindex="-1" class="flex flex-1 items-center px-4 py-8 sm:px-8 lg:px-10">
-        <section class="w-full max-w-md" aria-labelledby="login-heading">
+      <main
+        id="main"
+        tabindex="-1"
+        class="flex flex-1 items-center justify-center px-4 py-8 sm:px-8 lg:px-10"
+      >
+        <section class="w-full max-w-md text-center" aria-labelledby="login-heading">
           <h1
             id="login-heading"
             class="font-serif text-4xl font-normal leading-tight tracking-tight sm:text-5xl"
@@ -26,12 +29,16 @@
             Your thoughtful reading space is waiting.
           </p>
 
-          <KitButton class="mt-8 w-full justify-center" size="lg" @click="signInWithGitHub">
+          <KitButton class="mt-8" size="lg" @click="signInWithGitHub">
             <PhGithubLogo aria-hidden="true" class="size-5" />
             Continue with GitHub
           </KitButton>
         </section>
       </main>
+
+      <footer class="px-4 pb-6 text-center sm:px-8 lg:px-10">
+        <KitTextLink to="/alpha">About the alpha</KitTextLink>
+      </footer>
     </div>
 
     <aside class="art-panel hidden lg:block lg:w-[37%]" aria-hidden="true"></aside>
@@ -42,8 +49,8 @@
 import { PhGithubLogo } from '@phosphor-icons/vue'
 import { useRoute } from 'vue-router'
 import SeymourWordmark from '@/components/SeymourWordmark.vue'
-import ThemeSelector from '@/components/ThemeSelector.vue'
 import KitButton from '@/components/kit/KitButton.vue'
+import KitTextLink from '@/components/kit/KitTextLink.vue'
 import { normalizeReturnPath } from '@/use/authNavigation'
 
 const route = useRoute()

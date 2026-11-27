@@ -8,7 +8,11 @@ export const buttonVariants = {
   ghost: 'text-primary-faded hover:text-foreground hover:bg-surface-container',
   danger: 'text-danger hover:bg-surface-container',
 }
-export const buttonSizes = { sm: 'px-3 py-2 text-sm', md: 'px-6 py-3' }
+export const buttonSizes = {
+  sm: 'px-3 py-2 text-sm',
+  md: 'px-6 py-3',
+  lg: 'px-8 py-4 text-lg',
+}
 export const disabledButtonClasses = 'bg-surface-container text-muted cursor-not-allowed'
 export const fieldClasses =
   'block min-w-0 rounded-md bg-surface-raised text-foreground px-3 py-2 text-sm outline-1 -outline-offset-1 outline-border placeholder:text-muted focus:outline-2 focus:-outline-offset-2 focus:outline-primary-faded disabled:bg-surface-container disabled:text-muted disabled:cursor-not-allowed aria-invalid:outline-danger'
