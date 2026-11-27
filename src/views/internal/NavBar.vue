@@ -42,7 +42,7 @@
         <KitButton
           variant="ghost"
           size="md"
-          class="w-full !justify-start !gap-3 rounded-xl px-3.5 py-2.5 font-serif text-base"
+          class="w-full !justify-start !gap-3 !rounded-xl !px-3.5 !py-2.5 font-serif text-base"
           :disabled="loggingOut"
           :loading="loggingOut"
           @click="logout"
